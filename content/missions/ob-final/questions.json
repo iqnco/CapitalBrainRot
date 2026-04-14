@@ -1,6 +1,487 @@
 [
   {
-    "question": "John is looking to put together a team at work that can help solve some of the issues that the accounting department has been experiencing with billing in recent months. John wants to be certain that the people he puts together really act as a work team and not simply as a work group. John should therefore make sure that the team ____________.",
+    "question": "Demographic characteristics include __________.",
+    "options": [
+      "values",
+      "habits",
+      "personality",
+      "age",
+      "organizational preferences"
+    ],
+    "correctIndex": 3,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Deep-level diversity focuses on differences in __________.",
+    "options": [
+      "sex",
+      "values",
+      "race",
+      "religion",
+      "age"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Diversity is an important concept in OB because individual differences shape all of the following EXCEPT ________.",
+    "options": [
+      "preferences for rewards",
+      "communication styles",
+      "reactions to leaders",
+      "educational level",
+      "negotiation styles"
+    ],
+    "correctIndex": 3,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Which of the following is NOT a characteristic of surface-level diversity __________.",
+    "options": [
+      "values",
+      "gender",
+      "disability",
+      "ethnicity",
+      "age"
+    ],
+    "correctIndex": 0,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Some companies do not hire veterans because ________.",
+    "options": [
+      "veterans' work ethic is generally lower than among the general populace",
+      "they do not showcase their transferable skills to potential employers",
+      "veterans' team outlook is lower than the general populace",
+      "veterans' receptivity to training is lower than most job applicants",
+      "veterans prefer to collect unemployment"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Stereotyping is judging someone based on __________.",
+    "options": [
+      "repeated behavior",
+      "differences",
+      "perceptions",
+      "information from others",
+      "facts"
+    ],
+    "correctIndex": 2,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Discrimination is one of the primary factors that ________.",
+    "options": [
+      "increases productivity",
+      "affects profits",
+      "prevents diversity",
+      "decreases turnover",
+      "decreases risk-taking behavior"
+    ],
+    "correctIndex": 2,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Stereotype threat describes the way in which we agree with __________.",
+    "options": [
+      "positive perceptions of others",
+      "the general opinions of others",
+      "views unlike our own",
+      "differences",
+      "negative views of a group"
+    ],
+    "correctIndex": 4,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Many women in finance claim they are assigned to marginal job roles. This is an example of which form of discrimination?",
+    "options": [
+      "Incivility",
+      "Intimidation",
+      "Exclusion",
+      "Sexual harassment",
+      "Mockery and insults"
+    ],
+    "correctIndex": 2,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Making judgments about individuals based on stereotypes regarding their demographic group is called __________.",
+    "options": [
+      "incivility",
+      "discrimination",
+      "exclusion",
+      "harassment",
+      "diversity"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Which of these is a major concern for employers when addressing employment discrimination?",
+    "options": [
+      "Turnover",
+      "Training",
+      "Fair treatment",
+      "Sales",
+      "Profit"
+    ],
+    "correctIndex": 2,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Research suggests that organizations should select employees for foreign assignment who have the following characteristic?",
+    "options": [
+      "Ability to speak the language of the foreign country",
+      "Background that includes international experience",
+      "Member of the dominant religion of the foreign country",
+      "Capability of adjusting quickly",
+      "Recipient of a college degree in international studies"
+    ],
+    "correctIndex": 3,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "__________ management is the process and programs by which managers make everyone more aware of, and sensitive to, the needs and differences of others.",
+    "options": [
+      "Cultural",
+      "International",
+      "Discrimination",
+      "Employee",
+      "Diversity"
+    ],
+    "correctIndex": 4,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "The argument in favor of affirmative action is that ________.",
+    "options": [
+      "it does not focus on merit",
+      "minorities are not helped",
+      "it no longer creates diversity",
+      "it ensures equality",
+      "it lowers the standards for everyone"
+    ],
+    "correctIndex": 3,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Factors that lead to expatriate adjustment do NOT include __________.",
+    "options": [
+      "family support",
+      "language ability",
+      "organizational support",
+      "advanced education",
+      "relational skills"
+    ],
+    "correctIndex": 3,
+    "explanation": "",
+    "chapter": "CH2"
+  },
+  {
+    "question": "An example of a formal group would be a(n) ________________.",
+    "options": [
+      "sewing group",
+      "strategic planning group",
+      "coffee group",
+      "book club",
+      "lunch group"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "__________ is a perspective that considers when and why individuals consider themselves members of group.",
+    "options": [
+      "Social identity threat",
+      "Social identity theory",
+      "Social learning",
+      "Ingroup favoritism",
+      "Two-factor theory"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "________ is a perspective in which we see members of our ingroup as better than other people, and people not in our group as all the same.",
+    "options": [
+      "Cohesiveness",
+      "Ingroup favoritism",
+      "Social identity theory",
+      "Social loafing",
+      "Hierarchy of needs"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Low identification with groups can lead to all of the following EXCEPT ______.",
+    "options": [
+      "decreased satisfaction",
+      "experiencing positive outcomes and behaviors",
+      "not applying to organizations with a different collective identity",
+      "not identifying with groups within our team or work group",
+      "engaging in fewer organizational citizenship behaviors (OCBs)"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "The perspective that considers when and why individuals consider themselves members of groups is known as which of the following?",
+    "options": [
+      "Informal group",
+      "Social identity theory",
+      "Punctuated-equilibrium model",
+      "Ingroup favoritism",
+      "Role perception"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "A(n) _________ group is one defined by the organization's structure, while a(n) _________ group is one neither formally structured nor organizationally determined.",
+    "options": [
+      "informal; formal",
+      "formal; informal",
+      "task; social",
+      "formal; team",
+      "social; informal"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "The phenomenon that occurs when an individual perceives they will be viewed negatively based on their association with a devalued group is known as ________.",
+    "options": [
+      "social identity threat",
+      "punctuated-equilibrium",
+      "psychological contract",
+      "ingroup favoritism",
+      "role perception"
+    ],
+    "correctIndex": 0,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Which of the following is a way to prevent social loafing?",
+    "options": [
+      "Base individual rewards on the team's contributions.",
+      "Select members who prefer to work alone rather than in groups.",
+      "Set individual goals for each member of the group.",
+      "Engage in peer evaluation so each person evaluates each other person's contribution.",
+      "Decrease intergroup competition."
+    ],
+    "correctIndex": 3,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "In general, high status people __________________.",
+    "options": [
+      "are less assertive",
+      "reduce performance",
+      "have reduced motivation",
+      "always stay within the norms",
+      "resist the pressure to conform better than lower status people"
+    ],
+    "correctIndex": 4,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "What term describes a socially defined position or rank given to groups or group members by others?",
+    "options": [
+      "Behavioral norm",
+      "Role conflict",
+      "Social identity",
+      "Role",
+      "Status"
+    ],
+    "correctIndex": 4,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "______ is a theory stating that differences in status characteristics create status hierarchies within groups.",
+    "options": [
+      "Hierarchy of needs theory",
+      "Status characteristics theory",
+      "Discrimination",
+      "Social identity theory",
+      "Social loafing"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Which of the following statements about high-status individuals is FALSE?",
+    "options": [
+      "Bringing high-status members into a group may improve performance.",
+      "High-ranking individuals need and care about the group's social rewards.",
+      "High-status individuals disregard pressure from lower-ranking members of other groups.",
+      "High-status people resist conformity pressures more than their lower-status peers.",
+      "High-status individuals may deviate from norms when they have low identification with the group."
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Which of the following describes the tendency for individuals to expend less effort when working collectively than alone?",
+    "options": [
+      "Groupshift",
+      "Role conflict",
+      "Social loafing",
+      "Conformity",
+      "Deviant workplace behavior"
+    ],
+    "correctIndex": 2,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "A socially defined position or rank given to groups or group members by others is known as __________.",
+    "options": [
+      "groupshift",
+      "a norm",
+      "status",
+      "a role expectation",
+      "conformity"
+    ],
+    "correctIndex": 2,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Which of the following impacts a group's performance based on the diverse input and idea generation offered by group members?",
+    "options": [
+      "Location",
+      "Status",
+      "Norms",
+      "Roles",
+      "Size"
+    ],
+    "correctIndex": 4,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Groups are a good choice in the decision making process when ________________.",
+    "options": [
+      "increased diversity of views is a factor",
+      "efficiency is a factor",
+      "time is a factor",
+      "individual responsibility is a factor",
+      "responsiveness is a factor"
+    ],
+    "correctIndex": 0,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "________ describes the way group members tend to exaggerate their initial positions when discussing a given set of alternatives to arrive at a solution.",
+    "options": [
+      "Groupthink",
+      "Social learning",
+      "Social loafing",
+      "Groupshift",
+      "Cohesiveness"
+    ],
+    "correctIndex": 3,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "In ________ members meet face-to-face and rely on both verbal and nonverbal interaction to communicate.",
+    "options": [
+      "groupthink",
+      "group polarization",
+      "interacting groups",
+      "brainstorming",
+      "nominal group technique"
+    ],
+    "correctIndex": 2,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Which of the following identifies a form of group decision making that encourages any and all alternatives while withholding criticism?",
+    "options": [
+      "Nominal group technique",
+      "Five-stage group development model",
+      "Brainstorming",
+      "Status characteristics theory",
+      "Punctuated-equilibrium model"
+    ],
+    "correctIndex": 2,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Which of the following is an advantage of nominal group technique?",
+    "options": [
+      "Interpersonal communication is increased during the decision making process.",
+      "It creates production blocking.",
+      "It encourages any and all alternatives while withholding criticism.",
+      "It overcomes the pressures for conformity that dampen creativity.",
+      "It permits a group to meet formally but does not restrict independent thinking."
+    ],
+    "correctIndex": 3,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Which by-product of group decision making occurs when pressures for conformity deter the group from critically appraising unusual or unpopular views?",
+    "options": [
+      "Groupthink",
+      "Brainstorming",
+      "Group polarization",
+      "Groupshift",
+      "Interacting groups"
+    ],
+    "correctIndex": 0,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "Steps to eliminate or minimize groupthink would include all but which of the following?",
+    "options": [
+      "Encourage group members to use exercises that stimulate active discussion of diverse alternatives without threatening the group.",
+      "Monitor group size.",
+      "Encourage group leaders to play an impartial role.",
+      "Appoint one group member to take on the role of devil's advocate.",
+      "Increase the size of the group."
+    ],
+    "correctIndex": 4,
+    "explanation": "",
+    "chapter": "CH9"
+  },
+  {
+    "question": "John is looking to put together a team at work that can help solve some of the issues that the accounting department has been experiencing with billing in recent months. John wants to be certain that the people he puts together really act as a work team and not simply as a work group. John should therefore make sure that the team ________.",
     "options": [
       "has collective performance goals",
       "implements individual accountability",
@@ -117,20 +598,7 @@
     "chapter": "CH10"
   },
   {
-    "question": "A team that is permanent in nature, meets at regular intervals, and addresses quality standards and other issues in the company would be considered a(n) ________________.",
-    "options": [
-      "problem-solving team",
-      "multi-tasking team",
-      "cross-functional team",
-      "virtual team",
-      "self-managed team"
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH10"
-  },
-  {
-    "question": "A team which performs highly related or interdependent jobs along with assuming some supervisory responsibility is known as a(n) ____________________.",
+    "question": "A team which performs highly related or interdependent jobs along with assuming some supervisory responsibility is known as a(n) ___________________.",
     "options": [
       "cross-functional team",
       "problem solving team",
@@ -143,7 +611,7 @@
     "chapter": "CH10"
   },
   {
-    "question": "________ teams include employees from about the same hierarchical level but from different work areas who come together to accomplish a task.",
+    "question": "__________ teams include employees from about the same hierarchical level but from different work areas who come together to accomplish a task.",
     "options": [
       "Virtual",
       "Self-managed",
@@ -156,7 +624,7 @@
     "chapter": "CH10"
   },
   {
-    "question": "________ teams are teams that use computer technology to tie together physically dispersed members in order to achieve a common goal.",
+    "question": "_____ teams are teams that use computer technology to tie together physically dispersed members in order to achieve a common goal.",
     "options": [
       "Cross-functional",
       "Virtual",
@@ -234,6 +702,19 @@
     "chapter": "CH10"
   },
   {
+    "question": "Leaders can build trust by doing all EXCEPT ________.",
+    "options": [
+      "demonstrating integrity over time",
+      "behaving opportunistically",
+      "creating interpersonal conversations with their employees",
+      "shifting their communication style from top-down commands",
+      "apologizing when competence fails"
+    ],
+    "correctIndex": 1,
+    "explanation": "",
+    "chapter": "CH12"
+  },
+  {
     "question": "What do trait theories of leadership propose?",
     "options": [
       "Traits cannot predict leadership.",
@@ -286,7 +767,7 @@
     "chapter": "CH12"
   },
   {
-    "question": "Based on the latest findings, we can say that traits _______.",
+    "question": "Based on the latest findings, we can say that traits ________.",
     "options": [
       "cannot predict leadership",
       "can predict leadership",
@@ -320,7 +801,7 @@
       "in the accounting department since employees prepare invoices",
       "when directing staff to determine the amount of time spent on various processes each day"
     ],
-    "correctIndex": 1,
+    "correctIndex": 0,
     "explanation": "",
     "chapter": "CH12"
   },
@@ -364,7 +845,7 @@
     "chapter": "CH12"
   },
   {
-    "question": "According to the leader-member exchange (LMX) theory, _______________________.",
+    "question": "According to the leader-member exchange (LMX) theory, ________________________.",
     "options": [
       "leader behavior is contingent on follower behavior",
       "the appropriate leadership style depends on the follower readiness level",
@@ -390,7 +871,7 @@
     "chapter": "CH12"
   },
   {
-    "question": "According to _____________ theory, followers attribute heroic or extraordinary leadership abilities when they observe certain behaviors, and tend to give these leaders power.",
+    "question": "According to ______________ theory, followers attribute heroic or extraordinary leadership abilities when they observe certain behaviors, and tend to give these leaders power.",
     "options": [
       "behavioral",
       "charismatic leadership",
@@ -403,7 +884,7 @@
     "chapter": "CH12"
   },
   {
-    "question": "The key characteristics of a charismatic leader do NOT include _______.",
+    "question": "The key characteristics of a charismatic leader do NOT include ________.",
     "options": [
       "unconventional behavior",
       "vision and articulation",
@@ -416,7 +897,7 @@
     "chapter": "CH12"
   },
   {
-    "question": "Charismatic leaders influence followers by articulating an appealing _______.",
+    "question": "Charismatic leaders influence followers by articulating an appealing ________.",
     "options": [
       "vision",
       "story",
@@ -468,7 +949,7 @@
     "chapter": "CH12"
   },
   {
-    "question": "Servant leaders have all of the following characteristic behaviors EXCEPT ________.",
+    "question": "Servant leaders have all of the following characteristic behaviors EXCEPT ______.",
     "options": [
       "persuasion",
       "empathy",
@@ -509,11 +990,11 @@
   {
     "question": "Which of the following is correct regarding a mentor relationship?",
     "options": [
-      "The mentor shows the protégé how the organization works within formal structures and procedures.",
+      "The mentor shows the prot\u00e9g\u00e9 how the organization works within formal structures and procedures.",
       "Mentoring relationships serve career functions and psychosocial functions.",
       "Mentors identify a more experienced, higher-level employee who appears to have potential for future development.",
       "Formal mentor programs are more effective than informal ones.",
-      "The protégé is the senior employee who sponsors the less-experienced employee."
+      "The prot\u00e9g\u00e9 is the senior employee who sponsors the less-experienced employee."
     ],
     "correctIndex": 1,
     "explanation": "",
@@ -546,19 +1027,6 @@
     "chapter": "CH12"
   },
   {
-    "question": "Leaders can build trust by doing all EXCEPT ______.",
-    "options": [
-      "demonstrating integrity over time",
-      "behaving opportunistically",
-      "creating interpersonal conversations with their employees",
-      "shifting their communication style from top-down commands",
-      "apologizing when competence fails"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH12"
-  },
-  {
     "question": "Research on leadership emphasizes ______________, while research on power focuses on ______________.",
     "options": [
       "characteristics; process",
@@ -569,10 +1037,10 @@
     ],
     "correctIndex": 1,
     "explanation": "",
-    "chapter": "CH12"
+    "chapter": "CH13"
   },
   {
-    "question": "Generally speaking, in order to have power in a given situation one must have ____________.",
+    "question": "Generally speaking, in order to have power in a given situation one must have ____________",
     "options": [
       "leadership influence",
       "resource control",
@@ -650,7 +1118,7 @@
     "chapter": "CH13"
   },
   {
-    "question": "According to the general dependence postulate, the greater B's dependence on A, the more power A has over B. Therefore, __________________.",
+    "question": "According to the general dependence postulate, the greater B's dependence on A, the more power A has over B. Therefore, ____________________.",
     "options": [
       "B has greater power over A if A can substitute the resource B controls",
       "the more dependent A is, the less power B has",
@@ -663,7 +1131,7 @@
     "chapter": "CH13"
   },
   {
-    "question": "Dependence of one person who controls a resource over another who wants that resource is greater when the resource is non-substitutable, scarce, and ______________.",
+    "question": "Dependence of one person who controls a resource over another who wants that resource is greater when the resource is non-substitutable, scarce, and _______________",
     "options": [
       "interchangeable",
       "accessible",
@@ -674,6 +1142,19 @@
     "correctIndex": 4,
     "explanation": "",
     "chapter": "CH13"
+  },
+  {
+    "question": "What is involved in the final step of the negotiation process?",
+    "options": [
+      "Setting goals",
+      "Assigning tasks",
+      "Making concessions",
+      "Creating a budget",
+      "Formalizing your agreement"
+    ],
+    "correctIndex": 4,
+    "explanation": "",
+    "chapter": "CH14"
   },
   {
     "question": "__________ improves performance and strengthens the goals of the group.",
@@ -715,7 +1196,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "Conflict between two people is called _________.",
+    "question": "Conflict between two people is called ________.",
     "options": [
       "intragroup conflict",
       "relationship conflict",
@@ -741,7 +1222,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "Stage I of the conflict process is _____________.",
+    "question": "Stage I of the conflict process is ________________.",
     "options": [
       "cognition and personalization",
       "behavior",
@@ -754,7 +1235,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "The third stage of the conflict process is ____________________.",
+    "question": "The third stage of the conflict process is ___________________.",
     "options": [
       "intentions",
       "problem identification",
@@ -767,7 +1248,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "The stages of the conflict process do NOT include _______.",
+    "question": "The stages of the conflict process do NOT include ______.",
     "options": [
       "behavior",
       "potential agreement",
@@ -780,7 +1261,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "Awareness by one or more parties of the existence of conditions that create opportunities for conflict to arise is called _______.",
+    "question": "Awareness by one or more parties of the existence of conditions that create opportunities for conflict to arise is called ________.",
     "options": [
       "personal variables",
       "cognition",
@@ -793,7 +1274,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "Conflict-handling intentions do NOT include _________.",
+    "question": "Conflict-handling intentions do NOT include ________.",
     "options": [
       "agreeing",
       "collaborating",
@@ -845,7 +1326,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "In distributive bargaining, the lowest acceptable outcome is called the ______.",
+    "question": "In distributive bargaining, the lowest acceptable outcome is called the ________.",
     "options": [
       "target point",
       "bargaining zone",
@@ -858,7 +1339,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "In terms of intraorganizational behavior, integrative bargaining is preferable to distributive bargaining because ______.",
+    "question": "In terms of intraorganizational behavior, integrative bargaining is preferable to distributive bargaining because ________.",
     "options": [
       "it builds long-term relationships",
       "it deepens mistrust of the opposing party",
@@ -867,19 +1348,6 @@
       "it leaves one party a loser"
     ],
     "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH14"
-  },
-  {
-    "question": "The five step model of the negotiation process does NOT include which of the following?",
-    "options": [
-      "Bargaining and problem solving",
-      "Preparation and planning",
-      "Definition of the problem",
-      "Definition of ground rules",
-      "Closure and implementation"
-    ],
-    "correctIndex": 2,
     "explanation": "",
     "chapter": "CH14"
   },
@@ -897,7 +1365,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "The least the party to a negotiation should accept is called ______.",
+    "question": "The least the party to a negotiation should accept is called ________.",
     "options": [
       "win-win",
       "BATNA",
@@ -910,7 +1378,7 @@
     "chapter": "CH14"
   },
   {
-    "question": "When you have exchanged initial positions in the clarification and justification stage, you and the other party likely will do all of the following EXCEPT ______.",
+    "question": "When you have exchanged initial positions in the clarification and justification stage, you and the other party likely will do all of the following EXCEPT ________.",
     "options": [
       "clarify your original demands",
       "abandon your original demands",
@@ -923,17 +1391,30 @@
     "chapter": "CH14"
   },
   {
-    "question": "What is involved in the final step of the negotiation process?",
+    "question": "The five step model of the negotiation process does NOT include which of the following?",
     "options": [
-      "Setting goals",
-      "Assigning tasks",
-      "Making concessions",
-      "Creating a budget",
-      "Formalizing your agreement"
+      "Bargaining and problem solving",
+      "Preparation and planning",
+      "Definition of the problem",
+      "Definition of ground rules",
+      "Closure and implementation"
     ],
-    "correctIndex": 4,
+    "correctIndex": 2,
     "explanation": "",
     "chapter": "CH14"
+  },
+  {
+    "question": "A major area of concern in OD is dysfunctional conflict among groups. _____________________ seeks to change groups' attitudes, stereotypes, and perceptions about each other.",
+    "options": [
+      "Intergroup development",
+      "Team building",
+      "Sensitivity training",
+      "Process consultation",
+      "Survey feedback"
+    ],
+    "correctIndex": 0,
+    "explanation": "",
+    "chapter": "CH16"
   },
   {
     "question": "Which of the following is a characteristic of organizational culture?",
@@ -946,10 +1427,10 @@
     ],
     "correctIndex": 0,
     "explanation": "",
-    "chapter": "CH14"
+    "chapter": "CH16"
   },
   {
-    "question": "Outcome orientation refers to the degree to which ___________________________.",
+    "question": "Outcome orientation refers to the degree to which ________________________.",
     "options": [
       "employees are encouraged to be competitive",
       "employees are expected to exhibit precision and analysis",
@@ -975,26 +1456,13 @@
     "chapter": "CH16"
   },
   {
-    "question": "_____ are minicultures within an organization, typically defined by department designations and geographical separation.",
+    "question": "______ are minicultures within an organization, typically defined by department designations and geographical separation.",
     "options": [
       "Organizational cultures",
       "Clan cultures",
       "Subcultures",
       "Dominant cultures",
       "Strong cultures"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH16"
-  },
-  {
-    "question": "Research on organizational culture measured how employees see their organization by asking all of the following questions EXCEPT: __________.",
-    "options": [
-      "What are the organization's characteristics?",
-      "Does it stifle initiative?",
-      "How do employees feel about organizational expectations?",
-      "Does it encourage teamwork?",
-      "Does it reward innovation?"
     ],
     "correctIndex": 2,
     "explanation": "",
@@ -1066,19 +1534,6 @@
     "chapter": "CH16"
   },
   {
-    "question": "The prearrival stage of socialization ____________________.",
-    "options": [
-      "focuses on individual values and expectations",
-      "focuses on personality",
-      "focuses on socialization programs",
-      "focuses on how expectations differ from reality",
-      "focuses on how expectations are similar to reality"
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH16"
-  },
-  {
     "question": "According to the text, the actions of ________ have a major impact on sustaining the organization's culture.",
     "options": [
       "stakeholders",
@@ -1092,7 +1547,7 @@
     "chapter": "CH16"
   },
   {
-    "question": "________ is a process that adapts employees to the organization's culture.",
+    "question": "__________ is a process that adapts employees to the organization's culture.",
     "options": [
       "Sustainability",
       "Acclimation",
@@ -1170,7 +1625,7 @@
     "chapter": "CH16"
   },
   {
-    "question": "Organizational climate refers to the _________________________.",
+    "question": "Organizational climate refers to the ___________________________.",
     "options": [
       "formal rules and regulations within the organization",
       "formal impressions others have of the organization",
@@ -1179,19 +1634,6 @@
       "alliance employees feel to other members of the organization"
     ],
     "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH16"
-  },
-  {
-    "question": "One of the most prevalent categories within the Ethical Climate Index (ECI) is ________________.",
-    "options": [
-      "satisfaction",
-      "demographics",
-      "independence",
-      "commitment",
-      "teams"
-    ],
-    "correctIndex": 2,
     "explanation": "",
     "chapter": "CH16"
   },
@@ -1222,7 +1664,7 @@
     "chapter": "CH16"
   },
   {
-    "question": "The most innovative companies are often characterized by all EXCEPT a(n) _______.",
+    "question": "The most innovative companies are often characterized by all EXCEPT a(n) ________.",
     "options": [
       "open culture",
       "accelerating culture",
@@ -1274,19 +1716,6 @@
     "chapter": "CH16"
   },
   {
-    "question": "Which of the following cultural barriers occurs when the shared values of the organization do not align with those that further the organization's growth and effectiveness?",
-    "options": [
-      "Barriers to change",
-      "Barriers to diversity",
-      "Barriers to acquisitions and mergers",
-      "Institutionalization",
-      "Ethical climate"
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH16"
-  },
-  {
     "question": "An example of change in the nature of the workforce is an increase in ________.",
     "options": [
       "capital investment",
@@ -1297,33 +1726,7 @@
     ],
     "correctIndex": 1,
     "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Tescra Education is an educational publishing company that provides textbooks in the area of higher education. The company has been in business for almost 20 years now and has earned substantial profits during this period. Which of the following trends, if true, would drive the company to change its business strategy?",
-    "options": [
-      "A need for learning environments where students feel safe to apply the knowledge they've acquired in the classroom to real-life situations",
-      "A rise in the cost of electronic products such as iPads and e-book readers and subscription charges for educational apps",
-      "An upward trend in students' preference for face-to-face interaction with instructors using traditional classroom learning techniques",
-      "A decrease in the number of people going back to school to upgrade their skills, due to an economic boom",
-      "An increase in the number of laws and regulations related to intellectual property"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "A paper sales company designs and offers a new method of purchasing and shipping commercial quantities of paper through its Web site. The company used to do its business through its sales representative. This is an example of a(n) ________ change.",
-    "options": [
-      "integrated",
-      "planned",
-      "secondary",
-      "accidental",
-      "cognitive"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH2"
+    "chapter": "CH16"
   },
   {
     "question": "Which of the following is a workforce-related force of change?",
@@ -1336,7 +1739,7 @@
     ],
     "correctIndex": 0,
     "explanation": "",
-    "chapter": "CH2"
+    "chapter": "CH16"
   },
   {
     "question": "Which of the following statements regarding forces for change is NOT true?",
@@ -1349,7 +1752,7 @@
     ],
     "correctIndex": 1,
     "explanation": "",
-    "chapter": "CH2"
+    "chapter": "CH16"
   },
   {
     "question": "________________consists of activities that are intentional and goal oriented.",
@@ -1362,10 +1765,10 @@
     ],
     "correctIndex": 2,
     "explanation": "",
-    "chapter": "CH2"
+    "chapter": "CH16"
   },
   {
-    "question": "People who operate as catalysts for change are often called ______________.",
+    "question": "People who operate as catalysts for change are often called ________________.",
     "options": [
       "change agents",
       "philanthropists",
@@ -1375,20 +1778,7 @@
     ],
     "correctIndex": 0,
     "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "________ is a change process based on systematic collection of data and selection of a change action based on what the analyzed data indicate.",
-    "options": [
-      "Process consultation",
-      "Action research",
-      "Planned change",
-      "Organizational restructuring",
-      "Organizational development"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH2"
+    "chapter": "CH16"
   },
   {
     "question": "Which of the following is one of the three steps in the Lewin's three-step change model?",
@@ -1401,7 +1791,7 @@
     ],
     "correctIndex": 4,
     "explanation": "",
-    "chapter": "CH2"
+    "chapter": "CH16"
   },
   {
     "question": "Which of the following is the first step in Kotter's eight-step plan for implementing change?",
@@ -1414,7 +1804,7 @@
     ],
     "correctIndex": 1,
     "explanation": "",
-    "chapter": "CH2"
+    "chapter": "CH16"
   },
   {
     "question": "Which of the following is the last step in Kotter's Eight Step Plan for Implementing Change?",
@@ -1427,591 +1817,6 @@
     ],
     "correctIndex": 2,
     "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Action research is a change process based on the systematic collection of data and selection of a change action based on what the analyzed data indicate. Which of the following statements about action research is correct?",
-    "options": [
-      "In action research, the change agent answers questions, reviews records, and is interviewed by employees.",
-      "Action research requires the people who will participate in a change program to help identify the problem and determine the solution.",
-      "The change agent, often an internal consultant in action research, begins by gathering information about problems, concerns, and needed changes from members of the organization.",
-      "Action research consists of six steps.",
-      "The final step, consistent with the scientific underpinnings of action research, is evaluation of the action plan's effectiveness, using the initial data gathered as a benchmark."
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "The idea of paradox sounds abstract, but more specific concepts have begun to emerge from a growing body of research. Which of the following is likely to be untrue?",
-    "options": [
-      "Managing is a paradox because all management is dealing with constant change and adaptation.",
-      "Organizing is a paradox because it calls for setting direction and leading while requiring empowerment and flexibility.",
-      "Learning is a paradox because it requires building on the past while rejecting it at the same time.",
-      "Belonging is a paradox between establishing a sense of collective identity and acknowledging our desire to be recognized and accepted as unique individuals.",
-      "Performing is a paradox between creating organization-wide goals to concentrate effort and recognizing the diverse goals of stakeholders inside and outside the organization."
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "A major area of concern in OD is dysfunctional conflict among groups. ____________________ seeks to change groups' attitudes, stereotypes, and perceptions about each other.",
-    "options": [
-      "Intergroup development",
-      "Team building",
-      "Sensitivity training",
-      "Process consultation",
-      "Survey feedback"
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Demographic characteristics include __________.",
-    "options": [
-      "values",
-      "habits",
-      "personality",
-      "age",
-      "organizational preferences"
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Deep-level diversity focuses on differences in __________.",
-    "options": [
-      "sex",
-      "values",
-      "race",
-      "religion",
-      "age"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Diversity is an important concept in OB because individual differences shape all of the following EXCEPT __________.",
-    "options": [
-      "preferences for rewards",
-      "communication styles",
-      "reactions to leaders",
-      "educational level",
-      "negotiation styles"
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Which of the following is NOT a characteristic of surface-level diversity __________.",
-    "options": [
-      "values",
-      "gender",
-      "disability",
-      "ethnicity",
-      "age"
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Some companies do not hire veterans because ________.",
-    "options": [
-      "veterans' work ethic is generally lower than among the general populace",
-      "they do not showcase their transferable skills to potential employers",
-      "veterans' team outlook is lower than the general populace",
-      "veterans' receptivity to training is lower than most job applicants",
-      "veterans prefer to collect unemployment"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Stereotyping is judging someone based on __________.",
-    "options": [
-      "repeated behavior",
-      "differences",
-      "perceptions",
-      "information from others",
-      "facts"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Stereotype threat describes the way in which we agree with __________.",
-    "options": [
-      "positive perceptions of others",
-      "the general opinions of others",
-      "views unlike our own",
-      "differences",
-      "negative views of a group"
-    ],
-    "correctIndex": 4,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Making judgments about individuals based on stereotypes regarding their demographic group is called __________.",
-    "options": [
-      "incivility",
-      "discrimination",
-      "exclusion",
-      "harassment",
-      "diversity"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Many women in finance claim they are assigned to marginal job roles. This is an example of which form of discrimination?",
-    "options": [
-      "Incivility",
-      "Intimidation",
-      "Exclusion",
-      "Sexual harassment",
-      "Mockery and insults"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Discrimination is one of the primary factors that __________.",
-    "options": [
-      "increases productivity",
-      "affects profits",
-      "prevents diversity",
-      "decreases turnover",
-      "decreases risk-taking behavior"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Which of these is a major concern for employers when addressing employment discrimination?",
-    "options": [
-      "Turnover",
-      "Training",
-      "Fair treatment",
-      "Sales",
-      "Profit"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Research suggests that organizations should select employees for foreign assignment who have the following characteristic?",
-    "options": [
-      "Ability to speak the language of the foreign country",
-      "Background that includes international experience",
-      "Member of the dominant religion of the foreign country",
-      "Capability of adjusting quickly",
-      "Recipient of a college degree in international studies"
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "__________ management is the process and programs by which managers make everyone more aware of, and sensitive to, the needs and differences of others.",
-    "options": [
-      "Cultural",
-      "International",
-      "Discrimination",
-      "Employee",
-      "Diversity"
-    ],
-    "correctIndex": 4,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Factors that lead to expatriate adjustment do NOT include __________.",
-    "options": [
-      "family support",
-      "language ability",
-      "organizational support",
-      "advanced education",
-      "relational skills"
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "The argument in favor of affirmative action is that _______.",
-    "options": [
-      "it does not focus on merit",
-      "minorities are not helped",
-      "it no longer creates diversity",
-      "it ensures equality",
-      "it lowers the standards for everyone"
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH2"
-  },
-  {
-    "question": "Robin and Shauna were both employees at the same company and regularly had lunch together. During one of their lunches, both commented on the lackluster holiday parties that the company had become known for. They decided that if the holiday parties were going to improve they needed to do something about it and grabbed a few of their other friends at work to gather some ideas for this year's celebration. This would be an example of a(n) ________________.",
-    "options": [
-      "focus group",
-      "work group",
-      "formal group",
-      "task team",
-      "informal group"
-    ],
-    "correctIndex": 4,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "An example of a formal group would be a(n) ________________.",
-    "options": [
-      "sewing group",
-      "strategic planning group",
-      "coffee group",
-      "book club",
-      "lunch group"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "__________ is a perspective that considers when and why individuals consider themselves members of group.",
-    "options": [
-      "Social identity threat",
-      "Social identity theory",
-      "Social learning",
-      "Ingroup favoritism",
-      "Two-factor theory"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "________ is a perspective in which we see members of our ingroup as better than other people, and people not in our group as all the same.",
-    "options": [
-      "Cohesiveness",
-      "Ingroup favoritism",
-      "Social identity theory",
-      "Social loafing",
-      "Hierarchy of needs"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Low identification with groups can lead to all of the following EXCEPT ________.",
-    "options": [
-      "decreased satisfaction",
-      "experiencing positive outcomes and behaviors",
-      "not applying to organizations with a different collective identity",
-      "not identifying with groups within our team or work group",
-      "engaging in fewer organizational citizenship behaviors (OCBs)"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "The perspective that considers when and why individuals consider themselves members of groups is known as which of the following?",
-    "options": [
-      "Informal group",
-      "Social identity theory",
-      "Punctuated-equilibrium model",
-      "Ingroup favoritism",
-      "Role perception"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following describes when we see members of our ingroup as better than other people, and people not in our group as all the same?",
-    "options": [
-      "Role perception",
-      "Social identity theory",
-      "Ingroup favoritism",
-      "Role conflict",
-      "Status characteristics theory"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "A(n) ________ group is one defined by the organization's structure, while a(n) __________ group is one neither formally structured nor organizationally determined.",
-    "options": [
-      "informal; formal",
-      "formal; informal",
-      "task; social",
-      "formal; team",
-      "social; informal"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "The phenomenon that occurs when an individual perceives they will be viewed negatively based on their association with a devalued group is known as __________.",
-    "options": [
-      "social identity threat",
-      "punctuated-equilibrium",
-      "psychological contract",
-      "ingroup favoritism",
-      "role perception"
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following is a way to prevent social loafing?",
-    "options": [
-      "Base individual rewards on the team's contributions.",
-      "Select members who prefer to work alone rather than in groups.",
-      "Set individual goals for each member of the group.",
-      "Engage in peer evaluation so each person evaluates each other person's contribution.",
-      "Decrease intergroup competition."
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "In general, high status people __________________________.",
-    "options": [
-      "are less assertive",
-      "reduce performance",
-      "have reduced motivation",
-      "always stay within the norms",
-      "resist the pressure to conform better than lower status people"
-    ],
-    "correctIndex": 4,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "What term describes a socially defined position or rank given to groups or group members by others?",
-    "options": [
-      "Behavioral norm",
-      "Role conflict",
-      "Social identity",
-      "Role",
-      "Status"
-    ],
-    "correctIndex": 4,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "______ is a theory stating that differences in status characteristics create status hierarchies within groups.",
-    "options": [
-      "Hierarchy of needs theory",
-      "Status characteristics theory",
-      "Discrimination",
-      "Social identity theory",
-      "Social loafing"
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following statements about high-status individuals is FALSE?",
-    "options": [
-      "Bringing high-status members into a group may improve performance.",
-      "High-ranking individuals need and care about the group's social rewards.",
-      "High-status individuals disregard pressure from lower-ranking members of other groups.",
-      "High-status people resist conformity pressures more than their lower-status peers.",
-      "High-status individuals may deviate from norms when they have low identification with the group."
-    ],
-    "correctIndex": 1,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following describes the tendency for individuals to expend less effort when working collectively than alone?",
-    "options": [
-      "Groupshift",
-      "Role conflict",
-      "Social loafing",
-      "Conformity",
-      "Deviant workplace behavior"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following is a way to prevent social loafing?",
-    "options": [
-      "Base individual rewards on each member's contributions.",
-      "Set individual goals for each member of the group.",
-      "Select members who prefer to work alone rather than in groups.",
-      "Decrease intergroup competition.",
-      "Engage in peer evaluations so each person evaluates each other person's contribution."
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "A socially defined position or rank given to groups or group members by others is known as __________.",
-    "options": [
-      "groupshift",
-      "a norm",
-      "status",
-      "a role expectation",
-      "conformity"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following impacts a group's performance based on the diverse input and idea generation offered by group members?",
-    "options": [
-      "Location",
-      "Status",
-      "Norms",
-      "Roles",
-      "Size"
-    ],
-    "correctIndex": 4,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Pressure to modify the true feelings of a member of a group because the dominant majority of the group holds a different position is an example of ______________.",
-    "options": [
-      "group paralysis",
-      "groupshift",
-      "group inertia",
-      "groupthink",
-      "group consensus"
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Groups are a good choice in the decision making process when ________________.",
-    "options": [
-      "increased diversity of views is a factor",
-      "efficiency is a factor",
-      "time is a factor",
-      "individual responsibility is a factor",
-      "responsiveness is a factor"
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "________ describes the way group members tend to exaggerate their initial positions when discussing a given set of alternatives to arrive at a solution.",
-    "options": [
-      "Groupthink",
-      "Social learning",
-      "Social loafing",
-      "Groupshift",
-      "Cohesiveness"
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "In ________ members meet face-to-face and rely on both verbal and nonverbal interaction to communicate.",
-    "options": [
-      "groupthink",
-      "group polarization",
-      "interacting groups",
-      "brainstorming",
-      "nominal group technique"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "In evaluating group effectiveness, brainstorming ranks high in __________.",
-    "options": [
-      "monetary costs",
-      "commitment to solution",
-      "development of group cohesiveness",
-      "potential for interpersonal conflict",
-      "social pressure"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following identifies a form of group decision making that encourages any and all alternatives while withholding criticism?",
-    "options": [
-      "Nominal group technique",
-      "Five-stage group development model",
-      "Brainstorming",
-      "Status characteristics theory",
-      "Punctuated-equilibrium model"
-    ],
-    "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following is an advantage of nominal group technique?",
-    "options": [
-      "Interpersonal communication is increased during the decision making process.",
-      "It creates production blocking.",
-      "It encourages any and all alternatives while withholding criticism.",
-      "It overcomes the pressures for conformity that dampen creativity.",
-      "It permits a group to meet formally but does not restrict independent thinking."
-    ],
-    "correctIndex": 3,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which by-product of group decision making occurs when pressures for conformity deter the group from critically appraising unusual or unpopular views?",
-    "options": [
-      "Groupthink",
-      "Brainstorming",
-      "Group polarization",
-      "Groupshift",
-      "Interacting groups"
-    ],
-    "correctIndex": 0,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Steps to eliminate or minimize groupthink would include all but which of the following?",
-    "options": [
-      "Encourage group members to use exercises that stimulate active discussion of diverse alternatives without threatening the group.",
-      "Monitor group size.",
-      "Encourage group leaders to play an impartial role.",
-      "Appoint one group member to take on the role of devil's advocate.",
-      "Increase the size of the group."
-    ],
-    "correctIndex": 4,
-    "explanation": "",
-    "chapter": "CH9"
+    "chapter": "CH16"
   }
 ]

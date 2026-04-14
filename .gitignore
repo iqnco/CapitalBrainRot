@@ -29,3 +29,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Large source files — question PDFs stay local, only questions.json is committed
+*.pdf
+public/Full\ Chapter\ Questions/
