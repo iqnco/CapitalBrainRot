@@ -73,7 +73,7 @@ export default function LandingPage() {
                   />
                 )}
                 <span className="text-xs font-mono uppercase tracking-widest" style={{ color: '#f7941d' }}>
-                  {profile?.username ?? user.email}
+                  {profile?.username ?? '...'}
                 </span>
               </button>
               <button
