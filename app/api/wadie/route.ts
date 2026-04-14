@@ -42,7 +42,7 @@ Rules:
 - Never just re-list options — explain the underlying concept`;
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.anthropic;
   if (!apiKey) {
     return NextResponse.json(
       { reply: "⚠ Wadie's brain isn't connected — ANTHROPIC_API_KEY is missing from Vercel environment variables." },

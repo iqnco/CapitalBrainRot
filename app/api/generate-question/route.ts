@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { Question, QuestionType } from '@/lib/types';
 
 const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+  apiKey: process.env.anthropic,
 });
 
 const FORMAT: Record<QuestionType, string> = {
