@@ -95,7 +95,7 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           className="absolute z-10"
           style={{
             top: `${gunTopPct}%`,
-            left: '38px',          /* barrel tip aligned with crest centre */
+            left: '80px',          /* barrel tip just right of the red divider */
             transform: 'translateY(-50%)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
             filter: `drop-shadow(0 0 6px ${currentRank.glow})`,
