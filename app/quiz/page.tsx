@@ -141,17 +141,8 @@ function QuizContent() {
         wrongCount: newWrong, armor: newHp,
       } as QuizResults));
 
-      // Submit score to Supabase if logged in
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session?.user) {
-          supabase.from('scores').insert({
-            user_id: session.user.id,
-            subject,
-            score: newScore,
-            total,
-          });
-        }
-      });
+      // Submit score — RPC handles auth internally, silent no-op if not logged in
+      supabase.rpc('submit_score', { p_score: newScore, p_total: total });
     }
     setPhase('feedback');
   }, [currentQ, score, hp, wrongCount, qIndex, total, subject]);
