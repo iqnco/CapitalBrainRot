@@ -18,7 +18,7 @@ function loadSeenMap(): ChapterSeenMap {
   return raw ? JSON.parse(raw) : {};
 }
 
-const TOTAL = 10;
+const SAMPLE_TOTAL = 10; // used only for ALL / multi-chapter mode
 
 // ── Chapter icon ─────────────────────────────────────────────────────────────
 function ChapterIcon({ number, selected, cleared }: {
@@ -196,10 +196,16 @@ function ChaptersContent() {
     setLoading(true);
     setError('');
     const chaptersArr = allSelected ? ['ALL'] : Array.from(selected);
+    const isFullChapter = !allSelected && chaptersArr.length === 1;
     const res = await fetch('/api/load-questions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ missionId, mapId, total: TOTAL, chapters: chaptersArr }),
+      body: JSON.stringify({
+        missionId, mapId,
+        // single chapter → no cap (route returns all); otherwise sample 10
+        total: isFullChapter ? undefined : SAMPLE_TOTAL,
+        chapters: chaptersArr,
+      }),
     });
     const data = await res.json();
     if (!res.ok) { setError(data.error ?? 'Failed to load questions'); setLoading(false); return; }
@@ -333,7 +339,7 @@ function ChaptersContent() {
         </button>
 
         <p className="text-xs font-mono uppercase tracking-widest -mt-4" style={{ color: '#2a2a40' }}>
-          {TOTAL} Objectives · 5 Lives
+          {allSelected ? `${SAMPLE_TOTAL} Random Objectives` : selected.size === 1 ? 'Full Chapter — All Questions' : `${SAMPLE_TOTAL} Objectives`} · 5 Squad
         </p>
       </div>
     </main>

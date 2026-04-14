@@ -57,6 +57,7 @@ export async function POST(req: NextRequest) {
 
   const selectedChapters = chapters ?? ['ALL'];
   const isAll = selectedChapters.includes('ALL') || selectedChapters.length === 0;
+  const isMulti = !isAll && selectedChapters.length > 1;
 
   // Filter by chapter if specific ones were requested
   const pool = isAll
@@ -70,7 +71,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const count  = total ?? 10;
+  // ALL mode or multi-chapter: random sample of 10
+  // Single chapter: every question in that chapter, in shuffled order
+  const count  = (isAll || isMulti) ? (total ?? 10) : pool.length;
   const picked = shuffle(pool).slice(0, count);
 
   const questions: MultipleChoiceQuestion[] = picked.map((q) => {

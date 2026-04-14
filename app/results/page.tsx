@@ -33,7 +33,7 @@ export default function ResultsPage() {
 
   const rank     = getRank(results.score, results.total);
   const pct      = results.total > 0 ? Math.round((results.score / results.total) * 100) : 0;
-  const survived = results.armor > 0;
+  const survived = results.wrongCount < 5;
 
   return (
     <main className="min-h-screen siege-bg flex flex-col items-center justify-center p-6">
@@ -61,7 +61,7 @@ export default function ResultsPage() {
           </p>
           <p className="text-xs font-mono uppercase tracking-widest mt-1"
              style={{ color: survived ? '#22c55e' : '#e8001a' }}>
-            {survived ? '✓ MISSION COMPLETE' : '✗ KIA — MISSION FAILED'}
+            {survived ? '✓ MISSION COMPLETE' : "✗ MISSION FAILED — WE'LL GET EM NEXT TIME"}
           </p>
         </div>
 
@@ -90,7 +90,7 @@ export default function ResultsPage() {
           {[
             { label: 'Correct',  value: results.score,      color: '#22c55e' },
             { label: 'Wrong',    value: results.wrongCount,  color: '#e8001a' },
-            { label: 'HP Left',  value: results.armor,       color: '#f7941d' },
+            { label: 'Squad Left', value: results.armor,     color: '#f7941d' },
           ].map(({ label, value, color }) => (
             <div key={label} className="text-center py-3 op-card">
               <p className="text-[9px] font-mono uppercase tracking-wider mb-1" style={{ color: '#6b7090' }}>{label}</p>

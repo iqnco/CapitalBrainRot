@@ -37,7 +37,7 @@ const OPERATOR_META: Record<string, { name: string; role: string }> = {
   warden:      { name: 'WARDEN',      role: 'DEFENDER' },
 };
 
-type Phase = 'answering' | 'feedback' | 'gameover';
+type Phase = 'answering' | 'feedback';
 interface Feedback { correct: boolean; explanation: string; correctAnswer?: string; }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -121,34 +121,32 @@ function QuizContent() {
     const newLog = [...answerLogRef.current, record];
     answerLogRef.current = newLog;
 
-    const gameOver = !correct && newHp <= 0;
-    const isLast   = qIndex >= total - 1;
-    if (gameOver || isLast) {
+    const isLast = qIndex >= total - 1;
+    if (isLast) {
       const reportId = Date.now().toString();
       const report: MatchReport = {
         id: reportId, subject, date: new Date().toISOString(),
-        score: newScore, total: isLast ? total : qIndex + 1, answers: newLog,
+        score: newScore, total, answers: newLog,
       };
       localStorage.setItem('rts-match-report', JSON.stringify(report));
       const history: MatchReport[] = JSON.parse(localStorage.getItem('rts-history') ?? '[]');
       history.unshift(report);
       localStorage.setItem('rts-history', JSON.stringify(history.slice(0, 20)));
       localStorage.setItem('rts-results', JSON.stringify({
-        subject, score: newScore,
-        total: isLast ? total : qIndex + 1,
+        subject, score: newScore, total,
         wrongCount: newWrong, armor: newHp,
       } as QuizResults));
     }
-    setPhase(gameOver ? 'gameover' : 'feedback');
+    setPhase('feedback');
   }, [currentQ, score, hp, wrongCount, qIndex, total, subject]);
 
   const handleNext = useCallback(() => {
     setIsDying(false);
-    if (phase === 'gameover' || qIndex >= total - 1) { router.push('/results'); return; }
+    if (qIndex >= total - 1) { router.push('/results'); return; }
     setQIndex((i) => i + 1);
     setFeedback(null);
     setPhase('answering');
-  }, [phase, qIndex, total, router]);
+  }, [qIndex, total, router]);
 
   if (!questions.length) {
     return (
@@ -359,13 +357,13 @@ function QuizContent() {
             <MatchPairs question={currentQ} onAnswer={handleAnswer} />
           )}
 
-          {(phase === 'feedback' || phase === 'gameover') && feedback && (
+          {phase === 'feedback' && feedback && (
             <FeedbackOverlay
               correct={feedback.correct}
               explanation={feedback.explanation}
               correctAnswer={feedback.correctAnswer}
               onContinue={handleNext}
-              isGameOver={phase === 'gameover'}
+              isGameOver={false}
               isComplete={qIndex >= total - 1}
             />
           )}
@@ -373,8 +371,8 @@ function QuizContent() {
         </div>
       </div>
 
-      {/* Critical HP warning */}
-      {hp === 1 && phase === 'answering' && (
+      {/* Squad KIA warning — shown when all 5 lives lost but quiz continues */}
+      {hp === 0 && phase === 'answering' && (
         <div
           className="fixed bottom-5 left-1/2 -translate-x-1/2 px-4 py-2 text-xs font-mono uppercase tracking-widest animate-blink"
           style={{
@@ -384,7 +382,7 @@ function QuizContent() {
             clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
           }}
         >
-          ⚠ CRITICAL — Last life remaining
+          ⚠ SQUAD KIA — Mission failed, but finish the debrief
         </div>
       )}
     </main>
