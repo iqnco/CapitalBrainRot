@@ -37,9 +37,14 @@ export default function SignupPage() {
 
     if (signupErr) { setError(signupErr.message); setLoading(false); return; }
 
-    // Update profile with operator + country after trigger creates it
+    // Upsert profile — handles both the trigger-created row and the race where trigger hasn't fired yet
     if (signupData.user) {
-      await supabase.from('profiles').update({ favorite_operator: operator, country }).eq('id', signupData.user.id);
+      await supabase.from('profiles').upsert({
+        id: signupData.user.id,
+        username,
+        favorite_operator: operator,
+        country,
+      });
     }
 
     router.push('/');
