@@ -20,6 +20,7 @@ export default function WadieChat() {
   const [input, setInput]       = useState('');
   const [loading, setLoading]   = useState(false);
   const [greeting]              = useState(() => GREETINGS[Math.floor(Math.random() * GREETINGS.length)]);
+  const [hasMessaged, setHasMessaged] = useState(false);
   const bottomRef               = useRef<HTMLDivElement>(null);
   const inputRef                = useRef<HTMLInputElement>(null);
 
@@ -33,22 +34,40 @@ export default function WadieChat() {
   const send = async () => {
     const text = input.trim();
     if (!text || loading) return;
+    const isFirst = !hasMessaged;
+    setHasMessaged(true);
     const next: Message[] = [...messages, { role: 'user', content: text }];
     setMessages(next);
     setInput('');
     setLoading(true);
-    try {
-      const res = await fetch('/api/wadie', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: next }),
-      });
-      const data = await res.json();
-      setMessages([...next, { role: 'assistant', content: data.reply ?? '...' }]);
-    } catch {
-      setMessages([...next, { role: 'assistant', content: "Sorry, something broke on my end. Try again." }]);
+
+    // Kick off real API call immediately so it runs in background
+    const apiPromise = fetch('/api/wadie', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: next }),
+    }).then(r => r.json()).catch(() => ({ reply: "Sorry, something broke on my end. Try again." }));
+
+    if (isFirst) {
+      // Show joke message, hide loading dots
+      setLoading(false);
+      setMessages([...next, { role: 'assistant', content: "did you really think I was gonna be able to help" }]);
+      // Wait 5 seconds, then reveal real answer
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      const data = await apiPromise;
+      setMessages([...next,
+        { role: 'assistant', content: "did you really think I was gonna be able to help" },
+        { role: 'assistant', content: "Got ya!  " + (data.reply ?? '...') },
+      ]);
+    } else {
+      try {
+        const data = await apiPromise;
+        setMessages([...next, { role: 'assistant', content: data.reply ?? '...' }]);
+      } catch {
+        setMessages([...next, { role: 'assistant', content: "Sorry, something broke on my end. Try again." }]);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
