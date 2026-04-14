@@ -4,19 +4,21 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { QuizResults } from '@/lib/types';
 
+// Must match RankLadder.tsx exactly — same order, same thresholds (Math.floor(pct * 8))
 const RANKS = [
-  { name: 'COPPER I',     color: '#b87333', minPct: 0    },
-  { name: 'BRONZE II',    color: '#cd7f32', minPct: 0.2  },
-  { name: 'SILVER III',   color: '#aaa9ad', minPct: 0.4  },
-  { name: 'GOLD IV',      color: '#ffd700', minPct: 0.6  },
-  { name: 'PLATINUM III', color: '#5eead4', minPct: 0.75 },
-  { name: 'DIAMOND I',    color: '#7dd3fc', minPct: 0.9  },
-  { name: 'CHAMPION',     color: '#f7941d', minPct: 1.0  },
+  { name: 'COPPER',   color: '#a0522d', img: '/RankIcons/Copper1.png'  },
+  { name: 'BRONZE',   color: '#cd7f32', img: '/RankIcons/Bronze1.png'  },
+  { name: 'SILVER',   color: '#9da8ba', img: '/RankIcons/Silver1.png'  },
+  { name: 'GOLD',     color: '#d4a017', img: '/RankIcons/Gold1.png'    },
+  { name: 'PLATINUM', color: '#00b4cc', img: '/RankIcons/Plat1.png'    },
+  { name: 'EMERALD',  color: '#00c878', img: '/RankIcons/Emerald1.png' },
+  { name: 'DIAMOND',  color: '#8b7cf7', img: '/RankIcons/Diamons1.png' },
+  { name: 'CHAMPION', color: '#f7941d', img: '/RankIcons/Champ1.png'   },
 ];
 
 function getRank(score: number, total: number) {
   const pct = total > 0 ? score / total : 0;
-  return RANKS.reduce((best, r) => (pct >= r.minPct ? r : best), RANKS[0]);
+  return RANKS[Math.min(7, Math.floor(pct * 8))];
 }
 
 export default function ResultsPage() {
@@ -70,10 +72,13 @@ export default function ResultsPage() {
           <p className="text-[10px] font-mono uppercase tracking-[0.4em] mb-3"
              style={{ color: '#6b7090' }}>Rank Awarded</p>
 
-          <p className="font-black text-2xl tracking-[0.15em] uppercase mb-4"
-             style={{ color: rank.color, textShadow: `0 0 18px ${rank.color}70`, fontFamily: "'Barlow Condensed', sans-serif" }}>
-            {rank.name}
-          </p>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <img src={rank.img} alt={rank.name} style={{ width: 48, height: 48, objectFit: 'contain' }} />
+            <p className="font-black text-2xl tracking-[0.15em] uppercase"
+               style={{ color: rank.color, textShadow: `0 0 18px ${rank.color}70`, fontFamily: "'Barlow Condensed', sans-serif" }}>
+              {rank.name}
+            </p>
+          </div>
 
           <div className="siege-divider mx-auto mb-4" style={{ width: '60%' }} />
 
