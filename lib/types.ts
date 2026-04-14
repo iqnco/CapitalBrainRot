@@ -52,6 +52,7 @@ export interface AnswerRecord {
   correctAnswer: string;
   correct: boolean;
   explanation: string;
+  options?: string[]; // all answer choices (MC questions)
 }
 
 // key = chapter id e.g. "CH10", value = array of seen question text keys

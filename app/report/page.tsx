@@ -11,6 +11,8 @@ const TYPE_LABELS: Record<string, string> = {
   'match-pairs':     'MATCH',
 };
 
+const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E'];
+
 function AnswerCard({ record, index }: { record: AnswerRecord; index: number }) {
   const correctAnswerLines = record.correctAnswer.split('\n');
   const isMultiLine = correctAnswerLines.length > 1;
@@ -35,35 +37,85 @@ function AnswerCard({ record, index }: { record: AnswerRecord; index: number }) 
         </span>
       </div>
 
+      {/* Question */}
       <p className="text-sm leading-relaxed mb-3" style={{ color: '#e8eaf2' }}>{record.questionText}</p>
 
-      {!record.correct && record.userAnswer && record.userAnswer !== '(skipped)' && (
-        <div className="mb-2 flex gap-2 items-start">
-          <span className="text-xs font-mono uppercase tracking-widest shrink-0 mt-0.5" style={{ color: '#e8001a' }}>You:</span>
-          <span className="text-sm" style={{ color: '#e8001a' }}>{record.userAnswer}</span>
-        </div>
-      )}
-      {!record.correct && record.userAnswer === '(skipped)' && (
-        <p className="mb-2 text-xs font-mono uppercase tracking-widest" style={{ color: '#6b7090' }}>(skipped)</p>
-      )}
+      {/* All answer options (MC questions) */}
+      {record.options && record.options.length > 0 ? (
+        <div className="space-y-1.5 mb-3">
+          {record.options.map((opt, i) => {
+            const isCorrect = opt === record.correctAnswer;
+            const isUserWrong = !record.correct && opt === record.userAnswer;
+            const isSkipped = !record.correct && record.userAnswer === '(skipped)' && isCorrect;
 
-      <div className="mb-2 flex gap-2 items-start">
-        <span className="text-xs font-mono uppercase tracking-widest shrink-0 mt-0.5" style={{ color: '#22c55e' }}>
-          {record.correct ? 'Answer:' : 'Correct:'}
-        </span>
-        {isMultiLine ? (
-          <ul className="space-y-0.5">
-            {correctAnswerLines.map((line, i) => (
-              <li key={i} className="text-sm font-mono" style={{ color: '#22c55e' }}>{line}</li>
-            ))}
-          </ul>
-        ) : (
-          <span className="text-sm font-semibold" style={{ color: '#22c55e' }}>{record.correctAnswer}</span>
-        )}
-      </div>
+            let bg = 'rgba(255,255,255,0.03)';
+            let border = 'rgba(255,255,255,0.06)';
+            let textColor = '#6b7090';
+            let labelBg = 'rgba(255,255,255,0.05)';
+            let labelColor = '#4a4a65';
+
+            if (isCorrect) {
+              bg = 'rgba(34,197,94,0.08)';
+              border = 'rgba(34,197,94,0.35)';
+              textColor = '#e8eaf2';
+              labelBg = 'rgba(34,197,94,0.15)';
+              labelColor = '#22c55e';
+            } else if (isUserWrong) {
+              bg = 'rgba(232,0,26,0.08)';
+              border = 'rgba(232,0,26,0.3)';
+              textColor = '#e8001a';
+              labelBg = 'rgba(232,0,26,0.12)';
+              labelColor = '#e8001a';
+            }
+
+            return (
+              <div key={i} className="flex items-start gap-2.5 px-3 py-2 rounded-sm"
+                   style={{ background: bg, border: `1px solid ${border}` }}>
+                <span className="shrink-0 w-5 h-5 rounded flex items-center justify-center text-[11px] font-bold font-mono mt-0.5"
+                      style={{ background: labelBg, color: labelColor }}>
+                  {OPTION_LABELS[i]}
+                </span>
+                <span className="text-sm leading-snug" style={{ color: textColor }}>
+                  {opt}
+                  {isCorrect && <span className="ml-2 text-[10px] font-mono uppercase tracking-widest" style={{ color: '#22c55e' }}>✓</span>}
+                  {isUserWrong && <span className="ml-2 text-[10px] font-mono uppercase tracking-widest" style={{ color: '#e8001a' }}>✗ your answer</span>}
+                  {isSkipped && <span className="ml-2 text-[10px] font-mono uppercase tracking-widest" style={{ color: '#6b7090' }}>(skipped)</span>}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        /* Non-MC fallback: show correct / wrong answer as plain text */
+        <>
+          {!record.correct && record.userAnswer && record.userAnswer !== '(skipped)' && (
+            <div className="mb-2 flex gap-2 items-start">
+              <span className="text-xs font-mono uppercase tracking-widest shrink-0 mt-0.5" style={{ color: '#e8001a' }}>You:</span>
+              <span className="text-sm" style={{ color: '#e8001a' }}>{record.userAnswer}</span>
+            </div>
+          )}
+          {!record.correct && record.userAnswer === '(skipped)' && (
+            <p className="mb-2 text-xs font-mono uppercase tracking-widest" style={{ color: '#6b7090' }}>(skipped)</p>
+          )}
+          <div className="mb-2 flex gap-2 items-start">
+            <span className="text-xs font-mono uppercase tracking-widest shrink-0 mt-0.5" style={{ color: '#22c55e' }}>
+              {record.correct ? 'Answer:' : 'Correct:'}
+            </span>
+            {isMultiLine ? (
+              <ul className="space-y-0.5">
+                {correctAnswerLines.map((line, i) => (
+                  <li key={i} className="text-sm font-mono" style={{ color: '#22c55e' }}>{line}</li>
+                ))}
+              </ul>
+            ) : (
+              <span className="text-sm font-semibold" style={{ color: '#22c55e' }}>{record.correctAnswer}</span>
+            )}
+          </div>
+        </>
+      )}
 
       {record.explanation && (
-        <p className="text-xs leading-relaxed mt-2 pt-2 border-t" style={{ color: '#6b7090', borderColor: '#242432' }}>
+        <p className="text-xs leading-relaxed pt-2 border-t" style={{ color: '#6b7090', borderColor: '#242432' }}>
           {record.explanation}
         </p>
       )}

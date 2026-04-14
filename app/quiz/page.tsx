@@ -117,6 +117,7 @@ function QuizContent() {
       correctAnswer: getCorrectAnswer(currentQ),
       correct,
       explanation: currentQ.explanation,
+      options: currentQ.type === 'multiple-choice' ? currentQ.options : undefined,
     };
     const newLog = [...answerLogRef.current, record];
     answerLogRef.current = newLog;
