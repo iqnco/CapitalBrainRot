@@ -6,11 +6,12 @@ import { Question, QuizResults, AnswerRecord, MatchReport, ChapterSeenMap } from
 
 const SEEN_KEY = 'rts-chapter-seen';
 
-function markQuestionSeen(chapter: string | undefined, questionText: string) {
+function markQuestionSeen(chapter: string | undefined, questionText: string, correctAnswer: string) {
   if (!chapter) return;
   const raw = localStorage.getItem(SEEN_KEY);
   const map: ChapterSeenMap = raw ? JSON.parse(raw) : {};
-  const key = questionText.slice(0, 100);
+  // Include correct answer so questions with identical text but different options are tracked separately
+  const key = (questionText + '§' + correctAnswer).slice(0, 140);
   if (!map[chapter]) map[chapter] = [];
   if (!map[chapter].includes(key)) map[chapter].push(key);
   localStorage.setItem(SEEN_KEY, JSON.stringify(map));
@@ -106,7 +107,7 @@ function QuizContent() {
 
     setFeedback({ correct, explanation: currentQ.explanation, correctAnswer: getCorrectAnswer(currentQ) });
 
-    if (currentQ.type === 'multiple-choice') markQuestionSeen(currentQ.chapter, currentQ.question);
+    if (currentQ.type === 'multiple-choice') markQuestionSeen(currentQ.chapter, currentQ.question, getCorrectAnswer(currentQ));
 
     const record: AnswerRecord = {
       questionText: 'question' in currentQ ? currentQ.question
