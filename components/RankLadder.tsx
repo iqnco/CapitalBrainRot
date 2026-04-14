@@ -96,8 +96,6 @@ export default function RankLadder({ score, total }: RankLadderProps) {
         </div>
       </div>
 
-      {/* ── Thin divider ── */}
-      <div style={{ width: '1px', background: 'rgba(232,0,26,0.18)', flexShrink: 0 }} />
 
       {/* ── Right column: pistol indicator ── */}
       <div className="flex-1 relative" style={{ minWidth: 0 }}>
@@ -106,7 +104,7 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           style={{
             top: `${gunTopPct}%`,
             left: '50%',
-            transform: 'translate(-50%, -50%) rotate(-90deg)',
+            transform: 'translate(-50%, -50%) rotate(90deg)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
             filter: `drop-shadow(0 0 6px ${currentRank.glow})`,
           }}
@@ -114,7 +112,7 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           <img
             src="/pistol.png"
             alt="pistol"
-            style={{ width: '28px', height: '28px', objectFit: 'contain', imageRendering: 'pixelated' }}
+            style={{ width: '56px', height: '56px', objectFit: 'contain', imageRendering: 'pixelated' }}
           />
         </div>
       </div>
