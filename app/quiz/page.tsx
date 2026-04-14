@@ -141,8 +141,11 @@ function QuizContent() {
         wrongCount: newWrong, armor: newHp,
       } as QuizResults));
 
-      // Submit score — RPC handles auth internally, silent no-op if not logged in
-      supabase.rpc('submit_score', { p_score: newScore, p_total: total });
+      // Submit score — RPC handles auth internally
+      supabase.rpc('submit_score', { p_score: newScore, p_total: total }).then(({ error }) => {
+        if (error) console.error('[RPC submit_score]', error);
+        else console.log('[RPC submit_score] ok', newScore, '/', total);
+      });
     }
     setPhase('feedback');
   }, [currentQ, score, hp, wrongCount, qIndex, total, subject]);
