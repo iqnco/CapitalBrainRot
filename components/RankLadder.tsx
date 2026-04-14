@@ -2,7 +2,7 @@
 
 interface RankLadderProps {
   score: number;
-  total: number; // total questions in the set
+  total: number;
 }
 
 const RANKS = [
@@ -16,130 +16,107 @@ const RANKS = [
   { id: 'champion', img: '/RankIcons/Champ1.png',   color: '#f7941d', glow: 'rgba(247,148,29,1.0)'  },
 ];
 
-// Top % for each badge — Champion at 3%, Copper at 94%
 const TOP_PCTS = RANKS.map((_, i) => 3 + ((7 - i) / 7) * 91);
 
-function GunImg({ glow }: { glow: string }) {
-  return (
-    <img
-      src="/ak12.svg"
-      alt="AK-12"
-      style={{
-        width: '52px',
-        height: 'auto',
-        imageRendering: 'pixelated',
-        filter: `drop-shadow(0 0 4px ${glow})`,
-      }}
-    />
-  );
-}
-
 export default function RankLadder({ score, total }: RankLadderProps) {
-  // Rank is based on score / total — so 1/25 = 4%, NOT 100%
-  const pct        = total > 0 ? score / total : 0;
-  const rankIndex  = Math.min(7, Math.floor(pct * 8));
+  const pct         = total > 0 ? score / total : 0;
+  const rankIndex   = Math.min(7, Math.floor(pct * 8));
   const currentRank = RANKS[rankIndex];
-
-  // Gun top %: 94% at 0 (Copper bottom), 3% at 1.0 (Champion top)
-  const gunTopPct = 94 - pct * 91;
+  const gunTopPct   = 94 - pct * 91;
 
   return (
     <div
-      className="flex-none flex flex-col items-center"
+      className="flex-none flex flex-row"
       style={{
-        width: '72px',
+        width: '88px',
         background: 'rgba(5,5,10,0.75)',
-        borderRight: '1px solid rgba(232,0,26,0.12)',
+        borderRight: '1px solid rgba(232,0,26,0.15)',
         flexShrink: 0,
+        overflow: 'hidden',
       }}
     >
-      {/* Score fraction */}
-      <div className="flex-none pt-2 pb-1 text-center">
-        <p className="text-[9px] font-mono leading-none"
-           style={{ color: currentRank.color, letterSpacing: '0.04em' }}>
-          {score}/{total}
-        </p>
+      {/* ── Left column: rank crest images ── */}
+      <div className="flex flex-col items-center" style={{ width: '56px', flexShrink: 0 }}>
+
+        {/* Score */}
+        <div className="flex-none pt-2 pb-1 text-center">
+          <p className="text-[9px] font-mono" style={{ color: currentRank.color }}>
+            {score}/{total}
+          </p>
+        </div>
+
+        {/* Crest ladder */}
+        <div className="flex-1 relative w-full" style={{ minHeight: 0 }}>
+          {/* Track */}
+          <div className="absolute top-0 bottom-0"
+               style={{ left: '50%', width: '1px', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.05)' }} />
+          {/* Progress fill */}
+          <div className="absolute bottom-0"
+               style={{
+                 left: '50%', width: '2px', transform: 'translateX(-50%)',
+                 height: `${100 - gunTopPct}%`,
+                 background: currentRank.color, opacity: 0.4,
+                 transition: 'height 0.6s cubic-bezier(0.34,1.56,0.64,1)',
+               }} />
+
+          {RANKS.map((rank, i) => {
+            const isActive = rankIndex === i;
+            const isPassed = rankIndex > i;
+            return (
+              <div
+                key={rank.id}
+                className="absolute flex items-center justify-center"
+                style={{
+                  top: `${TOP_PCTS[i]}%`,
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '44px', height: '44px',
+                  zIndex: isActive ? 2 : 1,
+                  opacity: isActive ? 1 : isPassed ? 0.85 : 0.22,
+                  filter: isActive
+                    ? `drop-shadow(0 0 7px ${rank.glow})`
+                    : isPassed ? `drop-shadow(0 0 2px ${rank.glow})`
+                    : 'brightness(0.35) saturate(0)',
+                  transition: 'filter 0.4s ease, opacity 0.4s ease',
+                }}
+              >
+                <img src={rank.img} alt={rank.id}
+                     style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Rank label */}
+        <div className="flex-none pb-2 pt-1">
+          <p className="text-[7px] font-mono uppercase tracking-wider text-center"
+             style={{ color: currentRank.color }}>
+            {currentRank.id.slice(0, 5)}
+          </p>
+        </div>
       </div>
 
-      {/* Ladder track */}
-      <div className="flex-1 relative w-full" style={{ minHeight: 0 }}>
+      {/* ── Thin divider ── */}
+      <div style={{ width: '1px', background: 'rgba(232,0,26,0.18)', flexShrink: 0 }} />
 
-        {/* Track line */}
-        <div className="absolute top-0 bottom-0"
-             style={{ left: '50%', width: '1px', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.05)' }} />
-
-        {/* Filled progress */}
-        <div
-          className="absolute bottom-0"
-          style={{
-            left: '50%',
-            width: '2px',
-            transform: 'translateX(-50%)',
-            height: `${(1 - pct) < 0.97 ? (100 - gunTopPct) : 0}%`,
-            background: currentRank.color,
-            opacity: 0.45,
-            transition: 'height 0.6s cubic-bezier(0.34,1.56,0.64,1)',
-          }}
-        />
-
-        {/* Rank badge images */}
-        {RANKS.map((rank, i) => {
-          const isActive = rankIndex === i;
-          const isPassed = rankIndex > i;
-          const topPct   = TOP_PCTS[i];
-
-          return (
-            <div
-              key={rank.id}
-              className="absolute"
-              style={{
-                top: `${topPct}%`,
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '48px',
-                height: '48px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: isActive ? 2 : 1,
-                transition: 'filter 0.4s ease, opacity 0.4s ease',
-                opacity: isActive ? 1 : isPassed ? 0.85 : 0.22,
-                filter: isActive
-                  ? `drop-shadow(0 0 7px ${rank.glow})`
-                  : isPassed
-                  ? `drop-shadow(0 0 2px ${rank.glow})`
-                  : 'brightness(0.35) saturate(0)',
-              }}
-            >
-              <img
-                src={rank.img}
-                alt={rank.id}
-                style={{ width: '44px', height: '44px', objectFit: 'contain' }}
-              />
-            </div>
-          );
-        })}
-
-        {/* AK-12 indicator — flush to right edge, barrel points into content */}
+      {/* ── Right column: pistol indicator ── */}
+      <div className="flex-1 relative" style={{ minWidth: 0 }}>
         <div
           className="absolute z-10"
           style={{
             top: `${gunTopPct}%`,
-            right: '-4px',
-            transform: 'translateY(-10px)',
+            left: '50%',
+            transform: 'translate(-50%, -50%) rotate(-90deg)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
+            filter: `drop-shadow(0 0 6px ${currentRank.glow})`,
           }}
         >
-          <GunImg glow={currentRank.glow} />
+          <img
+            src="/pistol.png"
+            alt="pistol"
+            style={{ width: '28px', height: '28px', objectFit: 'contain', imageRendering: 'pixelated' }}
+          />
         </div>
-      </div>
-
-      {/* Rank label */}
-      <div className="flex-none pb-2 pt-1 text-center">
-        <p className="text-[8px] font-mono uppercase tracking-wider leading-none"
-           style={{ color: currentRank.color }}>
-          {currentRank.id.slice(0, 5)}
-        </p>
       </div>
     </div>
   );

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 28" width="48" height="28" shape-rendering="crispEdges">
+
+  <!-- ── Slide / barrel ── -->
+  <rect x="8"  y="2"  width="36" height="12" fill="#2d3748"/>
+  <rect x="8"  y="2"  width="36" height="2"  fill="#718096"/>
+  <rect x="8"  y="12" width="36" height="2"  fill="#111315"/>
+  <!-- ejection port cutout -->
+  <rect x="20" y="4"  width="10" height="4"  fill="#111315"/>
+  <!-- front sight -->
+  <rect x="38" y="0"  width="4"  height="4"  fill="#4a5568"/>
+  <!-- rear sight -->
+  <rect x="10" y="0"  width="4"  height="3"  fill="#4a5568"/>
+  <!-- barrel tip -->
+  <rect x="42" y="4"  width="6"  height="6"  fill="#4a5568"/>
+  <rect x="44" y="5"  width="4"  height="4"  fill="#1e2124"/>
+
+  <!-- ── Frame ── -->
+  <rect x="8"  y="14" width="24" height="4"  fill="#1e2124"/>
+  <rect x="8"  y="14" width="24" height="1"  fill="#4a5568"/>
+
+  <!-- ── Trigger guard ── -->
+  <rect x="18" y="18" width="14" height="2"  fill="#1e2124"/>
+  <rect x="18" y="14" width="2"  height="6"  fill="#1e2124"/>
+  <rect x="30" y="14" width="2"  height="6"  fill="#1e2124"/>
+
+  <!-- ── Grip ── -->
+  <rect x="8"  y="16" width="12" height="12" fill="#2d3748"/>
+  <rect x="8"  y="16" width="12" height="2"  fill="#4a5568"/>
+  <rect x="8"  y="26" width="12" height="2"  fill="#111315"/>
+  <!-- grip texture -->
+  <rect x="9"  y="19" width="2"  height="8"  fill="#1e2124"/>
+  <rect x="12" y="19" width="2"  height="8"  fill="#1e2124"/>
+  <rect x="15" y="19" width="2"  height="8"  fill="#1e2124"/>
+
+  <!-- ── Trigger ── -->
+  <rect x="22" y="16" width="2"  height="4"  fill="#4a5568"/>
+
+</svg>
