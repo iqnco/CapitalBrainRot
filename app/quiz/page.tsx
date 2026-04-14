@@ -321,6 +321,9 @@ function QuizContent() {
                     height: 'auto',
                     objectFit: 'contain',
                     imageRendering: 'pixelated',
+                    // Wrapper already flips everything left. Sprites that naturally face
+                    // left (tachanka/thunderbird) get double-flipped back to face left.
+                    transform: MIRROR_AS_PLAYER.has(enemyId) ? 'scaleX(-1)' : undefined,
                   }}
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.1'; }}
                 />
