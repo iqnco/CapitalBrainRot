@@ -90,12 +90,12 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           );
         })}
 
-        {/* Pistol — same coordinate space, right side, barrel points left at rank */}
+        {/* Pistol — barrel (left edge) starts at crest centre line */}
         <div
           className="absolute z-10"
           style={{
             top: `${gunTopPct}%`,
-            left: '68px',
+            left: '38px',          /* barrel tip starts at the track centre */
             transform: 'translateY(-50%)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
             filter: `drop-shadow(0 0 6px ${currentRank.glow})`,
@@ -104,7 +104,7 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           <img
             src="/pistol.png"
             alt="pistol"
-            style={{ width: '140px', height: '140px', objectFit: 'contain', imageRendering: 'pixelated' }}
+            style={{ width: '64px', height: '64px', objectFit: 'contain', imageRendering: 'pixelated' }}
           />
         </div>
       </div>
