@@ -75,6 +75,15 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error('[wadie] error:', msg);
+    // Detect billing / credit exhaustion errors
+    const isBroke = /credit|billing|balance|payment|quota|insufficient/i.test(msg)
+      || (err as { status?: number })?.status === 402
+      || (err as { status?: number })?.status === 529;
+    if (isBroke) {
+      return NextResponse.json({
+        reply: "Sorry, Nacho has run out of money to fund my brain 💀 Please consider sending him a Bizum if you want me to live.",
+      }, { status: 200 });
+    }
     return NextResponse.json({ reply: `Error: ${msg}` }, { status: 200 });
   }
 }
