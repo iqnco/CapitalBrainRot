@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ChapterSeenMap } from '@/lib/types';
+import { useAuth } from '@/components/AuthProvider';
+import { OPERATORS } from '@/lib/supabase';
 
 interface Chapter {
   id: string;
@@ -154,6 +156,7 @@ function ChapterCard({
 function ChaptersContent() {
   const params    = useSearchParams();
   const router    = useRouter();
+  const { profile } = useAuth();
   const missionId = params.get('missionId') ?? '';
   const mapId     = params.get('mapId') ?? '';
   const subject   = params.get('subject') ?? 'Operation';
@@ -211,7 +214,17 @@ function ChaptersContent() {
     if (!res.ok) { setError(data.error ?? 'Failed to load questions'); setLoading(false); return; }
     localStorage.setItem('rts-questions', JSON.stringify(data.questions));
     localStorage.setItem('rts-subject',   data.subject);
-    router.push(`/operator-select?subject=${encodeURIComponent(data.subject)}`);
+
+    // Use profile operator (or ash as fallback) — skip operator-select page
+    const playerOp = profile?.favorite_operator ?? 'ash';
+    const enemies  = OPERATORS.filter(op => op.id !== playerOp);
+    const shuffled = [...enemies].sort(() => Math.random() - 0.5);
+    const enemyIds = Array.from({ length: data.questions.length }, (_: unknown, i: number) =>
+      shuffled[i % shuffled.length].id
+    );
+    localStorage.setItem('rts-player-operator', playerOp);
+    localStorage.setItem('rts-operator-ids',    JSON.stringify(enemyIds));
+    router.push(`/quiz?subject=${encodeURIComponent(data.subject)}`);
   };
 
   if (loading) {
