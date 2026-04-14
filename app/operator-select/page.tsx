@@ -163,7 +163,7 @@ function OperatorSelectContent() {
         </p>
       </header>
 
-      <div className="flex-1 flex flex-col items-center px-4 py-6 max-w-2xl mx-auto w-full gap-5">
+      <div className="flex-1 flex flex-col items-center px-4 py-6 max-w-4xl mx-auto w-full gap-5">
 
         {/* Title */}
         <div className="text-center">

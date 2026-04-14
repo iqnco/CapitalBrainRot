@@ -79,7 +79,7 @@ export default function LandingPage() {
         </div>
 
         {/* ── Select Operation label ── */}
-        <div className="w-full max-w-lg mb-3 flex items-center gap-3">
+        <div className="w-full max-w-3xl mb-3 flex items-center gap-3">
           <div className="flex-1 h-px" style={{ background: 'rgba(232,0,26,0.25)' }} />
           <p className="text-xs font-mono uppercase tracking-[0.35em]" style={{ color: '#6b7090' }}>
             Select Operation
@@ -88,7 +88,7 @@ export default function LandingPage() {
         </div>
 
         {/* Mission list */}
-        <div className="w-full max-w-lg space-y-2 mb-6">
+        <div className="w-full max-w-3xl space-y-2 mb-6">
           {MISSIONS.map((m) => {
             const isSelected = selected === m.id;
             const diff = DIFF_STYLE[m.difficulty] ?? { label: m.difficulty, color: '#6b7090' };
@@ -118,7 +118,7 @@ export default function LandingPage() {
                        style={{ color: isSelected ? '#f7941d' : 'rgba(232,0,26,0.7)' }}>
                       {m.codename}
                     </p>
-                    <p className="font-bold text-xl uppercase tracking-wide leading-tight"
+                    <p className="font-bold text-2xl uppercase tracking-wide leading-tight"
                        style={{ color: isSelected ? '#ffffff' : '#c8cad6' }}>
                       {m.name}
                     </p>
@@ -145,7 +145,7 @@ export default function LandingPage() {
 
         {/* Map selection */}
         {selectedMission?.maps && (
-          <div className="w-full max-w-lg mb-6 animate-slide-up">
+          <div className="w-full max-w-3xl mb-6 animate-slide-up">
             <div className="flex items-center gap-3 mb-3">
               <div className="flex-1 h-px" style={{ background: 'rgba(232,0,26,0.25)' }} />
               <p className="text-xs font-mono uppercase tracking-[0.35em]" style={{ color: '#6b7090' }}>
@@ -199,7 +199,7 @@ export default function LandingPage() {
           onClick={handleDeploy}
           disabled={!canDeploy}
           className="siege-btn-primary mb-3"
-          style={{ minWidth: '240px', fontSize: '1.05rem' }}
+          style={{ minWidth: '320px', fontSize: '1.2rem', padding: '1rem 2rem' }}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.8 }}>
             <polygon points="5,3 19,12 5,21"/>

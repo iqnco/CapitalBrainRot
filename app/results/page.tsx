@@ -44,7 +44,7 @@ export default function ResultsPage() {
         // Mission Debrief
       </p>
 
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-xl">
 
         {/* Mission status banner */}
         <div className="mb-4 py-3 px-5 text-center"

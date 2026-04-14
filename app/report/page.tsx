@@ -166,7 +166,7 @@ function ReportContent() {
         </button>
       </header>
 
-      <div className="mx-auto max-w-2xl px-4 pt-5 space-y-4">
+      <div className="mx-auto max-w-4xl px-4 pt-5 space-y-4">
         {/* Summary */}
         <div className="op-card p-5">
           <p className="text-[10px] font-mono uppercase tracking-[0.3em] mb-0.5"

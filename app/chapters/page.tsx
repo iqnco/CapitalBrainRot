@@ -254,7 +254,7 @@ function ChaptersContent() {
         </p>
       </header>
 
-      <div className="flex-1 flex flex-col items-center px-4 py-8 gap-6 max-w-2xl mx-auto w-full">
+      <div className="flex-1 flex flex-col items-center px-4 py-8 gap-6 max-w-4xl mx-auto w-full">
 
         {/* Progress banner */}
         {!fetching && chapters.length > 0 && (
