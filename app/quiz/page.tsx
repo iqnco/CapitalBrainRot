@@ -24,6 +24,7 @@ import MatchPairs from '@/components/MatchPairs';
 import FeedbackOverlay from '@/components/FeedbackOverlay';
 import HealthHearts from '@/components/HealthHearts';
 import RankLadder from '@/components/RankLadder';
+import { supabase } from '@/lib/supabase';
 
 const MAX_HP = 5;
 
@@ -139,6 +140,18 @@ function QuizContent() {
         subject, score: newScore, total,
         wrongCount: newWrong, armor: newHp,
       } as QuizResults));
+
+      // Submit score to Supabase if logged in
+      supabase.auth.getUser().then(({ data }) => {
+        if (data.user) {
+          supabase.from('scores').insert({
+            user_id: data.user.id,
+            subject,
+            score: newScore,
+            total,
+          });
+        }
+      });
     }
     setPhase('feedback');
   }, [currentQ, score, hp, wrongCount, qIndex, total, subject]);

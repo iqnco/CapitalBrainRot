@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import WadieChat from '@/components/WadieChat';
 import { Analytics } from '@vercel/analytics/react';
+import { AuthProvider } from '@/components/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'Rainbow Study Siege',
@@ -12,9 +13,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="antialiased">
-        {children}
-        <WadieChat />
-        <Analytics />
+        <AuthProvider>
+          {children}
+          <WadieChat />
+          <Analytics />
+        </AuthProvider>
       </body>
     </html>
   );

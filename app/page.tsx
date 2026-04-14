@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MISSIONS } from '@/lib/missions';
+import { useAuth } from '@/components/AuthProvider';
 
 const DIFF_STYLE: Record<string, { label: string; color: string }> = {
   ROOKIE:   { label: 'ROOKIE',   color: '#22c55e' },
@@ -12,6 +13,7 @@ const DIFF_STYLE: Record<string, { label: string; color: string }> = {
 
 export default function LandingPage() {
   const router = useRouter();
+  const { user, profile, signOut } = useAuth();
   const [selected, setSelected]       = useState<string | null>(null);
   const [selectedMap, setSelectedMap] = useState<string | null>(null);
 
@@ -48,9 +50,46 @@ export default function LandingPage() {
             R6 SIEGE
           </span>
         </div>
-        <span className="text-r6-muted text-xs font-mono tracking-widest uppercase">
-          Training Division
-        </span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => router.push('/leaderboard')}
+            className="text-xs font-mono uppercase tracking-widest transition-colors hover:text-white"
+            style={{ color: '#6b7090' }}
+          >
+            Leaderboard
+          </button>
+          {user ? (
+            <>
+              <span className="text-xs font-mono uppercase tracking-widest" style={{ color: '#f7941d' }}>
+                {profile?.username ?? user.email}
+              </span>
+              <button
+                onClick={() => signOut()}
+                className="text-xs font-mono uppercase tracking-widest transition-colors hover:text-white"
+                style={{ color: '#6b7090' }}
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => router.push('/login')}
+                className="text-xs font-mono uppercase tracking-widest transition-colors hover:text-white"
+                style={{ color: '#6b7090' }}
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => router.push('/signup')}
+                className="text-xs font-mono uppercase tracking-widest px-3 py-1 border transition-colors hover:text-white"
+                style={{ color: '#f7941d', borderColor: 'rgba(247,148,29,0.4)' }}
+              >
+                Sign Up
+              </button>
+            </>
+          )}
+        </div>
       </header>
 
       {/* ── Main content ── */}
