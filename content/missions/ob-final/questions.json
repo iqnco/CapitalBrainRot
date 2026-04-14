@@ -990,11 +990,11 @@
   {
     "question": "Which of the following is correct regarding a mentor relationship?",
     "options": [
-      "The mentor shows the prot\u00e9g\u00e9 how the organization works within formal structures and procedures.",
+      "The mentor shows the protégé how the organization works within formal structures and procedures.",
       "Mentoring relationships serve career functions and psychosocial functions.",
       "Mentors identify a more experienced, higher-level employee who appears to have potential for future development.",
       "Formal mentor programs are more effective than informal ones.",
-      "The prot\u00e9g\u00e9 is the senior employee who sponsors the less-experienced employee."
+      "The protégé is the senior employee who sponsors the less-experienced employee."
     ],
     "correctIndex": 1,
     "explanation": "",
@@ -1842,19 +1842,6 @@
       "Status characteristics theory"
     ],
     "correctIndex": 2,
-    "explanation": "",
-    "chapter": "CH9"
-  },
-  {
-    "question": "Which of the following is a way to prevent social loafing?",
-    "options": [
-      "Base individual rewards on each member's contributions.",
-      "Set individual goals for each member of the group.",
-      "Select members who prefer to work alone rather than in groups.",
-      "Decrease intergroup competition.",
-      "Engage in peer evaluations so each person evaluates each other person's contribution."
-    ],
-    "correctIndex": 4,
     "explanation": "",
     "chapter": "CH9"
   },
