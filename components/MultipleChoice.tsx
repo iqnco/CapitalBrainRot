@@ -13,11 +13,11 @@ const LABELS = ['A', 'B', 'C', 'D', 'E'];
 export default function MultipleChoice({ question, onAnswer }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
 
-  // 4 = the blank "skip" option
+  // i === 4 is the blank skip ONLY when the question has exactly 4 real options
   const handleSelect = (i: number) => {
     if (selected !== null) return;
     setSelected(i);
-    if (i === 4) {
+    if (i === 4 && question.options.length === 4) {
       onAnswer(false, '(skipped)');
     } else {
       onAnswer(i === question.correctIndex, question.options[i]);
