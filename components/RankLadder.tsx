@@ -106,7 +106,7 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           style={{
             top: `${gunTopPct}%`,
             left: '50%',
-            transform: 'translate(-50%, -50%) rotate(-90deg)',
+            transform: 'translate(-50%, -50%) rotate(-90deg) scaleX(-1)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
             filter: `drop-shadow(0 0 6px ${currentRank.glow})`,
           }}
