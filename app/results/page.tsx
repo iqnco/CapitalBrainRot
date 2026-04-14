@@ -109,7 +109,7 @@ export default function ResultsPage() {
             Match Report
           </button>
           <button onClick={() => router.push('/history')} className="w-full siege-btn-ghost">
-            Previous Ops
+            Match History
           </button>
           <button
             onClick={() => { localStorage.removeItem('rts-results'); router.push('/'); }}
