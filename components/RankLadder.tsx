@@ -121,13 +121,13 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           );
         })}
 
-        {/* Gun indicator */}
+        {/* Gun indicator — flush to right edge, barrel points into content */}
         <div
           className="absolute z-10"
           style={{
             top: `${gunTopPct}%`,
-            left: '50%',
-            transform: 'translate(-2px, -9px)',
+            right: '-2px',
+            transform: 'translateY(-9px)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
             filter: `drop-shadow(0 0 5px ${currentRank.glow})`,
           }}
