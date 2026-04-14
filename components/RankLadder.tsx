@@ -30,7 +30,7 @@ export default function RankLadder({ score, total }: RankLadderProps) {
     <div
       className="flex-none flex flex-col"
       style={{
-        width: '130px',
+        width: '150px',
         background: 'rgba(5,5,10,0.75)',
         flexShrink: 0,
       }}
@@ -58,9 +58,9 @@ export default function RankLadder({ score, total }: RankLadderProps) {
                transition: 'height 0.6s cubic-bezier(0.34,1.56,0.64,1)',
              }} />
 
-        {/* Red divider between crest zone and pistol zone */}
+        {/* Red divider between crest zone and pistol zone — at 2× crest centre for equal margins */}
         <div className="absolute top-0 bottom-0"
-             style={{ left: '58px', width: '1px', background: 'rgba(232,0,26,0.18)' }} />
+             style={{ left: '76px', width: '1px', background: 'rgba(232,0,26,0.18)' }} />
 
         {/* Rank crest badges */}
         {RANKS.map((rank, i) => {
@@ -95,7 +95,7 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           className="absolute z-10"
           style={{
             top: `${gunTopPct}%`,
-            left: '38px',          /* barrel tip starts at the track centre */
+            left: '78px',          /* barrel tip starts just right of the divider */
             transform: 'translateY(-50%)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
             filter: `drop-shadow(0 0 6px ${currentRank.glow})`,
@@ -109,13 +109,6 @@ export default function RankLadder({ score, total }: RankLadderProps) {
         </div>
       </div>
 
-      {/* Rank label */}
-      <div className="flex-none pb-2 pt-1 text-center">
-        <p className="text-[7px] font-mono uppercase tracking-wider"
-           style={{ color: currentRank.color }}>
-          {currentRank.id.slice(0, 5)}
-        </p>
-      </div>
     </div>
   );
 }
