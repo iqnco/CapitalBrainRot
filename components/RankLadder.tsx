@@ -19,19 +19,18 @@ const RANKS = [
 // Top % for each badge — Champion at 3%, Copper at 94%
 const TOP_PCTS = RANKS.map((_, i) => 3 + ((7 - i) / 7) * 91);
 
-function GunSVG({ color }: { color: string }) {
+function GunImg({ glow }: { glow: string }) {
   return (
-    <svg width="32" height="18" viewBox="0 0 32 18" fill="none">
-      <rect x="0"  y="6"  width="6"  height="6"  fill={color} />
-      <rect x="1"  y="11" width="7"  height="2"  fill={color} />
-      <rect x="5"  y="4"  width="12" height="9"  fill={color} />
-      <rect x="7"  y="2"  width="9"  height="3"  fill={color} opacity="0.7" />
-      <rect x="16" y="6"  width="15" height="5"  fill={color} />
-      <rect x="29" y="5"  width="3"  height="7"  fill={color} opacity="0.5" />
-      <rect x="7"  y="12" width="6"  height="6"  fill={color} />
-      <rect x="11" y="10" width="2"  height="4"  fill={color} opacity="0.6" />
-      <rect x="15" y="1"  width="3"  height="3"  fill={color} />
-    </svg>
+    <img
+      src="/ak12.svg"
+      alt="AK-12"
+      style={{
+        width: '52px',
+        height: 'auto',
+        imageRendering: 'pixelated',
+        filter: `drop-shadow(0 0 4px ${glow})`,
+      }}
+    />
   );
 }
 
@@ -121,18 +120,17 @@ export default function RankLadder({ score, total }: RankLadderProps) {
           );
         })}
 
-        {/* Gun indicator — flush to right edge, barrel points into content */}
+        {/* AK-12 indicator — flush to right edge, barrel points into content */}
         <div
           className="absolute z-10"
           style={{
             top: `${gunTopPct}%`,
-            right: '-2px',
-            transform: 'translateY(-9px)',
+            right: '-4px',
+            transform: 'translateY(-10px)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
-            filter: `drop-shadow(0 0 5px ${currentRank.glow})`,
           }}
         >
-          <GunSVG color={currentRank.color} />
+          <GunImg glow={currentRank.glow} />
         </div>
       </div>
 
