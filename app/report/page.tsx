@@ -17,6 +17,16 @@ function AnswerCard({ record, index }: { record: AnswerRecord; index: number }) 
   const correctAnswerLines = record.correctAnswer.split('\n');
   const isMultiLine = correctAnswerLines.length > 1;
 
+  const askWadie = () => {
+    window.dispatchEvent(new CustomEvent('wadie-explain', {
+      detail: {
+        question: record.questionText,
+        userAnswer: record.userAnswer,
+        correctAnswer: record.correctAnswer,
+      },
+    }));
+  };
+
   return (
     <div className="p-4 op-card"
          style={{ borderColor: record.correct ? 'rgba(34,197,94,0.2)' : 'rgba(232,0,26,0.2)' }}>
@@ -35,6 +45,24 @@ function AnswerCard({ record, index }: { record: AnswerRecord; index: number }) 
               style={{ color: record.correct ? '#22c55e' : '#e8001a' }}>
           {record.correct ? '✓ CORRECT' : '✗ WRONG'}
         </span>
+        {/* Mini Wadie explain button — only on wrong answers */}
+        {!record.correct && (
+          <button
+            onClick={askWadie}
+            title="Ask Wadie to explain"
+            className="ml-2 flex items-center gap-1 px-1.5 py-0.5 transition-all hover:scale-110 active:scale-95"
+            style={{
+              background: 'rgba(247,148,29,0.1)',
+              border: '1px solid rgba(247,148,29,0.3)',
+              clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
+            }}
+          >
+            <img src="/wadie.svg" alt="Ask Wadie" style={{ width: '14px', imageRendering: 'pixelated' }} />
+            <span className="text-[9px] font-mono uppercase tracking-widest" style={{ color: '#f7941d' }}>
+              explain
+            </span>
+          </button>
+        )}
       </div>
 
       {/* Question */}

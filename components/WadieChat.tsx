@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -23,6 +23,7 @@ export default function WadieChat() {
   const [hasMessaged, setHasMessaged] = useState(false);
   const bottomRef               = useRef<HTMLDivElement>(null);
   const inputRef                = useRef<HTMLInputElement>(null);
+  const sendRef                 = useRef<(forcedText?: string) => Promise<void>>();
 
   useEffect(() => {
     if (open) {
@@ -31,14 +32,14 @@ export default function WadieChat() {
     }
   }, [open, messages]);
 
-  const send = async () => {
-    const text = input.trim();
+  const send = useCallback(async (forcedText?: string) => {
+    const text = (forcedText ?? input).trim();
     if (!text || loading) return;
     const isFirst = !hasMessaged;
     setHasMessaged(true);
     const next: Message[] = [...messages, { role: 'user', content: text }];
     setMessages(next);
-    setInput('');
+    if (!forcedText) setInput('');
     setLoading(true);
 
     // Kick off real API call immediately so it runs in background
@@ -68,7 +69,24 @@ export default function WadieChat() {
       }
       setLoading(false);
     }
-  };
+  }, [input, loading, hasMessaged, messages]);
+
+  // Keep ref in sync so the event handler always has the latest closure
+  useEffect(() => { sendRef.current = send; }, [send]);
+
+  // Listen for explain-my-mistake events dispatched by the report page
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const { question, userAnswer, correctAnswer } = (e as CustomEvent<{
+        question: string; userAnswer: string; correctAnswer: string;
+      }>).detail;
+      const msg = `Explain why I got this wrong. Question: "${question}". I answered: "${userAnswer}". Correct answer: "${correctAnswer}". What did I misunderstand?`;
+      setOpen(true);
+      setTimeout(() => sendRef.current?.(msg), 120);
+    };
+    window.addEventListener('wadie-explain', handler);
+    return () => window.removeEventListener('wadie-explain', handler);
+  }, []);
 
   return (
     <>
@@ -218,7 +236,7 @@ export default function WadieChat() {
               style={{ color: '#e8eaf2', fontFamily: 'inherit' }}
             />
             <button
-              onClick={send}
+              onClick={() => send()}
               disabled={!input.trim() || loading}
               className="text-xs font-mono uppercase tracking-widest transition-colors disabled:opacity-30"
               style={{ color: '#f7941d' }}
