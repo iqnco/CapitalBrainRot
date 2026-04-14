@@ -236,7 +236,7 @@ function QuizContent() {
       <div className="flex-1 overflow-hidden flex">
 
         {/* Rank ladder sidebar */}
-        <RankLadder score={score} answered={qIndex} />
+        <RankLadder score={score} total={total} />
 
         <div className="flex-1 overflow-y-auto">
         <div className="mx-auto w-full max-w-4xl px-6 py-6 flex flex-col gap-6">

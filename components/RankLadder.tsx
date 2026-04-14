@@ -2,7 +2,7 @@
 
 interface RankLadderProps {
   score: number;
-  answered: number;
+  total: number; // total questions in the set
 }
 
 const RANKS = [
@@ -16,75 +16,69 @@ const RANKS = [
   { id: 'champion', img: '/RankIcons/Champ1.png',   color: '#f7941d', glow: 'rgba(247,148,29,1.0)'  },
 ];
 
-// Top % for each rank badge — Champion near top (3%), Copper near bottom (94%)
+// Top % for each badge — Champion at 3%, Copper at 94%
 const TOP_PCTS = RANKS.map((_, i) => 3 + ((7 - i) / 7) * 91);
 
 function GunSVG({ color }: { color: string }) {
   return (
-    <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
-      {/* Stock */}
-      <rect x="0" y="5" width="5" height="5" fill={color} />
-      <rect x="1" y="9" width="6" height="2" fill={color} />
-      {/* Body */}
-      <rect x="4" y="3" width="11" height="8" fill={color} />
-      {/* Top rail */}
-      <rect x="6" y="2" width="8" height="2" fill={color} opacity="0.7" />
-      {/* Barrel */}
-      <rect x="14" y="5" width="13" height="4" fill={color} />
-      {/* Muzzle accent */}
-      <rect x="26" y="4" width="2" height="6" fill={color} opacity="0.5" />
-      {/* Grip */}
-      <rect x="6" y="10" width="5" height="6" fill={color} />
-      {/* Trigger */}
-      <rect x="9" y="9" width="1" height="3" fill={color} opacity="0.6" />
-      {/* Sight */}
-      <rect x="13" y="1" width="2" height="2" fill={color} />
+    <svg width="32" height="18" viewBox="0 0 32 18" fill="none">
+      <rect x="0"  y="6"  width="6"  height="6"  fill={color} />
+      <rect x="1"  y="11" width="7"  height="2"  fill={color} />
+      <rect x="5"  y="4"  width="12" height="9"  fill={color} />
+      <rect x="7"  y="2"  width="9"  height="3"  fill={color} opacity="0.7" />
+      <rect x="16" y="6"  width="15" height="5"  fill={color} />
+      <rect x="29" y="5"  width="3"  height="7"  fill={color} opacity="0.5" />
+      <rect x="7"  y="12" width="6"  height="6"  fill={color} />
+      <rect x="11" y="10" width="2"  height="4"  fill={color} opacity="0.6" />
+      <rect x="15" y="1"  width="3"  height="3"  fill={color} />
     </svg>
   );
 }
 
-export default function RankLadder({ score, answered }: RankLadderProps) {
-  const accuracy    = answered > 0 ? score / answered : 0;
-  const rankIndex   = Math.min(7, Math.floor(accuracy * 8));
+export default function RankLadder({ score, total }: RankLadderProps) {
+  // Rank is based on score / total — so 1/25 = 4%, NOT 100%
+  const pct        = total > 0 ? score / total : 0;
+  const rankIndex  = Math.min(7, Math.floor(pct * 8));
   const currentRank = RANKS[rankIndex];
 
-  // Gun top %: 94% at 0% accuracy (Copper), 3% at 100% accuracy (Champion)
-  const gunTopPct = 94 - accuracy * 91;
+  // Gun top %: 94% at 0 (Copper bottom), 3% at 1.0 (Champion top)
+  const gunTopPct = 94 - pct * 91;
 
   return (
     <div
       className="flex-none flex flex-col items-center"
       style={{
-        width: '52px',
-        background: 'rgba(5,5,10,0.7)',
+        width: '72px',
+        background: 'rgba(5,5,10,0.75)',
         borderRight: '1px solid rgba(232,0,26,0.12)',
+        flexShrink: 0,
       }}
     >
-      {/* Accuracy % */}
+      {/* Score fraction */}
       <div className="flex-none pt-2 pb-1 text-center">
-        <p className="text-[8px] font-mono leading-none"
+        <p className="text-[9px] font-mono leading-none"
            style={{ color: currentRank.color, letterSpacing: '0.04em' }}>
-          {answered > 0 ? Math.round(accuracy * 100) : '--'}%
+          {score}/{total}
         </p>
       </div>
 
       {/* Ladder track */}
-      <div className="flex-1 relative w-full overflow-hidden">
+      <div className="flex-1 relative w-full" style={{ minHeight: 0 }}>
 
-        {/* Vertical track line */}
+        {/* Track line */}
         <div className="absolute top-0 bottom-0"
              style={{ left: '50%', width: '1px', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.05)' }} />
 
-        {/* Filled progress track */}
+        {/* Filled progress */}
         <div
           className="absolute bottom-0"
           style={{
             left: '50%',
             width: '2px',
             transform: 'translateX(-50%)',
-            height: `${100 - gunTopPct}%`,
+            height: `${(1 - pct) < 0.97 ? (100 - gunTopPct) : 0}%`,
             background: currentRank.color,
-            opacity: 0.4,
+            opacity: 0.45,
             transition: 'height 0.6s cubic-bezier(0.34,1.56,0.64,1)',
           }}
         />
@@ -98,27 +92,30 @@ export default function RankLadder({ score, answered }: RankLadderProps) {
           return (
             <div
               key={rank.id}
-              className="absolute flex items-center justify-center"
+              className="absolute"
               style={{
                 top: `${topPct}%`,
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: '34px',
-                height: '34px',
+                width: '48px',
+                height: '48px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 zIndex: isActive ? 2 : 1,
                 transition: 'filter 0.4s ease, opacity 0.4s ease',
-                opacity: isPassed ? 0.9 : isActive ? 1 : 0.25,
+                opacity: isActive ? 1 : isPassed ? 0.85 : 0.22,
                 filter: isActive
-                  ? `drop-shadow(0 0 6px ${rank.glow})`
+                  ? `drop-shadow(0 0 7px ${rank.glow})`
                   : isPassed
-                  ? `drop-shadow(0 0 2px ${rank.glow}) brightness(0.75)`
-                  : 'brightness(0.4) saturate(0)',
+                  ? `drop-shadow(0 0 2px ${rank.glow})`
+                  : 'brightness(0.35) saturate(0)',
               }}
             >
               <img
                 src={rank.img}
                 alt={rank.id}
-                style={{ width: '32px', height: '32px', objectFit: 'contain' }}
+                style={{ width: '44px', height: '44px', objectFit: 'contain' }}
               />
             </div>
           );
@@ -130,7 +127,7 @@ export default function RankLadder({ score, answered }: RankLadderProps) {
           style={{
             top: `${gunTopPct}%`,
             left: '50%',
-            transform: 'translate(-2px, -8px)',
+            transform: 'translate(-2px, -9px)',
             transition: 'top 0.6s cubic-bezier(0.34,1.56,0.64,1)',
             filter: `drop-shadow(0 0 5px ${currentRank.glow})`,
           }}
@@ -139,11 +136,11 @@ export default function RankLadder({ score, answered }: RankLadderProps) {
         </div>
       </div>
 
-      {/* Current rank label */}
+      {/* Rank label */}
       <div className="flex-none pb-2 pt-1 text-center">
-        <p className="text-[7px] font-mono uppercase tracking-wider leading-none"
+        <p className="text-[8px] font-mono uppercase tracking-wider leading-none"
            style={{ color: currentRank.color }}>
-          {currentRank.id.slice(0, 4)}
+          {currentRank.id.slice(0, 5)}
         </p>
       </div>
     </div>
