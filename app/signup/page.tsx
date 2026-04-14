@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { supabase, OPERATORS, COUNTRIES } from '@/lib/supabase';
 
 export default function SignupPage() {
   const router = useRouter();
   const [email, setEmail]       = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [operator, setOperator] = useState('ash');
+  const [country, setCountry]   = useState('US');
   const [error, setError]       = useState('');
   const [loading, setLoading]   = useState(false);
 
@@ -19,7 +21,6 @@ export default function SignupPage() {
     if (password.length < 6) { setError('Password must be at least 6 characters.'); return; }
     setLoading(true);
 
-    // Check username not taken
     const { data: existing } = await supabase
       .from('profiles')
       .select('id')
@@ -28,19 +29,32 @@ export default function SignupPage() {
 
     if (existing) { setError('Username already taken.'); setLoading(false); return; }
 
-    const { error: signupErr } = await supabase.auth.signUp({
+    const { data: signupData, error: signupErr } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { username } },
     });
 
     if (signupErr) { setError(signupErr.message); setLoading(false); return; }
+
+    // Update profile with operator + country after trigger creates it
+    if (signupData.user) {
+      await supabase.from('profiles').update({ favorite_operator: operator, country }).eq('id', signupData.user.id);
+    }
+
     router.push('/');
   };
 
+  const inputStyle = {
+    background: 'rgba(13,13,20,0.8)',
+    border: '1px solid rgba(247,148,29,0.3)',
+    color: '#e8eaf2',
+    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
+  };
+
   return (
-    <main className="min-h-screen siege-bg flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+    <main className="min-h-screen siege-bg flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <p className="text-xs font-mono uppercase tracking-[0.3em] mb-2" style={{ color: 'rgba(232,0,26,0.75)' }}>
             // New Operator
@@ -51,29 +65,22 @@ export default function SignupPage() {
         </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
+          {/* Username */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>
-              Username
-            </label>
+            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>Username</label>
             <input
               value={username}
               onChange={e => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))}
               placeholder="callsign"
               required
               className="w-full px-4 py-3 bg-transparent text-sm font-mono outline-none"
-              style={{
-                background: 'rgba(13,13,20,0.8)',
-                border: '1px solid rgba(247,148,29,0.3)',
-                color: '#e8eaf2',
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
-              }}
+              style={inputStyle}
             />
           </div>
 
+          {/* Email */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>
-              Email
-            </label>
+            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>Email</label>
             <input
               type="email"
               value={email}
@@ -81,19 +88,13 @@ export default function SignupPage() {
               placeholder="operator@base.com"
               required
               className="w-full px-4 py-3 bg-transparent text-sm font-mono outline-none"
-              style={{
-                background: 'rgba(13,13,20,0.8)',
-                border: '1px solid rgba(247,148,29,0.3)',
-                color: '#e8eaf2',
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
-              }}
+              style={inputStyle}
             />
           </div>
 
+          {/* Password */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>
-              Password
-            </label>
+            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>Password</label>
             <input
               type="password"
               value={password}
@@ -101,24 +102,66 @@ export default function SignupPage() {
               placeholder="••••••••"
               required
               className="w-full px-4 py-3 bg-transparent text-sm font-mono outline-none"
-              style={{
-                background: 'rgba(13,13,20,0.8)',
-                border: '1px solid rgba(247,148,29,0.3)',
-                color: '#e8eaf2',
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
-              }}
+              style={inputStyle}
             />
           </div>
 
-          {error && (
-            <p className="text-xs font-mono" style={{ color: '#e8001a' }}>⚠ {error}</p>
-          )}
+          {/* Operator picker */}
+          <div>
+            <label className="block text-xs font-mono uppercase tracking-widest mb-2" style={{ color: '#6b7090' }}>
+              Favorite Operator
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {OPERATORS.map(op => {
+                const active = operator === op.id;
+                return (
+                  <button
+                    key={op.id}
+                    type="button"
+                    onClick={() => setOperator(op.id)}
+                    className="flex flex-col items-center gap-1 py-2 px-1 transition-all"
+                    style={{
+                      background: active ? 'rgba(247,148,29,0.12)' : 'rgba(13,13,20,0.6)',
+                      border: `1px solid ${active ? 'rgba(247,148,29,0.7)' : 'rgba(255,255,255,0.07)'}`,
+                      clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))',
+                    }}
+                  >
+                    <img
+                      src={`/chibis/${op.id}.png`}
+                      alt={op.name}
+                      style={{ width: 48, height: 48, objectFit: 'contain', imageRendering: 'pixelated' }}
+                      onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
+                    />
+                    <span className="text-[9px] font-mono uppercase tracking-widest"
+                          style={{ color: active ? '#f7941d' : '#6b7090' }}>
+                      {op.name}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full siege-btn-primary mt-2"
-          >
+          {/* Country picker */}
+          <div>
+            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>Country</label>
+            <select
+              value={country}
+              onChange={e => setCountry(e.target.value)}
+              className="w-full px-4 py-3 text-sm font-mono outline-none"
+              style={{ ...inputStyle, border: '1px solid rgba(247,148,29,0.3)' }}
+            >
+              {COUNTRIES.map(c => (
+                <option key={c.code} value={c.code} style={{ background: '#0d0d14' }}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {error && <p className="text-xs font-mono" style={{ color: '#e8001a' }}>⚠ {error}</p>}
+
+          <button type="submit" disabled={loading} className="w-full siege-btn-primary mt-2">
             {loading ? 'Deploying...' : 'Deploy Operator'}
           </button>
         </form>

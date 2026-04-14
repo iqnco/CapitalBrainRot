@@ -60,9 +60,22 @@ export default function LandingPage() {
           </button>
           {user ? (
             <>
-              <span className="text-xs font-mono uppercase tracking-widest" style={{ color: '#f7941d' }}>
-                {profile?.username ?? user.email}
-              </span>
+              <button
+                onClick={() => router.push('/account')}
+                className="flex items-center gap-2 px-3 py-1 border transition-colors hover:border-orange-400"
+                style={{ borderColor: 'rgba(247,148,29,0.35)', background: 'rgba(247,148,29,0.06)' }}
+              >
+                {profile?.favorite_operator && (
+                  <img
+                    src={`/chibis/${profile.favorite_operator}.png`}
+                    alt=""
+                    style={{ width: 20, height: 20, objectFit: 'contain', imageRendering: 'pixelated' }}
+                  />
+                )}
+                <span className="text-xs font-mono uppercase tracking-widest" style={{ color: '#f7941d' }}>
+                  {profile?.username ?? user.email}
+                </span>
+              </button>
               <button
                 onClick={() => signOut()}
                 className="text-xs font-mono uppercase tracking-widest transition-colors hover:text-white"

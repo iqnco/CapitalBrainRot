@@ -2,26 +2,22 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase, LeaderboardEntry } from '@/lib/supabase';
+import { supabase, LeaderboardEntry, flagEmoji, kdToRank } from '@/lib/supabase';
 
 export default function LeaderboardPage() {
   const router = useRouter();
-  const [entries, setEntries]   = useState<LeaderboardEntry[]>([]);
-  const [loading, setLoading]   = useState(true);
-  const [myId, setMyId]         = useState<string | null>(null);
+  const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [myId, setMyId]       = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setMyId(data.user?.id ?? null));
-
     supabase
       .from('leaderboard')
       .select('*')
       .order('kd', { ascending: false })
       .limit(50)
-      .then(({ data }) => {
-        setEntries(data ?? []);
-        setLoading(false);
-      });
+      .then(({ data }) => { setEntries(data ?? []); setLoading(false); });
   }, []);
 
   const medalColor = (i: number) => {
@@ -68,30 +64,53 @@ export default function LeaderboardPage() {
           <div className="space-y-2">
             {entries.map((entry, i) => {
               const isMe = entry.user_id === myId;
+              const rank = kdToRank(Number(entry.kd));
+              const opId = entry.favorite_operator ?? 'ash';
               return (
                 <div
                   key={entry.user_id}
-                  className="flex items-center gap-4 px-4 py-3 op-card"
+                  className="flex items-center gap-3 px-3 py-2 op-card"
                   style={{
                     borderColor: isMe ? 'rgba(247,148,29,0.5)' : undefined,
                     background: isMe ? 'rgba(247,148,29,0.06)' : undefined,
                   }}
                 >
                   {/* Rank number */}
-                  <span className="flex-none w-8 text-center font-black font-mono text-lg"
+                  <span className="flex-none w-7 text-center font-black font-mono text-lg"
                         style={{ color: medalColor(i) }}>
                     {i + 1}
                   </span>
 
-                  {/* Username */}
-                  <span className="flex-1 font-bold uppercase tracking-widest text-sm"
-                        style={{ color: isMe ? '#f7941d' : '#e8eaf2' }}>
-                    {entry.username}
-                    {isMe && <span className="ml-2 text-[9px] font-mono" style={{ color: '#f7941d' }}>YOU</span>}
-                  </span>
+                  {/* Operator chibi */}
+                  <img
+                    src={`/chibis/${opId}.png`}
+                    alt={opId}
+                    style={{ width: 36, height: 36, objectFit: 'contain', imageRendering: 'pixelated', flexShrink: 0 }}
+                    onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.1'; }}
+                  />
+
+                  {/* Username + flag */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold uppercase tracking-widest text-sm truncate"
+                            style={{ color: isMe ? '#f7941d' : '#e8eaf2' }}>
+                        {entry.username}
+                      </span>
+                      {isMe && <span className="text-[9px] font-mono flex-none" style={{ color: '#f7941d' }}>YOU</span>}
+                      {entry.country && (
+                        <span style={{ fontSize: '0.9rem', flexShrink: 0 }}>{flagEmoji(entry.country)}</span>
+                      )}
+                    </div>
+                  </div>
 
                   {/* Stats */}
-                  <div className="flex items-center gap-6 text-right">
+                  <div className="flex items-center gap-4 text-right flex-none">
+                    <div>
+                      <p className="text-[9px] font-mono uppercase tracking-widest" style={{ color: '#3d4560' }}>Correct</p>
+                      <p className="font-bold font-mono text-xs leading-none" style={{ color: '#9da8ba' }}>
+                        {entry.total_correct}/{entry.total_answered}
+                      </p>
+                    </div>
                     <div>
                       <p className="text-[9px] font-mono uppercase tracking-widest" style={{ color: '#3d4560' }}>K/D</p>
                       <p className="font-black font-mono text-base leading-none"
@@ -99,18 +118,15 @@ export default function LeaderboardPage() {
                         {Number(entry.kd).toFixed(2)}
                       </p>
                     </div>
-                    <div>
-                      <p className="text-[9px] font-mono uppercase tracking-widest" style={{ color: '#3d4560' }}>Correct</p>
-                      <p className="font-bold font-mono text-sm leading-none" style={{ color: '#9da8ba' }}>
-                        {entry.total_correct}/{entry.total_answered}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[9px] font-mono uppercase tracking-widest" style={{ color: '#3d4560' }}>Sessions</p>
-                      <p className="font-bold font-mono text-sm leading-none" style={{ color: '#9da8ba' }}>
-                        {entry.sessions}
-                      </p>
-                    </div>
+
+                    {/* Rank icon */}
+                    <img
+                      src={`/RankIcons/${rank.file}.png`}
+                      alt={rank.label}
+                      title={rank.label}
+                      style={{ width: 36, height: 36, objectFit: 'contain', flexShrink: 0 }}
+                      onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.1'; }}
+                    />
                   </div>
                 </div>
               );
