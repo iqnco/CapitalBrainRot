@@ -201,8 +201,8 @@ body > * { position: relative; z-index: 1; }
 
 /* ── Option buttons ─────────────────────────────────────────────────────────── */
 .option-btn {
-  @apply w-full text-left flex items-center gap-3 px-5 py-4 border
-         text-r6-text font-semibold tracking-wide transition-all duration-150 text-base uppercase;
+  @apply w-full text-left flex items-center gap-4 px-6 py-5 border
+         text-r6-text font-semibold tracking-wide transition-all duration-150 text-lg uppercase;
   border-color: #242432;
   background: rgba(13,13,20,0.8);
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));

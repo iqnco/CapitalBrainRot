@@ -33,7 +33,7 @@ export default function MultipleChoice({ question, onAnswer }: Props) {
   };
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-3">
       {question.options.map((opt, i) => (
         <button
           key={i}
@@ -41,11 +41,11 @@ export default function MultipleChoice({ question, onAnswer }: Props) {
           disabled={selected !== null}
           className={getClass(i)}
         >
-          <span className="shrink-0 w-7 h-7 rounded flex items-center justify-center text-sm font-bold font-mono"
+          <span className="shrink-0 w-9 h-9 rounded flex items-center justify-center text-base font-bold font-mono"
                 style={{ background: 'rgba(247,148,29,0.12)', color: '#f7941d', border: '1px solid rgba(247,148,29,0.25)' }}>
             {LABELS[i]}
           </span>
-          <span className="text-base leading-snug">{opt}</span>
+          <span className="text-lg leading-snug">{opt}</span>
         </button>
       ))}
 
@@ -57,11 +57,11 @@ export default function MultipleChoice({ question, onAnswer }: Props) {
           className={getClass(4)}
           style={{ opacity: selected !== null && selected !== 4 ? 0.2 : undefined }}
         >
-          <span className="shrink-0 w-7 h-7 rounded flex items-center justify-center text-sm font-bold font-mono"
+          <span className="shrink-0 w-9 h-9 rounded flex items-center justify-center text-base font-bold font-mono"
                 style={{ background: 'rgba(247,148,29,0.12)', color: '#f7941d', border: '1px solid rgba(247,148,29,0.25)' }}>
             E
           </span>
-          <span className="text-base leading-snug" style={{ color: '#3a3a55' }}>—</span>
+          <span className="text-lg leading-snug" style={{ color: '#3a3a55' }}>—</span>
         </button>
       )}
     </div>

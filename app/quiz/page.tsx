@@ -186,39 +186,43 @@ function QuizContent() {
 
       {/* ── Top HUD ── */}
       <header
-        className="flex-none flex items-center justify-between px-4 border-b"
-        style={{ background: 'rgba(5,5,10,0.95)', borderColor: 'rgba(232,0,26,0.2)', height: '52px' }}
+        className="flex-none flex items-center justify-between px-5 border-b"
+        style={{ background: 'rgba(5,5,10,0.95)', borderColor: 'rgba(232,0,26,0.2)', height: '60px' }}
       >
-        {/* Main menu button */}
+        {/* Return to Lobby button */}
         <button
           onClick={() => router.push('/')}
-          className="flex-none text-[10px] font-mono uppercase tracking-widest transition-colors hover:text-white mr-3"
-          style={{ color: '#3a3a55' }}
-          title="Main Menu"
+          className="flex-none text-xs font-mono uppercase tracking-widest transition-colors hover:text-white mr-4 px-3 py-1.5 border"
+          style={{
+            color: '#6b7090',
+            borderColor: 'rgba(107,112,144,0.3)',
+            background: 'rgba(13,13,20,0.8)',
+            clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))',
+          }}
         >
-          ⌂
+          ← LOBBY
         </button>
 
-        {/* Player identity (text only — sprite shown in content area) */}
-        <div className="flex items-center gap-2 mr-3 min-w-0">
-          <div className="w-1.5 h-6 rounded-sm" style={{ background: '#f7941d', flexShrink: 0 }} />
+        {/* Player identity */}
+        <div className="flex items-center gap-2 mr-4 min-w-0">
+          <div className="w-1.5 h-7 rounded-sm" style={{ background: '#f7941d', flexShrink: 0 }} />
           <div className="min-w-0">
             <p className="text-[9px] font-mono uppercase tracking-[0.25em] leading-none mb-0.5"
                style={{ color: 'rgba(232,0,26,0.7)' }}>You</p>
             <p className="font-bold uppercase leading-none truncate"
-               style={{ fontSize: '0.8rem', color: '#e8eaf2', letterSpacing: '0.1em' }}>
+               style={{ fontSize: '0.9rem', color: '#e8eaf2', letterSpacing: '0.1em' }}>
               {playerMeta.name}
             </p>
           </div>
         </div>
 
         {/* Progress */}
-        <div className="flex-1 max-w-xs mx-3 hidden sm:block">
-          <div className="flex justify-between mb-1">
-            <span className="text-[10px] font-mono" style={{ color: '#6b7090' }}>{qIndex}/{total}</span>
-            <span className="text-[10px] font-mono font-bold" style={{ color: '#f7941d' }}>SCORE {score}</span>
+        <div className="flex-1 mx-4 hidden sm:block">
+          <div className="flex justify-between mb-1.5">
+            <span className="text-xs font-mono" style={{ color: '#6b7090' }}>{qIndex}/{total}</span>
+            <span className="text-xs font-mono font-bold" style={{ color: '#f7941d' }}>SCORE {score}</span>
           </div>
-          <div className="h-1 overflow-hidden" style={{ background: '#1a1a28' }}>
+          <div className="h-1.5 overflow-hidden rounded-full" style={{ background: '#1a1a28' }}>
             <div className="h-full progress-fill transition-all duration-500" style={{ width: `${progressPct}%` }} />
           </div>
         </div>
@@ -228,7 +232,7 @@ function QuizContent() {
 
       {/* ── Main content ── */}
       <div className="flex-1 overflow-y-auto">
-        <div className="mx-auto w-full max-w-2xl px-4 py-5 flex flex-col gap-5">
+        <div className="mx-auto w-full max-w-4xl px-6 py-6 flex flex-col gap-6">
 
           {/* Type label + counter */}
           <div className="flex items-center justify-between">
@@ -245,9 +249,9 @@ function QuizContent() {
           <div className="flex items-end gap-3">
 
             {/* Player sprite — left side, faces right (normal) */}
-            <div className="flex-none flex flex-col items-center" style={{ width: '90px' }}>
+            <div className="flex-none flex flex-col items-center" style={{ width: '120px' }}>
               <div style={{
-                height: '150px', width: '90px',
+                height: '200px', width: '120px',
                 display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
               }}>
                 <img
@@ -256,7 +260,7 @@ function QuizContent() {
                   alt={playerMeta.name}
                   className={isPlayerHit ? 'player-hit' : 'animate-boxer'}
                   style={{
-                    maxHeight: '150px', maxWidth: '90px',
+                    maxHeight: '200px', maxWidth: '120px',
                     width: 'auto', height: 'auto',
                     objectFit: 'contain', imageRendering: 'pixelated',
                     transform: MIRROR_AS_PLAYER.has(playerOpId) ? 'scaleX(-1)' : undefined,
@@ -264,11 +268,11 @@ function QuizContent() {
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.1'; }}
                 />
               </div>
-              <div className="w-full text-center mt-1.5 pt-1.5 border-t"
+              <div className="w-full text-center mt-2 pt-2 border-t"
                    style={{ borderColor: 'rgba(247,148,29,0.2)' }}>
-                <p className="text-xs font-bold tracking-[0.15em] uppercase leading-none"
+                <p className="text-sm font-bold tracking-[0.15em] uppercase leading-none"
                    style={{ color: '#f7941d' }}>{playerMeta.name}</p>
-                <p className="text-[9px] font-mono tracking-widest leading-snug" style={{ color: '#6b7090' }}>
+                <p className="text-[10px] font-mono tracking-widest leading-snug" style={{ color: '#6b7090' }}>
                   {playerMeta.role}
                 </p>
               </div>
@@ -295,16 +299,16 @@ function QuizContent() {
                 borderBottom: '7px solid transparent',
                 borderLeft: '8px solid #0d0d14',
               }} />
-              <p className="text-base md:text-lg leading-relaxed font-semibold" style={{ color: '#e8eaf2' }}>
+              <p className="text-xl md:text-2xl leading-relaxed font-semibold" style={{ color: '#e8eaf2' }}>
                 {questionText}
               </p>
             </div>
 
             {/* Enemy sprite — right side, mirrored to face left */}
-            <div className="flex-none flex flex-col items-center" style={{ width: '90px' }}>
+            <div className="flex-none flex flex-col items-center" style={{ width: '120px' }}>
               {/* Mirror wrapper — scaleX(-1) lives here so dying anim stays clean */}
               <div style={{
-                height: '150px', width: '90px',
+                height: '200px', width: '120px',
                 display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
                 position: 'relative',
                 transform: 'scaleX(-1)',
@@ -316,8 +320,8 @@ function QuizContent() {
                   alt={enemyMeta.name}
                   className={isDying ? 'enemy-dying' : 'animate-boxer-enemy'}
                   style={{
-                    maxHeight: '150px',
-                    maxWidth: '90px',
+                    maxHeight: '200px',
+                    maxWidth: '120px',
                     width: 'auto',
                     height: 'auto',
                     objectFit: 'contain',
@@ -332,14 +336,14 @@ function QuizContent() {
 
               {/* Enemy nameplate */}
               <div
-                className="w-full text-center mt-1.5 pt-1.5 border-t"
+                className="w-full text-center mt-2 pt-2 border-t"
                 style={{ borderColor: 'rgba(232,0,26,0.25)' }}
               >
-                <p className="text-xs font-bold tracking-[0.15em] uppercase leading-none"
+                <p className="text-sm font-bold tracking-[0.15em] uppercase leading-none"
                    style={{ color: '#e8001a' }}>
                   {enemyMeta.name}
                 </p>
-                <p className="text-[9px] font-mono tracking-widest leading-snug" style={{ color: '#6b7090' }}>
+                <p className="text-[10px] font-mono tracking-widest leading-snug" style={{ color: '#6b7090' }}>
                   {enemyMeta.role}
                 </p>
               </div>
