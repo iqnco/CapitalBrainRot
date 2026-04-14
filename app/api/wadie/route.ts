@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       || (err as { status?: number })?.status === 529;
     if (isBroke) {
       return NextResponse.json({
-        reply: "Sorry, Nacho has run out of money to fund my brain 💀 Please consider sending him a Bizum if you want me to live.",
+        reply: "Sorry, Nacho has run out of money to fund my brain 💀 Please consider sending him a Bizum if you want me to live. +34 607 145 307",
       }, { status: 200 });
     }
     return NextResponse.json({ reply: `Error: ${msg}` }, { status: 200 });
