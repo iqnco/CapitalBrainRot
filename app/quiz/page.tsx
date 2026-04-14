@@ -142,10 +142,10 @@ function QuizContent() {
       } as QuizResults));
 
       // Submit score to Supabase if logged in
-      supabase.auth.getUser().then(({ data }) => {
-        if (data.user) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user) {
           supabase.from('scores').insert({
-            user_id: data.user.id,
+            user_id: session.user.id,
             subject,
             score: newScore,
             total,
