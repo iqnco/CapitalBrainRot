@@ -190,6 +190,16 @@ function QuizContent() {
         className="flex-none flex items-center justify-between px-4 border-b"
         style={{ background: 'rgba(5,5,10,0.95)', borderColor: 'rgba(232,0,26,0.2)', height: '52px' }}
       >
+        {/* Main menu button */}
+        <button
+          onClick={() => router.push('/')}
+          className="flex-none text-[10px] font-mono uppercase tracking-widest transition-colors hover:text-white mr-3"
+          style={{ color: '#3a3a55' }}
+          title="Main Menu"
+        >
+          ⌂
+        </button>
+
         {/* Player identity (text only — sprite shown in content area) */}
         <div className="flex items-center gap-2 mr-3 min-w-0">
           <div className="w-1.5 h-6 rounded-sm" style={{ background: '#f7941d', flexShrink: 0 }} />
