@@ -23,6 +23,7 @@ import FillBlank from '@/components/FillBlank';
 import MatchPairs from '@/components/MatchPairs';
 import FeedbackOverlay from '@/components/FeedbackOverlay';
 import HealthHearts from '@/components/HealthHearts';
+import RankLadder from '@/components/RankLadder';
 
 const MAX_HP = 5;
 
@@ -232,7 +233,12 @@ function QuizContent() {
       </header>
 
       {/* ── Main content ── */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-hidden flex">
+
+        {/* Rank ladder sidebar */}
+        <RankLadder score={score} answered={qIndex} />
+
+        <div className="flex-1 overflow-y-auto">
         <div className="mx-auto w-full max-w-4xl px-6 py-6 flex flex-col gap-6">
 
           {/* Type label + counter */}
@@ -377,6 +383,7 @@ function QuizContent() {
             />
           )}
 
+        </div>
         </div>
       </div>
 
