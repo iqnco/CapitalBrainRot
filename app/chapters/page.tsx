@@ -205,14 +205,11 @@ function ChaptersContent() {
     localStorage.setItem('rts-questions', JSON.stringify(data.questions));
     localStorage.setItem('rts-subject',   data.subject);
 
-    const playerOp = profile?.favorite_operator ?? 'ash';
-    const enemies  = OPERATORS.filter(op => op.id !== playerOp);
-    const shuffled = [...enemies].sort(() => Math.random() - 0.5);
-    const enemyIds = Array.from({ length: data.questions.length }, (_: unknown, i: number) =>
+    const enemyIds2 = Array.from({ length: data.questions.length }, (_: unknown, i: number) =>
       shuffled[i % shuffled.length].id
     );
     localStorage.setItem('rts-player-operator', playerOp);
-    localStorage.setItem('rts-operator-ids',    JSON.stringify(enemyIds));
+    localStorage.setItem('rts-operator-ids',    JSON.stringify(enemyIds2));
     router.push(`/quiz?subject=${encodeURIComponent(data.subject)}`);
   };
 
