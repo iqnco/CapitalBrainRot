@@ -164,19 +164,22 @@ function QuizContent() {
 
       // Submit score — read current totals then increment
       supabase.auth.getSession().then(async ({ data: { session } }) => {
+        console.log('[score] session user:', session?.user?.id ?? 'null');
         if (!session?.user) return;
         const uid = session.user.id;
-        const { data } = await supabase
+        const { data, error: selErr } = await supabase
           .from('profiles')
           .select('total_correct, total_answered, sessions')
           .eq('id', uid)
           .single();
+        console.log('[score] profile fetch:', data, selErr);
         if (data) {
-          supabase.from('profiles').update({
+          const { error: updErr } = await supabase.from('profiles').update({
             total_correct:  (data.total_correct  ?? 0) + newScore,
             total_answered: (data.total_answered ?? 0) + total,
             sessions:       (data.sessions       ?? 0) + 1,
           }).eq('id', uid);
+          console.log('[score] update error:', updErr);
         }
       });
     }
