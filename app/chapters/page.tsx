@@ -128,13 +128,19 @@ function ChaptersContent() {
   const mapId     = params.get('mapId') ?? '';
   const subject   = params.get('subject') ?? 'Operation';
 
-  const [mode, setMode]         = useState<'ranked' | 'training'>('ranked');
+  const [mode, setMode]         = useState<'ranked' | 'training' | 'review'>('ranked');
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [seenMap, setSeenMap]   = useState<ChapterSeenMap>({});
+  const [weakCount, setWeakCount] = useState(0);
   const [loading, setLoading]   = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError]       = useState('');
+
+  useEffect(() => {
+    const raw = localStorage.getItem('rts-weak-questions');
+    setWeakCount(raw ? JSON.parse(raw).length : 0);
+  }, []);
 
   useEffect(() => {
     if (!missionId) { router.push('/'); return; }
@@ -160,6 +166,25 @@ function ChaptersContent() {
   const handleDeploy = async () => {
     setLoading(true);
     setError('');
+
+    const playerOp = profile?.favorite_operator ?? 'ash';
+    const enemies  = OPERATORS.filter(op => op.id !== playerOp);
+    const shuffled = [...enemies].sort(() => Math.random() - 0.5);
+
+    // ── After Action Review: load from localStorage directly ──
+    if (mode === 'review') {
+      const raw = localStorage.getItem('rts-weak-questions');
+      const weakQs = raw ? JSON.parse(raw) : [];
+      if (weakQs.length === 0) { setError('No wrong answers saved yet.'); setLoading(false); return; }
+      const shuffledWeak = [...weakQs].sort(() => Math.random() - 0.5).slice(0, 20);
+      localStorage.setItem('rts-questions', JSON.stringify(shuffledWeak));
+      localStorage.setItem('rts-subject',   `After Action Review`);
+      const enemyIds = shuffledWeak.map((_: unknown, i: number) => shuffled[i % shuffled.length].id);
+      localStorage.setItem('rts-player-operator', playerOp);
+      localStorage.setItem('rts-operator-ids',    JSON.stringify(enemyIds));
+      router.push(`/quiz?subject=${encodeURIComponent('After Action Review')}`);
+      return;
+    }
 
     const isRanked = mode === 'ranked';
     const chaptersArr = isRanked ? ['ALL'] : Array.from(selected);
@@ -204,7 +229,7 @@ function ChaptersContent() {
   const totalQ  = chapters.reduce((s, ch) => s + ch.total, 0);
   const seenQ   = chapters.reduce((s, ch) => s + Math.min(seenMap[ch.id]?.length ?? 0, ch.total), 0);
 
-  const canDeploy = mode === 'ranked' || selected.size > 0;
+  const canDeploy = mode === 'ranked' || mode === 'review' || selected.size > 0;
 
   return (
     <main className="min-h-screen siege-bg flex flex-col">
@@ -232,7 +257,7 @@ function ChaptersContent() {
       <div className="flex-1 flex flex-col items-center px-4 py-6 gap-6 max-w-4xl mx-auto w-full">
 
         {/* ── Playlist selector ── */}
-        <div className="w-full grid grid-cols-2 gap-3">
+        <div className="w-full grid grid-cols-3 gap-3">
 
           {/* Ranked */}
           <button
@@ -293,6 +318,36 @@ function ChaptersContent() {
               Pick chapters · all questions
             </p>
           </button>
+          {/* After Action Review */}
+          <button
+            onClick={() => setMode('review')}
+            className="relative p-5 text-left transition-all duration-150 op-card"
+            style={{
+              borderColor: mode === 'review' ? '#8b7cf7' : undefined,
+              background:  mode === 'review' ? 'rgba(139,124,247,0.07)' : undefined,
+              boxShadow:   mode === 'review' ? '0 0 20px rgba(139,124,247,0.12)' : undefined,
+            }}
+          >
+            {mode === 'review' && (
+              <>
+                <span className="absolute top-1.5 left-1.5 w-3 h-3 border-t border-l" style={{ borderColor: '#8b7cf7' }} />
+                <span className="absolute bottom-1.5 right-1.5 w-3 h-3 border-b border-r" style={{ borderColor: '#8b7cf7' }} />
+              </>
+            )}
+            <p className="text-[9px] font-mono uppercase tracking-[0.3em] mb-1"
+               style={{ color: mode === 'review' ? 'rgba(139,124,247,0.9)' : '#3d4560' }}>
+              Mistakes
+            </p>
+            <p className="font-black text-lg uppercase tracking-wider leading-none"
+               style={{ color: mode === 'review' ? '#8b7cf7' : '#9097b0',
+                        fontFamily: "'Barlow Condensed', sans-serif" }}>
+              AAR
+            </p>
+            <p className="text-xs font-mono mt-2" style={{ color: '#6b7090' }}>
+              {weakCount > 0 ? `${weakCount} question${weakCount > 1 ? 's' : ''} saved` : 'No mistakes yet'}
+            </p>
+          </button>
+
         </div>
 
         {/* ── Ranked info ── */}
@@ -363,13 +418,14 @@ function ChaptersContent() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
-          {mode === 'ranked' ? 'ENTER RANKED' : 'DEPLOY TO TRAINING'}
+          {mode === 'ranked' ? 'ENTER RANKED' : mode === 'review' ? 'REVIEW MISTAKES' : 'DEPLOY TO TRAINING'}
         </button>
 
         <p className="text-xs font-mono uppercase tracking-widest -mt-4" style={{ color: '#2a2a40' }}>
-          {mode === 'ranked'
-            ? '10 Random Objectives · 5 Squad'
-            : selected.size === 1 ? 'Full Chapter — All Questions · 5 Squad' : '10 Objectives · 5 Squad'}
+          {mode === 'ranked'   ? '10 Random Objectives · 5 Squad'
+         : mode === 'review'   ? `Up to 20 Weak Questions · 5 Squad`
+         : selected.size === 1 ? 'Full Chapter — All Questions · 5 Squad'
+         :                       '10 Objectives · 5 Squad'}
         </p>
 
       </div>

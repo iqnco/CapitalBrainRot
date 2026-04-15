@@ -5,6 +5,23 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Question, QuizResults, AnswerRecord, MatchReport, ChapterSeenMap } from '@/lib/types';
 
 const SEEN_KEY = 'rts-chapter-seen';
+const WEAK_KEY = 'rts-weak-questions';
+
+function saveWrongQuestion(q: Question, correctAnswer: string, questionText: string) {
+  const raw = localStorage.getItem(WEAK_KEY);
+  const existing: Question[] = raw ? JSON.parse(raw) : [];
+  const dedupKey = (questionText + '§' + correctAnswer).slice(0, 140);
+  const filtered = existing.filter(eq => {
+    const eText = 'question' in eq ? (eq as {question:string}).question
+                : 'sentence' in eq ? (eq as {sentence:string}).sentence
+                : (eq as {instruction:string}).instruction;
+    const eKey = (eText + '§' + ('options' in eq ? (eq as {options:string[]; correctIndex:number}).options[(eq as {options:string[]; correctIndex:number}).correctIndex]
+                              : (eq as {correctAnswer:string}).correctAnswer)).slice(0, 140);
+    return eKey !== dedupKey;
+  });
+  filtered.unshift(q);
+  localStorage.setItem(WEAK_KEY, JSON.stringify(filtered.slice(0, 50)));
+}
 
 function markQuestionSeen(chapter: string | undefined, questionText: string, correctAnswer: string) {
   if (!chapter) return;
@@ -107,17 +124,21 @@ function QuizContent() {
       setTimeout(() => setIsPlayerHit(false), 450);
     }
 
-    setFeedback({ correct, explanation: currentQ.explanation, correctAnswer: getCorrectAnswer(currentQ) });
+    const correctAns = getCorrectAnswer(currentQ);
+    const qText = 'question' in currentQ ? currentQ.question
+                : 'sentence' in currentQ ? currentQ.sentence
+                : currentQ.instruction;
 
-    if (currentQ.type === 'multiple-choice') markQuestionSeen(currentQ.chapter, currentQ.question, getCorrectAnswer(currentQ));
+    setFeedback({ correct, explanation: currentQ.explanation, correctAnswer: correctAns });
+
+    if (currentQ.type === 'multiple-choice') markQuestionSeen(currentQ.chapter, currentQ.question, correctAns);
+    if (!correct) saveWrongQuestion(currentQ, correctAns, qText);
 
     const record: AnswerRecord = {
-      questionText: 'question' in currentQ ? currentQ.question
-                  : 'sentence' in currentQ ? currentQ.sentence
-                  : currentQ.instruction,
+      questionText: qText,
       questionType: currentQ.type,
       userAnswer: userAnswer || '(skipped)',
-      correctAnswer: getCorrectAnswer(currentQ),
+      correctAnswer: correctAns,
       correct,
       explanation: currentQ.explanation,
       options: currentQ.type === 'multiple-choice' ? currentQ.options : undefined,
