@@ -141,8 +141,23 @@ function QuizContent() {
         wrongCount: newWrong, armor: newHp,
       } as QuizResults));
 
-      // Submit score — RPC handles auth internally, no-op if not logged in
-      supabase.rpc('submit_score', { p_score: newScore, p_total: total });
+      // Submit score — read current totals then increment
+      supabase.auth.getSession().then(async ({ data: { session } }) => {
+        if (!session?.user) return;
+        const uid = session.user.id;
+        const { data } = await supabase
+          .from('profiles')
+          .select('total_correct, total_answered, sessions')
+          .eq('id', uid)
+          .single();
+        if (data) {
+          supabase.from('profiles').update({
+            total_correct:  (data.total_correct  ?? 0) + newScore,
+            total_answered: (data.total_answered ?? 0) + total,
+            sessions:       (data.sessions       ?? 0) + 1,
+          }).eq('id', uid);
+        }
+      });
     }
     setPhase('feedback');
   }, [currentQ, score, hp, wrongCount, qIndex, total, subject]);
