@@ -5,18 +5,19 @@ import { useRouter } from 'next/navigation';
 import { MatchReport } from '@/lib/types';
 
 const RANKS = [
-  { name: 'Copper',   color: '#b87333', minPct: 0    },
-  { name: 'Bronze',   color: '#cd7f32', minPct: 0.2  },
-  { name: 'Silver',   color: '#aaa9ad', minPct: 0.4  },
-  { name: 'Gold',     color: '#ffd700', minPct: 0.6  },
-  { name: 'Platinum', color: '#5eead4', minPct: 0.75 },
-  { name: 'Diamond',  color: '#7dd3fc', minPct: 0.9  },
-  { name: 'Champion', color: '#f7941d', minPct: 1.0  },
+  { name: 'Copper',   color: '#a0522d' },
+  { name: 'Bronze',   color: '#cd7f32' },
+  { name: 'Silver',   color: '#9da8ba' },
+  { name: 'Gold',     color: '#d4a017' },
+  { name: 'Platinum', color: '#00b4cc' },
+  { name: 'Emerald',  color: '#00c878' },
+  { name: 'Diamond',  color: '#8b7cf7' },
+  { name: 'Champion', color: '#f7941d' },
 ];
 
 function getRank(score: number, total: number) {
   const pct = total > 0 ? score / total : 0;
-  return RANKS.reduce((best, r) => (pct >= r.minPct ? r : best), RANKS[0]);
+  return RANKS[Math.min(7, Math.floor(pct * 8))];
 }
 
 export default function HistoryPage() {
@@ -44,7 +45,7 @@ export default function HistoryPage() {
         </button>
         <div className="flex-1 text-center">
           <span className="text-xs font-mono uppercase tracking-[0.3em]"
-                style={{ color: 'rgba(232,0,26,0.75)' }}>// Previous Operations</span>
+                style={{ color: 'rgba(232,0,26,0.75)' }}>// Match History</span>
         </div>
         {history.length > 0 && (
           <button onClick={clearHistory}
