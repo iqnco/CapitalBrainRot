@@ -611,11 +611,47 @@ export default function CampaignMap() {
               )}
             </button>
           ) : (
-            <button onClick={() => router.push('/login')}
-                    className="text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-xl border"
-                    style={{ color: '#f7941d', borderColor: 'rgba(247,148,29,0.4)', fontFamily: "'Fredoka One', sans-serif" }}>
-              Log In
-            </button>
+            <div className="relative">
+              <button onClick={() => router.push('/login')}
+                      className="text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-xl border"
+                      style={{ color: '#f7941d', borderColor: 'rgba(247,148,29,0.4)', fontFamily: "'Fredoka One', sans-serif" }}>
+                Log In
+              </button>
+              {/* Save-progress nudge */}
+              <div className="absolute right-0 top-full mt-2 z-50 pointer-events-none"
+                   style={{ animation: 'nudge 2s ease-in-out infinite' }}>
+                {/* Arrow pointing up-right toward button */}
+                <div style={{
+                  position: 'absolute', top: -8, right: 10,
+                  width: 0, height: 0,
+                  borderLeft: '7px solid transparent',
+                  borderRight: '7px solid transparent',
+                  borderBottom: '8px solid rgba(247,148,29,0.9)',
+                }} />
+                <div style={{
+                  background: 'rgba(20,10,0,0.92)',
+                  border: '1.5px solid rgba(247,148,29,0.6)',
+                  borderRadius: 10,
+                  padding: '6px 10px',
+                  whiteSpace: 'nowrap',
+                  backdropFilter: 'blur(8px)',
+                  boxShadow: '0 4px 16px rgba(247,148,29,0.2)',
+                }}>
+                  <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 10, color: '#f7941d', letterSpacing: '0.05em' }}>
+                    🍕 Save your progress!
+                  </p>
+                  <p style={{ fontFamily: "'Nunito', sans-serif", fontSize: 9, color: 'rgba(255,220,150,0.75)', marginTop: 1 }}>
+                    Create an account to track wins
+                  </p>
+                </div>
+              </div>
+              <style>{`
+                @keyframes nudge {
+                  0%, 100% { transform: translateY(0); opacity: 1; }
+                  50%       { transform: translateY(-4px); opacity: 0.85; }
+                }
+              `}</style>
+            </div>
           )}
         </nav>
       </header>
