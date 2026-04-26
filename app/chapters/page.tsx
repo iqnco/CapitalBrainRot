@@ -20,122 +20,124 @@ function loadSeenMap(): ChapterSeenMap {
   return raw ? JSON.parse(raw) : {};
 }
 
-// ── Chapter icon ──────────────────────────────────────────────────────────────
-function ChapterIcon({ number, selected, cleared }: {
-  number: number;
-  selected: boolean;
-  cleared?: boolean;
-}) {
-  const color  = cleared ? '#22c55e' : selected ? '#f7941d' : '#5a607a';
-  const glow   = cleared
-    ? 'drop-shadow(0 0 8px rgba(34,197,94,0.7))'
-    : selected ? 'drop-shadow(0 0 8px rgba(247,148,29,0.8))' : 'none';
-  const label  = String(number);
-  const fSize  = label.length > 2 ? '26' : '36';
-  const bgFill = selected ? 'rgba(247,148,29,0.06)' : cleared ? 'rgba(34,197,94,0.06)' : 'rgba(13,13,20,0.9)';
+// Assign enemy character to each chapter by index
+function chapterBoss(index: number): string {
+  return OPERATORS[index % OPERATORS.length].id;
+}
 
+function ProgressRing({ pct, size = 72, cleared }: { pct: number; size?: number; cleared: boolean }) {
+  const R    = size / 2 - 6;
+  const CIRC = 2 * Math.PI * R;
+  const offset = CIRC * (1 - pct / 100);
+  const color  = cleared ? '#22c55e' : pct > 0 ? '#008C45' : '#D0C8C0';
   return (
-    <svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden>
-      <polygon points="22,2 78,2 98,22 98,78 78,98 22,98 2,78 2,22"
-               fill={bgFill} stroke={color} strokeWidth={selected ? '2.5' : '1.5'}
-               style={{ filter: glow }} />
-      <polygon points="28,7 72,7 93,28 93,72 72,93 28,93 7,72 7,28"
-               fill="none" stroke={color} strokeWidth="0.6" opacity="0.3" />
-      {/* Corner ticks */}
-      <line x1="2"  y1="22" x2="14" y2="22" stroke={color} strokeWidth="1.5" opacity="0.6"/>
-      <line x1="22" y1="2"  x2="22" y2="14" stroke={color} strokeWidth="1.5" opacity="0.6"/>
-      <line x1="98" y1="78" x2="86" y2="78" stroke={color} strokeWidth="1.5" opacity="0.6"/>
-      <line x1="78" y1="98" x2="78" y2="86" stroke={color} strokeWidth="1.5" opacity="0.6"/>
-      {/* Cleared tick */}
-      {cleared && (
-        <text x="74" y="26" fontSize="18" textAnchor="middle" dominantBaseline="middle"
-              fill="#22c55e" style={{ filter: 'drop-shadow(0 0 4px rgba(34,197,94,0.8))' }}>✓</text>
-      )}
-      {/* CH label above + number below — centred as a group */}
-      <text x="50" y="38"
-            textAnchor="middle" dominantBaseline="middle"
-            fontSize="10" fontWeight="600" letterSpacing="3"
-            fontFamily="'Share Tech Mono', monospace"
-            fill={color} opacity="0.7">
-        CH
-      </text>
-      <text x="50" y="60"
-            textAnchor="middle" dominantBaseline="middle"
-            fontSize={fSize} fontWeight="900"
-            fontFamily="'Barlow Condensed', 'Rajdhani', sans-serif"
-            fill={color} style={{ filter: glow }}>
-        {label}
-      </text>
+    <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+      <circle cx={size / 2} cy={size / 2} r={R} fill="none" stroke="#F0E8D8" strokeWidth="4.5" />
+      <circle
+        cx={size / 2} cy={size / 2} r={R}
+        fill="none" stroke={color} strokeWidth="4.5"
+        strokeDasharray={CIRC} strokeDashoffset={offset}
+        strokeLinecap="round"
+        style={{ transition: 'stroke-dashoffset 0.6s ease, stroke 0.3s ease' }}
+      />
     </svg>
   );
 }
 
-// ── Chapter card ──────────────────────────────────────────────────────────────
-function ChapterCard({ chapter, selected, seen, onToggle }: {
+function ChapterNode({ chapter, bossId, selected, seen, onToggle }: {
   chapter: Chapter;
+  bossId: string;
   selected: boolean;
   seen: number;
   onToggle: () => void;
 }) {
   const cleared = chapter.total > 0 && seen >= chapter.total;
   const pct     = chapter.total > 0 ? Math.min(100, Math.round((seen / chapter.total) * 100)) : 0;
+  const size    = 72;
 
   return (
     <button
       onClick={onToggle}
-      className={`relative flex flex-col items-center gap-2 p-3 transition-all duration-150 hover:scale-[1.04] active:scale-[0.96] op-card ${selected ? 'active' : ''} ${cleared ? 'cleared' : ''}`}
+      className="flex flex-col items-center gap-1.5 transition-all duration-150 hover:scale-[1.06] active:scale-[0.95] group"
     >
-      {selected && (
-        <>
-          <span className="absolute top-1.5 left-1.5 w-3 h-3 border-t border-l"
-                style={{ borderColor: cleared ? '#22c55e' : '#f7941d' }} />
-          <span className="absolute bottom-1.5 right-1.5 w-3 h-3 border-b border-r"
-                style={{ borderColor: cleared ? '#22c55e' : '#f7941d' }} />
-        </>
-      )}
-      <div className="w-full aspect-square max-w-[80px]">
-        <ChapterIcon number={chapter.number} selected={selected} cleared={cleared} />
+      {/* Boss chibi */}
+      <img
+        src={`/Characters/8bit/${bossId}.png`}
+        alt={bossId}
+        style={{
+          height: 44, width: 'auto',
+          imageRendering: 'pixelated', objectFit: 'contain',
+          opacity: cleared ? 1 : selected ? 1 : 0.6,
+          filter: cleared ? 'none' : selected ? 'none' : 'grayscale(40%)',
+          transition: 'all 0.2s ease',
+        }}
+        onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.1'; }}
+      />
+
+      {/* Progress ring + chapter number */}
+      <div style={{ position: 'relative', width: size, height: size }}>
+        <ProgressRing pct={pct} size={size} cleared={cleared} />
+        {/* Fill circle */}
+        <div style={{
+          position: 'absolute', inset: 6,
+          borderRadius: '50%',
+          background: selected
+            ? 'rgba(0,140,69,0.12)'
+            : cleared
+            ? 'rgba(34,197,94,0.1)'
+            : 'rgba(255,249,240,0.9)',
+          border: `2px solid ${selected ? '#008C45' : cleared ? '#22c55e' : 'transparent'}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexDirection: 'column', gap: 0,
+          transition: 'all 0.2s ease',
+          boxShadow: selected ? '0 0 14px rgba(0,140,69,0.25)' : 'none',
+        }}>
+          {cleared ? (
+            <span style={{ fontSize: '1.4rem' }}>✓</span>
+          ) : (
+            <span style={{
+              fontSize: '1.4rem', fontFamily: "'Fredoka One', sans-serif",
+              color: selected ? '#008C45' : '#1A1A2E', lineHeight: 1,
+            }}>
+              {chapter.number}
+            </span>
+          )}
+        </div>
       </div>
-      <div className="text-center leading-tight w-full">
-        <p className="text-xs font-bold tracking-[0.18em] uppercase font-mono"
-           style={{ color: cleared ? '#22c55e' : selected ? '#f7941d' : '#9097b0' }}>
-          CH {chapter.number}
+
+      {/* Label */}
+      <div className="text-center">
+        <p className="text-[10px] uppercase tracking-widest font-bold leading-none"
+           style={{
+             color: cleared ? '#22c55e' : selected ? '#008C45' : '#B0A090',
+             fontFamily: "'Fredoka One', sans-serif",
+           }}>
+          {cleared ? 'DONE 🍕' : `${pct}%`}
         </p>
-        {chapter.total > 0 && (
-          <div className="mt-1.5 w-full space-y-0.5">
-            <div className="h-0.5 rounded-full overflow-hidden" style={{ background: '#1a1a28' }}>
-              <div className="h-full rounded-full transition-all duration-500"
-                   style={{ width: `${pct}%`, background: cleared ? '#22c55e' : '#f7941d',
-                            boxShadow: cleared ? '0 0 4px rgba(34,197,94,0.6)' : 'none' }} />
-            </div>
-            <p className="text-[9px] font-mono tracking-widest"
-               style={{ color: cleared ? '#22c55e' : '#3d4560' }}>
-              {cleared ? 'CLEARED' : `${seen}/${chapter.total}`}
-            </p>
-          </div>
-        )}
       </div>
     </button>
   );
 }
 
-// ── Main page ─────────────────────────────────────────────────────────────────
 function ChaptersContent() {
   const params    = useSearchParams();
   const router    = useRouter();
   const { profile } = useAuth();
   const missionId = params.get('missionId') ?? '';
   const mapId     = params.get('mapId') ?? '';
-  const subject   = params.get('subject') ?? 'Operation';
+  const subject   = params.get('subject') ?? 'Materia';
 
-  const [mode, setMode]         = useState<'ranked' | 'training' | 'review'>('ranked');
-  const [chapters, setChapters] = useState<Chapter[]>([]);
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [seenMap, setSeenMap]   = useState<ChapterSeenMap>({});
+  const [mode, setMode]           = useState<'ranked' | 'training' | 'review'>('ranked');
+  const [chapters, setChapters]   = useState<Chapter[]>([]);
+  const [selected, setSelected]   = useState<Set<string>>(new Set());
+  const [seenMap, setSeenMap]     = useState<ChapterSeenMap>({});
   const [weakCount, setWeakCount] = useState(0);
-  const [loading, setLoading]   = useState(false);
-  const [fetching, setFetching] = useState(true);
-  const [error, setError]       = useState('');
+  const [loading, setLoading]     = useState(false);
+  const [fetching, setFetching]   = useState(true);
+  const [error, setError]         = useState('');
+  const [timePressure, setTimePressure] = useState(() =>
+    typeof window !== 'undefined' && localStorage.getItem('rts-time-pressure') === 'true'
+  );
 
   useEffect(() => {
     const raw = localStorage.getItem('rts-weak-questions');
@@ -167,30 +169,29 @@ function ChaptersContent() {
     setLoading(true);
     setError('');
 
-    const playerOp = profile?.favorite_operator ?? 'ash';
+    const playerOp = profile?.favorite_operator ?? 'tralalero';
     const enemies  = OPERATORS.filter(op => op.id !== playerOp);
     const shuffled = [...enemies].sort(() => Math.random() - 0.5);
 
-    // ── After Action Review: load from localStorage directly ──
     if (mode === 'review') {
-      const raw = localStorage.getItem('rts-weak-questions');
+      const raw    = localStorage.getItem('rts-weak-questions');
       const weakQs = raw ? JSON.parse(raw) : [];
-      if (weakQs.length === 0) { setError('No wrong answers saved yet.'); setLoading(false); return; }
+      if (weakQs.length === 0) { setError('No mistakes saved yet!'); setLoading(false); return; }
       const shuffledWeak = [...weakQs].sort(() => Math.random() - 0.5).slice(0, 20);
       localStorage.setItem('rts-questions', JSON.stringify(shuffledWeak));
-      localStorage.setItem('rts-subject',   `After Action Review`);
+      localStorage.setItem('rts-subject',   'Review — Mistakes');
       const enemyIds = shuffledWeak.map((_: unknown, i: number) => shuffled[i % shuffled.length].id);
       localStorage.setItem('rts-player-operator', playerOp);
       localStorage.setItem('rts-operator-ids',    JSON.stringify(enemyIds));
-      router.push(`/quiz?subject=${encodeURIComponent('After Action Review')}`);
+      router.push(`/quiz?subject=${encodeURIComponent('Review — Mistakes')}`);
       return;
     }
 
-    const isRanked = mode === 'ranked';
-    const chaptersArr = isRanked ? ['ALL'] : Array.from(selected);
+    const isRanked       = mode === 'ranked';
+    const chaptersArr    = isRanked ? ['ALL'] : Array.from(selected);
     const isSingleChapter = !isRanked && chaptersArr.length === 1;
 
-    const res = await fetch('/api/load-questions', {
+    const res  = await fetch('/api/load-questions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -200,7 +201,7 @@ function ChaptersContent() {
       }),
     });
     const data = await res.json();
-    if (!res.ok) { setError(data.error ?? 'Failed to load questions'); setLoading(false); return; }
+    if (!res.ok) { setError(data.error ?? 'Failed to load questions!'); setLoading(false); return; }
 
     localStorage.setItem('rts-questions', JSON.stringify(data.questions));
     localStorage.setItem('rts-subject',   data.subject);
@@ -216,213 +217,204 @@ function ChaptersContent() {
   if (loading) {
     return (
       <main className="min-h-screen siege-bg flex flex-col items-center justify-center gap-4">
-        <p className="text-xs font-mono uppercase tracking-[0.35em]" style={{ color: '#f7941d' }}>Loading Intel...</p>
-        <span className="text-2xl animate-blink" style={{ color: '#f7941d' }}>_</span>
+        <p className="text-lg uppercase tracking-[0.2em]"
+           style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>
+          🍕 Briefing...
+        </p>
       </main>
     );
   }
 
   const clearedCount = chapters.filter(ch => ch.total > 0 && (seenMap[ch.id]?.length ?? 0) >= ch.total).length;
-  const totalQ  = chapters.reduce((s, ch) => s + ch.total, 0);
-  const seenQ   = chapters.reduce((s, ch) => s + Math.min(seenMap[ch.id]?.length ?? 0, ch.total), 0);
-
-  const canDeploy = mode === 'ranked' || mode === 'review' || selected.size > 0;
+  const totalQ       = chapters.reduce((s, ch) => s + ch.total, 0);
+  const seenQ        = chapters.reduce((s, ch) => s + Math.min(seenMap[ch.id]?.length ?? 0, ch.total), 0);
+  const canDeploy    = mode === 'ranked' || mode === 'review' || selected.size > 0;
+  const overallPct   = totalQ > 0 ? Math.round((seenQ / totalQ) * 100) : 0;
 
   return (
-    <main className="min-h-screen siege-bg flex flex-col">
+    <main className="min-h-screen siege-bg flex flex-col pb-12">
 
       {/* Header */}
-      <header className="flex-none flex items-center gap-4 px-5 h-12 border-b"
-              style={{ background: 'rgba(5,5,10,0.95)', borderColor: 'rgba(232,0,26,0.2)' }}>
+      <header className="flex-none flex items-center gap-4 px-5 h-14 border-b"
+              style={{ background: 'rgba(255,249,240,0.97)', borderColor: '#E0CCB0' }}>
         <button onClick={() => router.back()}
-                className="text-xs font-mono tracking-widest uppercase transition-colors hover:text-white"
-                style={{ color: '#6b7090' }}>
-          ← BACK
+                className="text-sm uppercase tracking-widest transition-colors"
+                style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
+          ← Map
         </button>
         <div className="flex-1 text-center">
-          <p className="text-xs font-mono uppercase tracking-[0.3em]"
-             style={{ color: 'rgba(232,0,26,0.75)' }}>
-            // Select Playlist
+          <p className="text-sm uppercase tracking-[0.2em]"
+             style={{ color: 'rgba(206,43,55,0.8)', fontFamily: "'Fredoka One', sans-serif" }}>
+            🍕 Tactical Briefing
           </p>
         </div>
-        <p className="text-xs font-mono uppercase tracking-widest truncate max-w-[130px]"
-           style={{ color: '#6b7090' }}>
+        <p className="text-xs uppercase tracking-widest truncate max-w-[140px]"
+           style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
           {subject}
         </p>
       </header>
 
       <div className="flex-1 flex flex-col items-center px-4 py-6 gap-6 max-w-4xl mx-auto w-full">
 
-        {/* ── Playlist selector ── */}
-        <div className="w-full grid grid-cols-3 gap-3">
-
-          {/* Ranked */}
-          <button
-            onClick={() => setMode('ranked')}
-            className="relative p-5 text-left transition-all duration-150 op-card"
-            style={{
-              borderColor: mode === 'ranked' ? '#e8001a' : undefined,
-              background:  mode === 'ranked' ? 'rgba(232,0,26,0.07)' : undefined,
-              boxShadow:   mode === 'ranked' ? '0 0 20px rgba(232,0,26,0.15)' : undefined,
-            }}
-          >
-            {mode === 'ranked' && (
-              <>
-                <span className="absolute top-1.5 left-1.5 w-3 h-3 border-t border-l" style={{ borderColor: '#e8001a' }} />
-                <span className="absolute bottom-1.5 right-1.5 w-3 h-3 border-b border-r" style={{ borderColor: '#e8001a' }} />
-              </>
-            )}
-            <p className="text-[9px] font-mono uppercase tracking-[0.3em] mb-1"
-               style={{ color: mode === 'ranked' ? 'rgba(232,0,26,0.8)' : '#3d4560' }}>
-              Competitive
-            </p>
-            <p className="font-black text-lg uppercase tracking-wider leading-none"
-               style={{ color: mode === 'ranked' ? '#ffffff' : '#9097b0',
-                        fontFamily: "'Barlow Condensed', sans-serif" }}>
-              Ranked
-            </p>
-            <p className="text-xs font-mono mt-2" style={{ color: '#6b7090' }}>
-              10 random questions from all chapters
-            </p>
-          </button>
-
-          {/* Training Grounds */}
-          <button
-            onClick={() => setMode('training')}
-            className="relative p-5 text-left transition-all duration-150 op-card"
-            style={{
-              borderColor: mode === 'training' ? '#22c55e' : undefined,
-              background:  mode === 'training' ? 'rgba(34,197,94,0.05)' : undefined,
-              boxShadow:   mode === 'training' ? '0 0 20px rgba(34,197,94,0.1)' : undefined,
-            }}
-          >
-            {mode === 'training' && (
-              <>
-                <span className="absolute top-1.5 left-1.5 w-3 h-3 border-t border-l" style={{ borderColor: '#22c55e' }} />
-                <span className="absolute bottom-1.5 right-1.5 w-3 h-3 border-b border-r" style={{ borderColor: '#22c55e' }} />
-              </>
-            )}
-            <p className="text-[9px] font-mono uppercase tracking-[0.3em] mb-1"
-               style={{ color: mode === 'training' ? 'rgba(34,197,94,0.8)' : '#3d4560' }}>
-              Practice
-            </p>
-            <p className="font-black text-lg uppercase tracking-wider leading-none"
-               style={{ color: mode === 'training' ? '#22c55e' : '#9097b0',
-                        fontFamily: "'Barlow Condensed', sans-serif" }}>
-              Training Grounds
-            </p>
-            <p className="text-xs font-mono mt-2" style={{ color: '#6b7090' }}>
-              Pick chapters · all questions
-            </p>
-          </button>
-          {/* After Action Review */}
-          <button
-            onClick={() => setMode('review')}
-            className="relative p-5 text-left transition-all duration-150 op-card"
-            style={{
-              borderColor: mode === 'review' ? '#8b7cf7' : undefined,
-              background:  mode === 'review' ? 'rgba(139,124,247,0.07)' : undefined,
-              boxShadow:   mode === 'review' ? '0 0 20px rgba(139,124,247,0.12)' : undefined,
-            }}
-          >
-            {mode === 'review' && (
-              <>
-                <span className="absolute top-1.5 left-1.5 w-3 h-3 border-t border-l" style={{ borderColor: '#8b7cf7' }} />
-                <span className="absolute bottom-1.5 right-1.5 w-3 h-3 border-b border-r" style={{ borderColor: '#8b7cf7' }} />
-              </>
-            )}
-            <p className="text-[9px] font-mono uppercase tracking-[0.3em] mb-1"
-               style={{ color: mode === 'review' ? 'rgba(139,124,247,0.9)' : '#3d4560' }}>
-              Mistakes
-            </p>
-            <p className="font-black text-lg uppercase tracking-wider leading-none"
-               style={{ color: mode === 'review' ? '#8b7cf7' : '#9097b0',
-                        fontFamily: "'Barlow Condensed', sans-serif" }}>
-              AAR
-            </p>
-            <p className="text-xs font-mono mt-2" style={{ color: '#6b7090' }}>
-              {weakCount > 0 ? `${weakCount} question${weakCount > 1 ? 's' : ''} saved` : 'No mistakes yet'}
-            </p>
-          </button>
-
-        </div>
-
-        {/* ── Ranked info ── */}
-        {mode === 'ranked' && !fetching && (
-          <div className="w-full p-4 op-card" style={{ borderColor: 'rgba(232,0,26,0.2)' }}>
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-mono uppercase tracking-widest" style={{ color: '#6b7090' }}>
-                Coverage
-              </p>
-              <p className="text-xs font-mono font-bold" style={{ color: '#f7941d' }}>
-                {clearedCount}/{chapters.length} cleared &nbsp;·&nbsp; {seenQ}/{totalQ} questions
-              </p>
+        {/* ── Overall zone progress ── */}
+        {!fetching && chapters.length > 0 && (
+          <div className="w-full p-4 op-card flex items-center gap-4"
+               style={{ borderColor: 'rgba(0,140,69,0.25)', background: 'rgba(0,140,69,0.03)' }}>
+            <div style={{ position: 'relative', width: 56, height: 56, flexShrink: 0 }}>
+              <ProgressRing pct={overallPct} size={56} cleared={overallPct === 100} />
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="font-black text-sm" style={{ color: '#008C45', fontFamily: "'Fredoka One', sans-serif" }}>
+                  {overallPct}%
+                </span>
+              </div>
             </div>
-            <div className="h-1 rounded-full overflow-hidden" style={{ background: '#1a1a28' }}>
-              <div className="h-full rounded-full transition-all duration-500"
-                   style={{ width: `${totalQ > 0 ? Math.round((seenQ / totalQ) * 100) : 0}%`, background: '#e8001a', opacity: 0.8 }} />
+            <div className="flex-1">
+              <p className="font-bold text-base uppercase"
+                 style={{ color: '#1A1A2E', fontFamily: "'Fredoka One', sans-serif" }}>
+                Zone Coverage
+              </p>
+              <p className="text-sm" style={{ color: '#7A7A8C' }}>
+                {clearedCount}/{chapters.length} chapters cleared · {seenQ}/{totalQ} questions seen
+              </p>
             </div>
           </div>
         )}
 
-        {/* ── Training Grounds chapter grid ── */}
+        {/* ── Mode selector ── */}
+        <div className="w-full grid grid-cols-3 gap-3">
+          {[
+            { key: 'ranked',   label: 'Total Brainrot', sub: '10 random · all chapters', color: '#CE2B37', accent: 'rgba(206,43,55,0.08)' },
+            { key: 'training', label: 'Training',       sub: 'Pick chapters · all Qs',    color: '#22c55e', accent: 'rgba(34,197,94,0.06)'  },
+            { key: 'review',   label: 'Review',         sub: weakCount > 0 ? `${weakCount} mistakes` : 'No mistakes yet 🍕', color: '#8b7cf7', accent: 'rgba(139,124,247,0.06)' },
+          ].map(m => (
+            <button
+              key={m.key}
+              onClick={() => setMode(m.key as typeof mode)}
+              className="p-4 text-left transition-all duration-150 op-card"
+              style={{
+                borderColor: mode === m.key ? m.color : undefined,
+                background:  mode === m.key ? m.accent : undefined,
+                boxShadow:   mode === m.key ? `0 0 0 3px ${m.color}25` : undefined,
+              }}
+            >
+              <p className="font-bold text-base uppercase leading-none mb-1"
+                 style={{ color: mode === m.key ? m.color : '#9097b0', fontFamily: "'Fredoka One', sans-serif" }}>
+                {m.label}
+              </p>
+              <p className="text-xs" style={{ color: '#7A7A8C' }}>{m.sub}</p>
+            </button>
+          ))}
+        </div>
+
+        {/* ── Training chapter map ── */}
         {mode === 'training' && (
-          <>
-            <div className="w-full flex items-center justify-between">
-              <p className="text-xs font-mono uppercase tracking-widest" style={{ color: '#6b7090' }}>
-                {selected.size === 0 ? 'Select chapters' : `${selected.size} chapter${selected.size > 1 ? 's' : ''} selected`}
+          <div className="w-full">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-xs uppercase tracking-widest"
+                 style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
+                {selected.size === 0 ? 'Select chapters to siege' : `${selected.size} chapter${selected.size > 1 ? 's' : ''} selected`}
               </p>
               {selected.size > 0 && (
                 <button onClick={() => setSelected(new Set())}
-                        className="text-[10px] font-mono uppercase tracking-widest transition-colors hover:text-white"
-                        style={{ color: '#6b7090' }}>
+                        className="text-[10px] uppercase tracking-widest"
+                        style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>
                   Clear
                 </button>
               )}
             </div>
 
             {fetching ? (
-              <div className="flex items-center justify-center py-16">
-                <div className="w-5 h-5 rounded-full border-2 animate-spin"
-                     style={{ borderColor: '#22c55e', borderTopColor: 'transparent' }} />
+              <div className="flex justify-center py-10">
+                <div className="w-6 h-6 rounded-full border-2 animate-spin"
+                     style={{ borderColor: '#008C45', borderTopColor: 'transparent' }} />
               </div>
             ) : (
-              <div className="w-full grid gap-3"
-                   style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))' }}>
-                {chapters.map(ch => (
-                  <ChapterCard
-                    key={ch.id}
-                    chapter={ch}
-                    selected={selected.has(ch.id)}
-                    seen={seenMap[ch.id]?.length ?? 0}
-                    onToggle={() => toggleChapter(ch.id)}
-                  />
-                ))}
+              <div className="relative">
+                {/* Path connector */}
+                {chapters.length > 1 && (
+                  <div className="absolute top-[54px] left-0 right-0 h-0.5 mx-[36px] z-0"
+                       style={{ background: 'repeating-linear-gradient(90deg, #E0CCB0 0, #E0CCB0 8px, transparent 8px, transparent 16px)' }} />
+                )}
+                <div className="flex flex-wrap justify-center gap-6 relative z-10">
+                  {chapters.map((ch, i) => (
+                    <ChapterNode
+                      key={ch.id}
+                      chapter={ch}
+                      bossId={chapterBoss(i)}
+                      selected={selected.has(ch.id)}
+                      seen={seenMap[ch.id]?.length ?? 0}
+                      onToggle={() => toggleChapter(ch.id)}
+                    />
+                  ))}
+                </div>
               </div>
             )}
-          </>
+          </div>
         )}
 
-        {error && <p className="text-sm font-mono" style={{ color: '#e8001a' }}>⚠ {error}</p>}
+        {error && (
+          <p className="text-sm" style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>
+            🍕 {error}
+          </p>
+        )}
 
-        {/* Deploy */}
+        {/* ── Time pressure toggle ── */}
+        <button
+          onClick={() => {
+            const next = !timePressure;
+            setTimePressure(next);
+            localStorage.setItem('rts-time-pressure', String(next));
+          }}
+          className="flex items-center gap-3 px-4 py-3 op-card w-full max-w-sm transition-all"
+          style={{
+            borderColor: timePressure ? '#CE2B37' : '#E0CCB0',
+            background:  timePressure ? 'rgba(206,43,55,0.05)' : undefined,
+          }}
+        >
+          <span style={{ fontSize: '1.3rem' }}>🍕</span>
+          <div className="text-left flex-1">
+            <p className="text-sm font-bold uppercase tracking-wide"
+               style={{ color: timePressure ? '#CE2B37' : '#1A1A2E', fontFamily: "'Fredoka One', sans-serif" }}>
+              Time Pressure
+            </p>
+            <p className="text-xs" style={{ color: '#7A7A8C' }}>
+              {timePressure ? '20s per question — pizza is burning' : '20s per question — off'}
+            </p>
+          </div>
+          <div style={{
+            width: 36, height: 20, borderRadius: 10, flexShrink: 0,
+            background: timePressure ? '#CE2B37' : '#D0C8C0',
+            position: 'relative', transition: 'background 0.2s ease',
+          }}>
+            <div style={{
+              width: 14, height: 14, borderRadius: '50%', background: '#fff',
+              position: 'absolute', top: 3,
+              left: timePressure ? 19 : 3,
+              transition: 'left 0.2s ease',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+            }} />
+          </div>
+        </button>
+
+        {/* ── Deploy button ── */}
         <button
           onClick={handleDeploy}
           disabled={!canDeploy || fetching}
           className="siege-btn-primary"
-          style={{ minWidth: '220px' }}
+          style={{ minWidth: '260px', fontSize: '1.1rem' }}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-          {mode === 'ranked' ? 'ENTER RANKED' : mode === 'review' ? 'REVIEW MISTAKES' : 'DEPLOY TO TRAINING'}
+          <span>🍕</span>
+          {mode === 'ranked'   ? 'START THE BRAINROT!'
+         : mode === 'review'   ? 'REVIEW MISTAKES'
+         :                       'TRAIN!'}
         </button>
 
-        <p className="text-xs font-mono uppercase tracking-widest -mt-4" style={{ color: '#2a2a40' }}>
-          {mode === 'ranked'   ? '10 Random Objectives · 5 Squad'
-         : mode === 'review'   ? `Up to 20 Weak Questions · 5 Squad`
-         : selected.size === 1 ? 'Full Chapter — All Questions · 5 Squad'
-         :                       '10 Objectives · 5 Squad'}
+        <p className="text-xs uppercase tracking-widest -mt-4"
+           style={{ color: '#C0C0D0', fontFamily: "'Fredoka One', sans-serif" }}>
+          {mode === 'ranked'   ? '10 Random Questions · 5 Lives'
+         : mode === 'review'   ? 'Up to 20 Wrong Questions · 5 Lives'
+         : selected.size === 1 ? 'Full Chapter — All Questions · 5 Lives'
+         :                       '10 Questions · 5 Lives'}
         </p>
 
       </div>

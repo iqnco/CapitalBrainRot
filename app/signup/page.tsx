@@ -9,7 +9,7 @@ export default function SignupPage() {
   const [email, setEmail]       = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [operator, setOperator] = useState('ash');
+  const [operator, setOperator] = useState('tralalero');
   const [country, setCountry]   = useState('US');
   const [error, setError]       = useState('');
   const [loading, setLoading]   = useState(false);
@@ -17,8 +17,8 @@ export default function SignupPage() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (username.length < 3) { setError('Username must be at least 3 characters.'); return; }
-    if (password.length < 6) { setError('Password must be at least 6 characters.'); return; }
+    if (username.length < 3) { setError('Username too short (min. 3 characters).'); return; }
+    if (password.length < 6) { setError('Password too short (min. 6 characters).'); return; }
     setLoading(true);
 
     const { data: existing } = await supabase
@@ -27,7 +27,7 @@ export default function SignupPage() {
       .eq('username', username)
       .maybeSingle();
 
-    if (existing) { setError('Username already taken.'); setLoading(false); return; }
+    if (existing) { setError('Username already taken. Pick another!'); setLoading(false); return; }
 
     const { data: signupData, error: signupErr } = await supabase.auth.signUp({
       email,
@@ -37,7 +37,6 @@ export default function SignupPage() {
 
     if (signupErr) { setError(signupErr.message); setLoading(false); return; }
 
-    // Upsert profile — handles both the trigger-created row and the race where trigger hasn't fired yet
     if (signupData.user) {
       await supabase.from('profiles').upsert({
         id: signupData.user.id,
@@ -50,73 +49,86 @@ export default function SignupPage() {
     router.push('/');
   };
 
-  const inputStyle = {
-    background: 'rgba(13,13,20,0.8)',
-    border: '1px solid rgba(247,148,29,0.3)',
-    color: '#e8eaf2',
-    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
+  const inputStyle: React.CSSProperties = {
+    background: 'rgba(255,255,255,0.8)',
+    border: '2px solid #E0CCB0',
+    color: '#1A1A2E',
+    borderRadius: '12px',
+    outline: 'none',
+    width: '100%',
+    padding: '10px 16px',
+    fontSize: '0.95rem',
+    fontFamily: "'Nunito', sans-serif",
   };
 
   return (
     <main className="min-h-screen siege-bg flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
+
         <div className="mb-8 text-center">
-          <p className="text-xs font-mono uppercase tracking-[0.3em] mb-2" style={{ color: 'rgba(232,0,26,0.75)' }}>
-            // New Operator
+          <p className="text-sm uppercase tracking-[0.3em] mb-2"
+             style={{ color: 'rgba(206,43,55,0.75)', fontFamily: "'Fredoka One', sans-serif" }}>
+            🍕 New Player
           </p>
-          <h1 className="text-3xl font-black uppercase tracking-widest" style={{ color: '#e8eaf2' }}>
+          <h1 className="text-3xl uppercase tracking-widest"
+              style={{ color: '#1A1A2E', fontFamily: "'Fredoka One', sans-serif" }}>
             Create Account
           </h1>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
-          {/* Username */}
+
           <div>
-            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>Username</label>
+            <label className="block text-xs uppercase tracking-widest mb-1"
+                   style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
+              Username
+            </label>
             <input
               value={username}
               onChange={e => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))}
-              placeholder="callsign"
+              placeholder="il_tuo_nome"
               required
-              className="w-full px-4 py-3 bg-transparent text-sm font-mono outline-none"
               style={inputStyle}
             />
           </div>
 
-          {/* Email */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>Email</label>
+            <label className="block text-xs uppercase tracking-widest mb-1"
+                   style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
+              Email
+            </label>
             <input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="operator@base.com"
+              placeholder="tralalero@tralala.com"
               required
-              className="w-full px-4 py-3 bg-transparent text-sm font-mono outline-none"
               style={inputStyle}
             />
           </div>
 
-          {/* Password */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>Password</label>
+            <label className="block text-xs uppercase tracking-widest mb-1"
+                   style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
+              Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full px-4 py-3 bg-transparent text-sm font-mono outline-none"
               style={inputStyle}
             />
           </div>
 
-          {/* Operator picker */}
+          {/* Character picker */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-widest mb-2" style={{ color: '#6b7090' }}>
-              Favorite Operator
+            <label className="block text-xs uppercase tracking-widest mb-2"
+                   style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
+              Favourite Character
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-5 gap-2">
               {OPERATORS.map(op => {
                 const active = operator === op.id;
                 return (
@@ -124,22 +136,23 @@ export default function SignupPage() {
                     key={op.id}
                     type="button"
                     onClick={() => setOperator(op.id)}
-                    className="flex flex-col items-center gap-1 py-2 px-1 transition-all"
+                    className="flex flex-col items-center gap-1 py-2 px-1 transition-all rounded-xl"
                     style={{
-                      background: active ? 'rgba(247,148,29,0.12)' : 'rgba(13,13,20,0.6)',
-                      border: `1px solid ${active ? 'rgba(247,148,29,0.7)' : 'rgba(255,255,255,0.07)'}`,
-                      clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))',
+                      background: active ? 'rgba(0,140,69,0.1)' : 'rgba(255,255,255,0.7)',
+                      border: `2px solid ${active ? '#008C45' : '#E0CCB0'}`,
+                      boxShadow: active ? '0 0 0 3px rgba(0,140,69,0.15)' : 'none',
                     }}
                   >
                     <img
-                      src={`/chibis/${op.id}.png`}
+                      src={`/Characters/8bit/${op.id}.png`}
                       alt={op.name}
-                      style={{ width: 48, height: 48, objectFit: 'contain', imageRendering: 'pixelated' }}
-                      onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
+                      style={{ width: 44, height: 44, objectFit: 'contain', imageRendering: 'pixelated' }}
+                      onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.15'; }}
                     />
-                    <span className="text-[9px] font-mono uppercase tracking-widest"
-                          style={{ color: active ? '#f7941d' : '#6b7090' }}>
-                      {op.name}
+                    <span className="text-[8px] uppercase tracking-wide text-center leading-tight"
+                          style={{ color: active ? '#008C45' : '#7A7A8C',
+                                   fontFamily: "'Fredoka One', sans-serif" }}>
+                      {op.name.split(' ')[0]}
                     </span>
                   </button>
                 );
@@ -149,33 +162,38 @@ export default function SignupPage() {
 
           {/* Country picker */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-widest mb-1" style={{ color: '#6b7090' }}>Country</label>
+            <label className="block text-xs uppercase tracking-widest mb-1"
+                   style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
+              Country
+            </label>
             <select
               value={country}
               onChange={e => setCountry(e.target.value)}
-              className="w-full px-4 py-3 text-sm font-mono outline-none"
-              style={{ ...inputStyle, border: '1px solid rgba(247,148,29,0.3)' }}
+              style={{ ...inputStyle }}
             >
               {COUNTRIES.map(c => (
-                <option key={c.code} value={c.code} style={{ background: '#0d0d14' }}>
-                  {c.name}
-                </option>
+                <option key={c.code} value={c.code}>{c.name}</option>
               ))}
             </select>
           </div>
 
-          {error && <p className="text-xs font-mono" style={{ color: '#e8001a' }}>⚠ {error}</p>}
+          {error && (
+            <p className="text-sm" style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>
+              🍕 {error}
+            </p>
+          )}
 
           <button type="submit" disabled={loading} className="w-full siege-btn-primary mt-2">
-            {loading ? 'Deploying...' : 'Deploy Operator'}
+            {loading ? 'Loading...' : '🍕 Let\'s Go!'}
           </button>
         </form>
 
-        <p className="text-center text-xs font-mono mt-6" style={{ color: '#3d4560' }}>
+        <p className="text-center text-sm mt-6" style={{ color: '#B0A090' }}>
           Already have an account?{' '}
           <button onClick={() => router.push('/login')}
-                  className="hover:text-white transition-colors" style={{ color: '#f7941d' }}>
-            Sign in
+                  className="transition-colors hover:text-r6-red"
+                  style={{ color: '#008C45', fontFamily: "'Fredoka One', sans-serif" }}>
+            Log In
           </button>
         </p>
       </div>

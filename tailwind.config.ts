@@ -9,21 +9,21 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Barlow Condensed"', '"Rajdhani"', 'sans-serif'],
-        mono: ['"Share Tech Mono"', 'ui-monospace', 'monospace'],
+        sans: ['"Fredoka One"', '"Nunito"', 'sans-serif'],
+        mono: ['"Nunito"', 'ui-sans-serif', 'sans-serif'],
       },
       colors: {
         r6: {
-          bg:      '#05050a',
-          deep:    '#08080f',
-          panel:   '#0d0d14',
-          card:    '#111118',
-          border:  '#242432',
-          orange:  '#f7941d',
-          amber:   '#c4751a',
-          red:     '#e8001a',
-          text:    '#e8eaf2',
-          muted:   '#6b7090',
+          bg:      '#FFF9F0',
+          deep:    '#FFF0E0',
+          panel:   '#FFF5EE',
+          card:    '#FFFFFF',
+          border:  '#E0CCB0',
+          orange:  '#008C45',   // Italian green (primary action)
+          amber:   '#006030',   // dark green
+          red:     '#CE2B37',   // Italian red
+          text:    '#1A1A2E',
+          muted:   '#7A7A8C',
           green:   '#22c55e',
           danger:  '#ef4444',
         },

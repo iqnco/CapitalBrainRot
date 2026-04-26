@@ -69,7 +69,7 @@ function OperatorCard({ op, selected, onSelect }: {
         }}
       >
         <img
-          src={`/chibis/${op.id}.png`}
+          src={`/Characters/8bit/${op.id}.png`}
           alt={op.name}
           style={{
             height: '120px',
@@ -235,7 +235,7 @@ function OperatorSelectContent() {
             }}
           >
             <img
-              src={`/chibis/${chosenOp.id}.png`}
+              src={`/Characters/8bit/${chosenOp.id}.png`}
               alt={chosenOp.name}
               style={{
                 height: '48px', width: 'auto', imageRendering: 'pixelated',

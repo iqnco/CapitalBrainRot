@@ -89,7 +89,7 @@ export default function AccountPage() {
                   }}
                 >
                   <img
-                    src={`/chibis/${op.id}.png`}
+                    src={`/Characters/8bit/${op.id}.png`}
                     alt={op.name}
                     style={{ width: 52, height: 52, objectFit: 'contain', imageRendering: 'pixelated' }}
                     onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}

@@ -11,6 +11,7 @@ export interface Profile {
   favorite_operator: string | null;
   country: string | null;
   created_at: string;
+  snake_highscore: number | null;
 }
 
 export interface LeaderboardEntry {
@@ -25,15 +26,16 @@ export interface LeaderboardEntry {
 }
 
 export const OPERATORS = [
-  { id: 'ash',         name: 'ASH'         },
-  { id: 'doc',         name: 'DOC'         },
-  { id: 'blitz',       name: 'BLITZ'       },
-  { id: 'caveira',     name: 'CAVEIRA'     },
-  { id: 'tachanka',    name: 'TACHANKA'    },
-  { id: 'mozzie',      name: 'MOZZIE'      },
-  { id: 'deimos',      name: 'DEIMOS'      },
-  { id: 'thunderbird', name: 'THUNDERBIRD' },
-  { id: 'warden',      name: 'WARDEN'      },
+  { id: 'tralalero',             name: 'Tralalero Tralala'    },
+  { id: 'bombardilocrocodilo',   name: 'Bombardilo Crocodilo' },
+  { id: 'bombardinigusini',      name: 'Bombardini Gusini'    },
+  { id: 'capuccinoasesino',      name: 'Cappuccino Assassino' },
+  { id: 'tungtungsahur',         name: 'Tung Tung Sahur'      },
+  { id: 'lirililarila',          name: 'Lirili Larila'        },
+  { id: 'brrprrpatapim',         name: 'Brr Brr Patapim'      },
+  { id: 'trippitroppi',          name: 'Trippi Troppi'        },
+  { id: 'chimpanzinibananini',   name: 'Chimpanzini Bananini' },
+  { id: 'lavacasaturnosaturnita',name: 'La Vaca Saturna Saturnita' },
 ];
 
 export const COUNTRIES = [
@@ -239,12 +241,12 @@ export function flagEmoji(code: string): string {
 }
 
 export function kdToRank(kd: number): { file: string; label: string } {
-  if (kd >= 0.92) return { file: 'Champ1',    label: 'Champion' };
-  if (kd >= 0.82) return { file: 'Diamons1',  label: 'Diamond'  };
-  if (kd >= 0.72) return { file: 'Emerald1',  label: 'Emerald'  };
-  if (kd >= 0.62) return { file: 'Plat1',     label: 'Platinum' };
-  if (kd >= 0.50) return { file: 'Gold1',     label: 'Gold'     };
-  if (kd >= 0.38) return { file: 'Silver1',   label: 'Silver'   };
-  if (kd >= 0.25) return { file: 'Bronze1',   label: 'Bronze'   };
-  return                  { file: 'Copper1',  label: 'Copper'   };
+  if (kd >= 0.92) return { file: 'brain_champion', label: 'Full Brainrot'  };
+  if (kd >= 0.82) return { file: 'brain_diamond',  label: 'Totally Fried'  };
+  if (kd >= 0.72) return { file: 'brain_emerald',  label: 'Liquefied'      };
+  if (kd >= 0.62) return { file: 'brain_platinum', label: 'Moldy'          };
+  if (kd >= 0.50) return { file: 'brain_gold',     label: 'Soggy'          };
+  if (kd >= 0.38) return { file: 'brain_silver',   label: 'Dazed'          };
+  if (kd >= 0.25) return { file: 'brain_bronze',   label: 'A Bit Rotten'   };
+  return                  { file: 'brain_copper',  label: 'Fresh Brain'    };
 }

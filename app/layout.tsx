@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import WadieChat from '@/components/WadieChat';
+import RotMeter from '@/components/RotMeter';
 import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider } from '@/components/AuthProvider';
 
 export const metadata: Metadata = {
-  title: 'Rainbow Study Siege',
-  description: 'Tactical Study Training — Powered by Claude',
+  title: 'Capital BrainRot 🍕',
+  description: 'Studio Italiano — Powered by Claude',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased">
         <AuthProvider>
           {children}
-          <WadieChat />
+          <RotMeter />
           <Analytics />
         </AuthProvider>
       </body>

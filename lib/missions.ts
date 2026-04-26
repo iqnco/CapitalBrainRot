@@ -1,9 +1,9 @@
 export interface MissionMap {
   id: string;
-  name: string;         // e.g. "Midterm"
-  codename: string;     // e.g. "BREACH ALPHA"
-  contentFolder: string; // subfolder under content/missions/
-  available?: boolean;  // defaults to true if omitted
+  name: string;
+  codename: string;
+  contentFolder: string;
+  available?: boolean;
 }
 
 export interface Mission {
@@ -11,36 +11,35 @@ export interface Mission {
   name: string;
   codename: string;
   description: string;
-  contentFile?: string;   // single-map missions (plain .md file)
-  maps?: MissionMap[];    // multi-map missions (folder of PDFs/docs)
+  contentFile?: string;
+  maps?: MissionMap[];
   difficulty: 'ROOKIE' | 'OPERATOR' | 'ELITE';
   available: boolean;
 }
 
 export const MISSIONS: Mission[] = [
   {
-    id: 'operation-behave-organizationally',
-    name: 'Organizational Behavior',
-    codename: 'OB RECON',
-    description: 'Organizational Behavior — IE University',
-    difficulty: 'OPERATOR',
+    id: 'capital-markets',
+    name: 'Capital Markets',
+    codename: 'DELIRIO TOTALE',
+    description: 'Capital Markets — IE University 🍕',
+    difficulty: 'ELITE',
     available: true,
     maps: [
       {
         id: 'midterm',
         name: 'Midterm',
-        codename: 'BREACH ALPHA',
+        codename: 'PRIMA TORTURA',
         contentFolder: 'ob-midterm',
         available: false,
       },
       {
         id: 'final',
         name: 'Final',
-        codename: 'BREACH OMEGA',
+        codename: 'TORTURA FINALE',
         contentFolder: 'ob-final',
       },
     ],
   },
-  // Add more missions here by dropping files into /content/missions/
-  // and adding an entry to this array
+  // Add more subjects here — drop files into /content/missions/ and add an entry
 ];

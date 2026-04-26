@@ -1,268 +1,800 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { MISSIONS } from '@/lib/missions';
 import { useAuth } from '@/components/AuthProvider';
+import {
+  CHAPTERS, getCompletedChapters, getUnlockedCharacters,
+  isChapterAvailable, isRankedUnlocked, getChapterStars, type Chapter,
+} from '@/lib/chapters';
+import { OPERATORS } from '@/lib/supabase';
+import { loadXP, getLevel } from '@/lib/progression';
 
-const DIFF_STYLE: Record<string, { label: string; color: string }> = {
-  ROOKIE:   { label: 'ROOKIE',   color: '#22c55e' },
-  OPERATOR: { label: 'OPERATOR', color: '#f7941d' },
-  ELITE:    { label: 'ELITE',    color: '#e8001a' },
+// Pin positions as % of the italy_map.png (1024×1536 portrait)
+// Calibrated by reading the actual map image pixel positions
+const PIN_POS: Record<string, { top: number; left: number }> = {
+  ch7: { top: 13, left: 23 }, // Piemonte  — Torino, NW corner
+  ch5: { top: 11, left: 39 }, // Lombardia — Milano, north-center
+  ch6: { top: 12, left: 56 }, // Veneto    — Venezia, northeast
+  ch4: { top: 32, left: 38 }, // Toscana   — Firenze, center
+  ch1: { top: 42, left: 43 }, // Lazio     — Roma, center
+  ch2: { top: 51, left: 50 }, // Campania  — Napoli, south of Roma
+  ch9: { top: 70, left: 56 }, // Calabria  — toe of boot
+  ch3: { top: 80, left: 40 }, // Sicilia   — Palermo, NW of island
+  ch8: { top: 57, left: 19 }, // Sardegna  — center of island
 };
 
-export default function LandingPage() {
+// Road order: Piemonte → Lombardia → Veneto → Toscana → Lazio → Campania → Sicilia
+const ROAD_ORDER = ['ch7','ch5','ch6','ch4','ch1','ch2','ch3'];
+
+// Build the list of road segments to traverse between two chapter IDs
+function buildWalkPath(fromId: string, toId: string): Array<{ fromId: string; toId: string }> {
+  const fi = ROAD_ORDER.indexOf(fromId);
+  const ti = ROAD_ORDER.indexOf(toId);
+  if (fi === -1 || ti === -1 || fi === ti) return [];
+  const step = fi < ti ? 1 : -1;
+  const segs: Array<{ fromId: string; toId: string }> = [];
+  for (let i = fi; i !== ti; i += step) {
+    segs.push({ fromId: ROAD_ORDER[i], toId: ROAD_ORDER[i + step] });
+  }
+  return segs;
+}
+
+type ChapterState = 'locked' | 'available' | 'completed';
+function getState(ch: Chapter, completed: Set<string>): ChapterState {
+  if (completed.has(ch.id)) return 'completed';
+  if (isChapterAvailable(ch)) return 'available';
+  return 'locked';
+}
+
+export default function CampaignMap() {
   const router = useRouter();
   const { user, profile, signOut } = useAuth();
-  const [selected, setSelected]       = useState<string | null>(null);
-  const [selectedMap, setSelectedMap] = useState<string | null>(null);
 
-  const selectedMission = MISSIONS.find((m) => m.id === selected) ?? null;
-  const canDeploy = selected !== null && (!selectedMission?.maps || selectedMap !== null);
+  const [completed,  setCompleted]  = useState<Set<string>>(new Set());
+  const [unlocked,   setUnlocked]   = useState<Set<string>>(new Set(['tralalero']));
+  const [rankedOk,   setRankedOk]   = useState(false);
+  const [selected,   setSelected]   = useState<Chapter | null>(null);
+  const [playerChar, setPlayerChar] = useState('tralalero');
+  const [levelInfo,  setLevelInfo]  = useState<ReturnType<typeof getLevel> | null>(null);
+  const [loading,       setLoading]       = useState(false);
+  const [dailyDone,     setDailyDone]     = useState<{ score: number; total: number } | null>(null);
+  const [mapSize,      setMapSize]      = useState({ w: 1, h: 1 });
+  const [walkPath,     setWalkPath]     = useState<Array<{ fromId: string; toId: string }>>([]);
+  const [walkProgress, setWalkProgress] = useState(0); // 0→1 across entire path
+  const [isMoving,     setIsMoving]     = useState(false);
+  const [charPos,      setCharPos]      = useState<string>('ch1');
+  const [zoomed,       setZoomed]       = useState(true);
+  const [stars,        setStars]        = useState<Record<string, number>>({});
+  const [panOffset,    setPanOffset]    = useState({ x: 0, y: 0 });
+  const [isDragging,   setIsDragging]   = useState(false);
+  const mapRef        = useRef<HTMLDivElement>(null);
+  const animRef       = useRef<number>();
+  const isDraggingRef = useRef(false);
+  const dragStartRef  = useRef({ mouseX: 0, mouseY: 0, panX: 0, panY: 0 });
 
-  const handleDeploy = () => {
-    if (!canDeploy || !selected) return;
-    const selectedMissionObj = MISSIONS.find((m) => m.id === selected);
-    const subject = selectedMissionObj
-      ? selectedMap
-        ? `${selectedMissionObj.name} — ${selectedMissionObj.maps?.find(m => m.id === selectedMap)?.name ?? ''}`
-        : selectedMissionObj.name
-      : '';
-    const params = new URLSearchParams({ missionId: selected });
-    if (selectedMap) params.set('mapId', selectedMap);
-    if (subject)    params.set('subject', subject);
-    router.push(`/chapters?${params.toString()}`);
+  useEffect(() => {
+    const comp = getCompletedChapters();
+    setCompleted(comp);
+    setUnlocked(getUnlockedCharacters());
+    setRankedOk(isRankedUnlocked());
+    setLevelInfo(getLevel(loadXP()));
+    setPlayerChar(localStorage.getItem('rts-player-operator') ?? 'tralalero');
+    const today = new Date().toISOString().slice(0, 10);
+    const saved = localStorage.getItem(`rts-daily-${today}`);
+    if (saved) setDailyDone(JSON.parse(saved));
+
+    // Load star ratings
+    const starMap: Record<string, number> = {};
+    CHAPTERS.forEach(ch => { starMap[ch.id] = getChapterStars(ch.id); });
+    setStars(starMap);
+
+    // Place character at first available chapter
+    const firstAvailable = CHAPTERS.find((ch, idx) =>
+      !comp.has(ch.id) && (idx === 0 || comp.has(CHAPTERS[idx - 1].id))
+    );
+    setCharPos(firstAvailable?.id ?? CHAPTERS[0].id);
+
+    // Walk animation triggered from results page
+    const from = localStorage.getItem('rts-move-from');
+    const to   = localStorage.getItem('rts-move-to');
+    if (from && to) {
+      localStorage.removeItem('rts-move-from');
+      localStorage.removeItem('rts-move-to');
+      const path = buildWalkPath(from, to);
+      if (path.length > 0) setWalkPath(path);
+    }
+  }, []);
+
+  // Track the map container size so we can place SVG overlays in pixels
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const obs = new ResizeObserver(entries => {
+      const { width, height } = entries[0].contentRect;
+      setMapSize({ w: width, h: height });
+    });
+    obs.observe(mapRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  // Convert % pin pos → pixel coords relative to the map image inside the container
+  // The image uses object-fit: contain so we account for letterbox/pillarbox padding
+  function pinPx(top: number, left: number) {
+    const mapAspect = 1024 / 1536; // portrait
+    const boxAspect = mapSize.w / mapSize.h;
+    let imgW: number, imgH: number, offX: number, offY: number;
+    if (boxAspect > mapAspect) {
+      // box wider → contain fills height, sides padded
+      imgH = mapSize.h;
+      imgW = mapSize.h * mapAspect;
+      offX = (mapSize.w - imgW) / 2;
+      offY = 0;
+    } else {
+      // box taller → contain fills width, top/bottom padded
+      imgW = mapSize.w;
+      imgH = mapSize.w / mapAspect;
+      offX = 0;
+      offY = (mapSize.h - imgH) / 2;
+    }
+    return {
+      x: offX + (left / 100) * imgW,
+      y: offY + (top  / 100) * imgH,
+    };
+  }
+
+  // Cubic bezier interpolation (matches road curve formula)
+  function bezierPt(t: number, from: { x: number; y: number }, to: { x: number; y: number }) {
+    const cx1 = from.x + (to.x - from.x) * 0.5; const cy1 = from.y;
+    const cx2 = from.x + (to.x - from.x) * 0.5; const cy2 = to.y;
+    return {
+      x: (1-t)**3*from.x + 3*(1-t)**2*t*cx1 + 3*(1-t)*t**2*cx2 + t**3*to.x,
+      y: (1-t)**3*from.y + 3*(1-t)**2*t*cy1 + 3*(1-t)*t**2*cy2 + t**3*to.y,
+    };
+  }
+
+  // Walk animation: play through all road segments in walkPath
+  useEffect(() => {
+    if (walkPath.length === 0 || mapSize.w <= 1) return;
+    const destination = walkPath[walkPath.length - 1].toId;
+    setIsMoving(true);
+    setWalkProgress(0);
+    const DURATION = Math.min(2400, 750 * walkPath.length); // cap at 2.4s total
+    const start = performance.now();
+    const tick = (now: number) => {
+      const raw = Math.min(1, (now - start) / DURATION);
+      // ease-in at start, ease-out at end, linear in the middle
+      const eased = raw < 0.5 ? 2 * raw * raw : -1 + (4 - 2 * raw) * raw;
+      setWalkProgress(eased);
+      if (raw < 1) {
+        animRef.current = requestAnimationFrame(tick);
+      } else {
+        setIsMoving(false);
+        setCharPos(destination);
+        setWalkPath([]);
+        setWalkProgress(0);
+      }
+    };
+    animRef.current = requestAnimationFrame(tick);
+    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
+  }, [walkPath, mapSize.w]);
+
+  // Keyboard pan (WASD / arrow keys)
+  useEffect(() => {
+    const PAN_STEP = 50;
+    const handleKey = (e: KeyboardEvent) => {
+      let dx = 0, dy = 0;
+      if (e.key === 'ArrowLeft'  || e.key === 'a' || e.key === 'A') dx =  PAN_STEP;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') dx = -PAN_STEP;
+      if (e.key === 'ArrowUp'    || e.key === 'w' || e.key === 'W') dy =  PAN_STEP;
+      if (e.key === 'ArrowDown'  || e.key === 's' || e.key === 'S') dy = -PAN_STEP;
+      if (dx !== 0 || dy !== 0) {
+        e.preventDefault();
+        setPanOffset(prev => ({ x: prev.x + dx, y: prev.y + dy }));
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
+
+  // Drag-to-pan handler
+  const handleMapMouseDown = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest('button')) return; // let buttons handle their own clicks
+    isDraggingRef.current = false;
+    dragStartRef.current = { mouseX: e.clientX, mouseY: e.clientY, panX: panOffset.x, panY: panOffset.y };
+    const onMove = (ev: MouseEvent) => {
+      const dx = ev.clientX - dragStartRef.current.mouseX;
+      const dy = ev.clientY - dragStartRef.current.mouseY;
+      if (!isDraggingRef.current && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+        isDraggingRef.current = true;
+        setIsDragging(true);
+      }
+      if (isDraggingRef.current) {
+        setPanOffset({ x: dragStartRef.current.panX + dx, y: dragStartRef.current.panY + dy });
+      }
+    };
+    const onUp = () => {
+      setIsDragging(false);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      // Reset isDraggingRef after a tick so click handlers can check it
+      setTimeout(() => { isDraggingRef.current = false; }, 0);
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
   };
 
+  // Which segments of the road are completed
+  function getSegmentState(fromId: string, toId: string): 'completed' | 'active' | 'locked' {
+    if (completed.has(fromId) && completed.has(toId)) return 'completed';
+    if (completed.has(fromId)) return 'active';
+    return 'locked';
+  }
+
+  const handlePlay = async (ch: Chapter) => {
+    setLoading(true);
+    const res  = await fetch('/api/chapter-questions', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chapterId: ch.id }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.questions) { setLoading(false); return; }
+    localStorage.setItem('rts-questions',       JSON.stringify(data.questions));
+    localStorage.setItem('rts-subject',          data.subject);
+    localStorage.setItem('rts-chapter-id',       ch.id);
+    localStorage.setItem('rts-player-operator',  playerChar);
+    localStorage.setItem('rts-operator-ids',     JSON.stringify(Array(data.questions.length).fill(ch.bossId)));
+    localStorage.removeItem('rts-daily-mode');
+    setLoading(false);
+    router.push(`/quiz?subject=${encodeURIComponent(data.subject)}`);
+  };
+
+  const handleRanked = async () => {
+    setLoading(true);
+    const res  = await fetch('/api/chapter-questions', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ranked: true }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.questions) { setLoading(false); return; }
+    const ops = [...OPERATORS].sort(() => Math.random() - 0.5);
+    localStorage.setItem('rts-questions',      JSON.stringify(data.questions));
+    localStorage.setItem('rts-subject',         data.subject);
+    localStorage.setItem('rts-operator-ids',    JSON.stringify(data.questions.map((_: unknown, i: number) => ops[i % ops.length].id)));
+    localStorage.setItem('rts-player-operator', playerChar);
+    localStorage.removeItem('rts-chapter-id');
+    localStorage.removeItem('rts-daily-mode');
+    setLoading(false);
+    router.push(`/quiz?subject=${encodeURIComponent(data.subject)}`);
+  };
+
+  const handleDaily = async () => {
+    const res  = await fetch('/api/daily-questions');
+    const data = await res.json();
+    if (!res.ok || !data.questions) return;
+    const ops = [...OPERATORS].sort(() => Math.random() - 0.5);
+    localStorage.setItem('rts-questions',      JSON.stringify(data.questions));
+    localStorage.setItem('rts-subject',         '🔥 Daily Brain Rot');
+    localStorage.setItem('rts-daily-mode',      'true');
+    localStorage.setItem('rts-operator-ids',    JSON.stringify(data.questions.map((_: unknown, i: number) => ops[i % ops.length].id)));
+    localStorage.setItem('rts-player-operator', profile?.favorite_operator ?? playerChar);
+    localStorage.removeItem('rts-chapter-id');
+    router.push('/quiz?subject=%F0%9F%94%A5%20Daily%20Brain%20Rot');
+  };
+
+  const unlockedArr = [...unlocked];
+  const selectedState = selected ? getState(selected, completed) : null;
+
+  // Find the "current" chapter (first available)
+  const currentChapter = CHAPTERS.find(ch => getState(ch, completed) === 'available');
+
+  // Compute zoom transform: scale up and center on current chapter
+  const ZOOM_LEVEL = 2.0;
+  const mapZoomStyle: React.CSSProperties = (() => {
+    const transition = isDragging ? 'none' : 'transform 0.55s cubic-bezier(0.34, 1.2, 0.64, 1)';
+    const { x: panX, y: panY } = panOffset;
+    if (!zoomed || mapSize.w <= 1) {
+      const t = `translate(${panX}px, ${panY}px)`;
+      return panX === 0 && panY === 0 ? { transition } : { transform: t, transformOrigin: 'center center', transition };
+    }
+    // Zoom follows: selected chapter → where character stands → first available → first chapter
+    const target = selected
+      ?? CHAPTERS.find(c => c.id === charPos)
+      ?? currentChapter
+      ?? CHAPTERS[0];
+    const pos = PIN_POS[target.id];
+    if (!pos) return { transition };
+    const { x: px, y: py } = pinPx(pos.top, pos.left);
+    // translate so pin lands at container center, then scale; pan is in screen-space so divide by ZOOM
+    const tx = mapSize.w / 2 - px + panX / ZOOM_LEVEL;
+    const ty = mapSize.h / 2 - py + panY / ZOOM_LEVEL;
+    return { transform: `scale(${ZOOM_LEVEL}) translate(${tx}px, ${ty}px)`, transformOrigin: 'center center', transition };
+  })();
+
   return (
-    <main className="min-h-screen siege-bg flex flex-col">
+    <div className="fixed inset-0 flex flex-col overflow-hidden">
+
+      {/* ── Full-bleed map background ── */}
+      {/* Outer div: layout anchor, never transforms — prevents white banner when zoomed */}
+      <div
+        ref={mapRef}
+        className="absolute inset-0"
+        style={{
+          background: '#feedce',
+          overflow: 'hidden',
+          cursor: isDragging ? 'grabbing' : 'grab',
+        }}
+        onMouseDown={handleMapMouseDown}
+      >
+      {/* Inner div: receives zoom + pan transform */}
+      <div style={{ position: 'absolute', inset: 0, ...mapZoomStyle }}>
+        {/* Italy map — contain shows the full map, matching background fills gaps */}
+        <img
+          src="/regions/italy_map.png"
+          alt="Italy"
+          draggable={false}
+          style={{
+            position: 'absolute', inset: 0,
+            width: '100%', height: '100%',
+            objectFit: 'contain',
+            objectPosition: 'center',
+            userSelect: 'none',
+          }}
+        />
+
+        {/* ── SVG road + nodes overlay ── */}
+        {mapSize.w > 1 && (
+          <svg
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible' }}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <filter id="glow-gold">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="glow-dim">
+                <feGaussianBlur stdDeviation="1" result="blur" />
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            {/* Road segments — one per pair of consecutive chapters */}
+            {ROAD_ORDER.map((id, i) => {
+              if (i === 0) return null;
+              const fromId  = ROAD_ORDER[i - 1];
+              const fromPos = PIN_POS[fromId];
+              const toPos   = PIN_POS[id];
+              if (!fromPos || !toPos) return null;
+              const from = pinPx(fromPos.top, fromPos.left);
+              const to   = pinPx(toPos.top,   toPos.left);
+              const segState = getSegmentState(fromId, id);
+              const cx1 = from.x + (to.x - from.x) * 0.5;
+              const cy1 = from.y;
+              const cx2 = from.x + (to.x - from.x) * 0.5;
+              const cy2 = to.y;
+              const d   = `M ${from.x} ${from.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${to.x} ${to.y}`;
+
+              return (
+                <g key={`seg-${fromId}-${id}`}>
+                  {/* Road shadow */}
+                  <path d={d} fill="none"
+                    stroke="rgba(0,0,0,0.35)" strokeWidth={segState === 'locked' ? 2.5 : 3}
+                    strokeLinecap="round" strokeDasharray={segState === 'locked' ? '5 5' : 'none'}
+                  />
+                  {/* Road fill */}
+                  <path d={d} fill="none"
+                    stroke={
+                      segState === 'completed' ? '#d4a017'
+                    : segState === 'active'    ? '#f7941d'
+                    :                            'rgba(180,140,80,0.35)'
+                    }
+                    strokeWidth={segState === 'locked' ? 1.5 : 2}
+                    strokeLinecap="round"
+                    strokeDasharray={segState === 'locked' ? '4 5' : 'none'}
+                    filter={segState !== 'locked' ? 'url(#glow-gold)' : undefined}
+                    style={segState === 'active' ? { animation: 'pulse-orange 1.8s ease-in-out infinite' } : undefined}
+                  />
+                </g>
+              );
+            })}
+          </svg>
+        )}
+
+        {/* ── Chapter node pins ── */}
+        {mapSize.w > 1 && CHAPTERS.map(ch => {
+          const pos   = PIN_POS[ch.id];
+          if (!pos) return null;
+          const { x, y } = pinPx(pos.top, pos.left);
+          const state  = getState(ch, completed);
+          const isSel  = selected?.id === ch.id;
+          const isCurr = currentChapter?.id === ch.id;
+
+          return (
+            <button
+              key={ch.id}
+              onClick={() => {
+                if (isDraggingRef.current) return;
+                setSelected(isSel ? null : ch);
+                setPanOffset({ x: 0, y: 0 }); // re-center on new selection
+                if (!isSel && !isMoving && charPos !== ch.id) {
+                  const path = buildWalkPath(charPos, ch.id);
+                  if (path.length > 0) setWalkPath(path);
+                }
+              }}
+              style={{
+                position: 'absolute',
+                left: x, top: y,
+                transform: 'translate(-50%, -50%)',
+                zIndex: isSel ? 25 : isCurr ? 20 : 10,
+                background: 'none', border: 'none', padding: 0,
+                cursor: state === 'locked' ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {/* Node platform circle */}
+              <div style={{
+                width: 56, height: 56,
+                borderRadius: '50%',
+                background:
+                  state === 'completed' ? 'linear-gradient(135deg, #008C45, #00c878)'
+                : state === 'available' ? `linear-gradient(135deg, ${ch.accentColor}, ${ch.accentColor}cc)`
+                : 'linear-gradient(135deg, #2a2a2a, #1a1a1a)',
+                border: `3px solid ${
+                  state === 'completed' ? 'rgba(0,200,120,0.8)'
+                : state === 'available' ? 'rgba(255,255,255,0.6)'
+                : 'rgba(255,255,255,0.15)'
+                }`,
+                boxShadow: state === 'locked' ? 'none'
+                  : state === 'completed' ? '0 4px 20px rgba(0,200,120,0.5), 0 0 0 4px rgba(0,200,120,0.15)'
+                  : `0 4px 20px ${ch.accentColor}66, 0 0 0 4px ${ch.accentColor}22`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                position: 'relative', overflow: 'visible',
+                transition: 'transform 0.15s',
+                transform: isSel ? 'scale(1.2)' : isCurr ? 'scale(1.1)' : 'scale(1)',
+              }}>
+                {state === 'locked' ? (
+                  <span style={{ fontSize: 22 }}>🔒</span>
+                ) : charPos === ch.id && !isMoving ? (
+                  // Player is here — show their character inside the circle
+                  <img
+                    src={`/Characters/8bit/${playerChar}.png`}
+                    alt="you"
+                    draggable={false}
+                    className="animate-boxer"
+                    style={{ width: 42, height: 42, objectFit: 'contain', imageRendering: 'pixelated' }}
+                  />
+                ) : (
+                  <img
+                    src={`/Characters/8bit/${ch.bossId}.png`}
+                    alt={ch.bossName}
+                    draggable={false}
+                    style={{
+                      width: 42, height: 42, objectFit: 'contain', imageRendering: 'pixelated',
+                      filter: state === 'completed' ? 'brightness(0.7) saturate(0.5)' : 'none',
+                    }}
+                  />
+                )}
+                {state === 'completed' && (
+                  <div style={{
+                    position: 'absolute', top: -4, right: -4,
+                    width: 20, height: 20, borderRadius: '50%',
+                    background: '#00c878', border: '2px solid white',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 10, color: 'white', fontWeight: 900,
+                  }}>✓</div>
+                )}
+              </div>
+
+              {/* Chapter label + stars below pin */}
+              <div style={{
+                marginTop: 5, textAlign: 'center',
+                background: 'rgba(10,5,0,0.8)',
+                backdropFilter: 'blur(4px)',
+                borderRadius: 8, padding: '3px 8px',
+                border: `1px solid ${isSel ? ch.accentColor : 'rgba(255,220,100,0.2)'}`,
+              }}>
+                <p style={{
+                  fontFamily: "'Fredoka One', sans-serif",
+                  fontSize: 9, letterSpacing: '0.05em',
+                  color: state === 'completed' ? '#00c878'
+                       : state === 'available' ? 'white'
+                       : 'rgba(255,255,255,0.3)',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {ch.number} · {ch.region}
+                </p>
+                {/* Star rating */}
+                {state !== 'locked' && (
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: 1, marginTop: 1 }}>
+                    {[1, 2, 3].map(i => (
+                      <span key={i} style={{
+                        fontSize: 8,
+                        color: i <= (stars[ch.id] ?? 0) ? '#d4a017' : 'rgba(255,255,255,0.15)',
+                        lineHeight: 1,
+                      }}>★</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </button>
+          );
+        })}
+
+        {/* ── Player character — walks along road segments, enters pin circle on arrival ── */}
+        {mapSize.w > 1 && isMoving && walkPath.length > 0 && (() => {
+          const N      = walkPath.length;
+          const scaled = walkProgress * N;
+          const segIdx = Math.min(Math.floor(scaled), N - 1);
+          const t      = scaled - segIdx; // 0→1 within this segment
+          const seg    = walkPath[segIdx];
+          if (!PIN_POS[seg.fromId] || !PIN_POS[seg.toId]) return null;
+
+          const from = pinPx(PIN_POS[seg.fromId].top, PIN_POS[seg.fromId].left);
+          const to   = pinPx(PIN_POS[seg.toId].top,   PIN_POS[seg.toId].left);
+          const pt   = bezierPt(t, from, to);
+
+          // Smooth facing: use derivative of bezier at t to get travel direction
+          const dt   = Math.min(t + 0.01, 1);
+          const ptDt = bezierPt(dt, from, to);
+          const facingLeft = ptDt.x < pt.x;
+
+          return (
+            <div style={{
+              position: 'absolute',
+              left: pt.x, top: pt.y,
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none', zIndex: 30,
+            }}>
+              <img
+                src={`/Characters/8bit/${playerChar}.png`}
+                alt="player"
+                draggable={false}
+                className="animate-boxer"
+                style={{
+                  height: 44, width: 'auto', objectFit: 'contain', imageRendering: 'pixelated', display: 'block',
+                  transform: facingLeft ? 'scaleX(-1)' : 'none',
+                }}
+              />
+            </div>
+          );
+        })()}
+      </div>{/* end inner zoom div */}
+
+      {/* Dark overlay sits OUTSIDE the zoom div so it always covers full screen — no banner mismatch */}
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        background: 'linear-gradient(160deg, rgba(30,15,0,0.35) 0%, rgba(10,5,0,0.18) 50%, rgba(30,15,0,0.38) 100%)',
+      }} />
+      </div>{/* end outer mapRef div */}
 
       {/* ── Top bar ── */}
-      <header className="flex items-center justify-between px-6 h-12 border-b"
-              style={{ background: 'rgba(5,5,10,0.9)', borderColor: 'rgba(232,0,26,0.2)' }}>
+      <header className="relative z-30 flex items-center justify-between px-4 h-12 flex-none"
+              style={{ background: 'rgba(10,5,0,0.7)', borderBottom: '1px solid rgba(255,210,80,0.2)', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center gap-2">
-          {/* R6 six-point icon */}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <polygon points="12,2 20,7 20,17 12,22 4,17 4,7" fill="none" stroke="#e8001a" strokeWidth="1.5"/>
-            <polygon points="12,5 17.5,8.5 17.5,15.5 12,19 6.5,15.5 6.5,8.5" fill="#e8001a" opacity="0.3"/>
-          </svg>
-          <span className="text-xs font-mono uppercase tracking-[0.3em]" style={{ color: '#e8001a' }}>
-            R6 SIEGE
+          <span style={{ fontSize: '1.2rem' }}>🍕</span>
+          <span className="text-xs uppercase tracking-[0.2em]"
+                style={{ color: '#f7941d', fontFamily: "'Fredoka One', sans-serif" }}>
+            Capital BrainRot
+          </span>
+          <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full"
+                style={{ background: 'rgba(212,160,23,0.2)', color: '#d4a017', fontFamily: "'Fredoka One', sans-serif", border: '1px solid rgba(212,160,23,0.3)' }}>
+            {completed.size}/{CHAPTERS.length} Conquered
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => router.push('/leaderboard')}
-            className="text-xs font-mono uppercase tracking-widest transition-colors hover:text-white"
-            style={{ color: '#6b7090' }}
-          >
+        <nav className="flex items-center gap-3">
+          <button onClick={() => router.push('/characters')}
+                  className="text-[10px] uppercase tracking-widest"
+                  style={{ color: 'rgba(255,220,150,0.6)', fontFamily: "'Fredoka One', sans-serif" }}>
+            Collection
+          </button>
+          <button onClick={() => router.push('/leaderboard')}
+                  className="text-[10px] uppercase tracking-widest"
+                  style={{ color: 'rgba(255,220,150,0.6)', fontFamily: "'Fredoka One', sans-serif" }}>
             Leaderboard
           </button>
           {user ? (
-            <>
-              <button
-                onClick={() => router.push('/account')}
-                className="flex items-center gap-2 px-3 py-1 border transition-colors hover:border-orange-400"
-                style={{ borderColor: 'rgba(247,148,29,0.35)', background: 'rgba(247,148,29,0.06)' }}
-              >
-                {profile?.favorite_operator && (
-                  <img
-                    src={`/chibis/${profile.favorite_operator}.png`}
-                    alt=""
-                    style={{ width: 20, height: 20, objectFit: 'contain', imageRendering: 'pixelated' }}
-                  />
-                )}
-                <span className="text-xs font-mono uppercase tracking-widest" style={{ color: '#f7941d' }}>
-                  {profile?.username ?? '...'}
+            <button onClick={() => router.push('/account')}
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl border"
+                    style={{ borderColor: 'rgba(212,160,23,0.4)', background: 'rgba(212,160,23,0.1)' }}>
+              {profile?.favorite_operator && (
+                <img src={`/Characters/8bit/${profile.favorite_operator}.png`} alt=""
+                     style={{ width: 18, height: 18, objectFit: 'contain', imageRendering: 'pixelated' }} />
+              )}
+              <span className="text-[10px] uppercase tracking-widest"
+                    style={{ color: '#d4a017', fontFamily: "'Fredoka One', sans-serif" }}>
+                {profile?.username ?? '...'}
+              </span>
+              {levelInfo && (
+                <span className="text-[8px] px-1 rounded"
+                      style={{ background: 'rgba(212,160,23,0.2)', color: '#d4a017', fontFamily: "'Fredoka One', sans-serif" }}>
+                  LV{levelInfo.level}
                 </span>
-              </button>
-              <button
-                onClick={() => signOut()}
-                className="text-xs font-mono uppercase tracking-widest transition-colors hover:text-white"
-                style={{ color: '#6b7090' }}
-              >
-                Sign Out
-              </button>
-            </>
+              )}
+            </button>
           ) : (
-            <>
-              <button
-                onClick={() => router.push('/login')}
-                className="text-xs font-mono uppercase tracking-widest transition-colors hover:text-white"
-                style={{ color: '#6b7090' }}
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => router.push('/signup')}
-                className="text-xs font-mono uppercase tracking-widest px-3 py-1 border transition-colors hover:text-white"
-                style={{ color: '#f7941d', borderColor: 'rgba(247,148,29,0.4)' }}
-              >
-                Sign Up
-              </button>
-            </>
+            <button onClick={() => router.push('/login')}
+                    className="text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-xl border"
+                    style={{ color: '#f7941d', borderColor: 'rgba(247,148,29,0.4)', fontFamily: "'Fredoka One', sans-serif" }}>
+              Log In
+            </button>
           )}
-        </div>
+        </nav>
       </header>
 
-      {/* ── Main content ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+      {/* ── Zoom toggle ── */}
+      <button
+        onClick={() => { setZoomed(z => !z); setPanOffset({ x: 0, y: 0 }); }}
+        className="fixed bottom-16 left-4 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-xl"
+        style={{
+          background: 'rgba(10,5,0,0.82)',
+          border: '1px solid rgba(255,220,100,0.3)',
+          backdropFilter: 'blur(8px)',
+          color: 'rgba(255,220,120,0.9)',
+          fontFamily: "'Fredoka One', sans-serif",
+          fontSize: 11,
+          cursor: 'pointer',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+        }}
+      >
+        {zoomed ? '🗺 Full Map' : '🎯 Focus'}
+      </button>
 
-        {/* Title block */}
-        <div className="text-center mb-14 animate-fade-in">
-          <p className="text-xs font-mono uppercase tracking-[0.5em] mb-5"
-             style={{ color: 'rgba(232,0,26,0.8)' }}>
-            // Tactical Study Simulation
-          </p>
-
-          <h1 className="text-glow-white leading-none mb-3"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900,
-                       fontSize: 'clamp(3rem, 10vw, 5.5rem)', letterSpacing: '0.06em',
-                       color: '#ffffff', textTransform: 'uppercase' }}>
-            RAINBOW
-          </h1>
-          <div className="siege-divider my-1 mx-auto" style={{ width: '70%' }} />
-          <h1 className="text-glow-orange leading-none"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900,
-                       fontSize: 'clamp(3rem, 10vw, 5.5rem)', letterSpacing: '0.06em',
-                       color: '#f7941d', textTransform: 'uppercase' }}>
-            STUDY SIEGE
-          </h1>
+      {/* ── Daily + Ranked quick buttons ── */}
+      {!selected && (
+        <div className="fixed bottom-6 right-4 z-30 flex flex-col gap-2 items-end">
+          {rankedOk && (
+            <button onClick={handleRanked} disabled={loading}
+                    className="flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider"
+                    style={{ background: 'rgba(212,160,23,0.9)', color: 'white', border: '2px solid rgba(255,220,100,0.4)', boxShadow: '0 4px 20px rgba(212,160,23,0.5)', fontFamily: "'Fredoka One', sans-serif", cursor: 'pointer' }}>
+              👑 RANKED
+            </button>
+          )}
+          <button
+            onClick={dailyDone ? undefined : handleDaily}
+            disabled={!!dailyDone}
+            className="flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider"
+            style={{
+              background: dailyDone ? 'rgba(0,140,69,0.8)' : 'rgba(206,43,55,0.9)',
+              color: 'white',
+              border: `2px solid ${dailyDone ? 'rgba(0,200,120,0.4)' : 'rgba(255,100,80,0.4)'}`,
+              boxShadow: dailyDone ? 'none' : '0 4px 20px rgba(206,43,55,0.5)',
+              fontFamily: "'Fredoka One', sans-serif",
+              cursor: dailyDone ? 'default' : 'pointer',
+            }}>
+            {dailyDone ? `✓ Daily ${Math.round((dailyDone.score / dailyDone.total) * 100)}%` : '🔥 DAILY'}
+          </button>
         </div>
+      )}
 
-        {/* ── Select Operation label ── */}
-        <div className="w-full max-w-3xl mb-3 flex items-center gap-3">
-          <div className="flex-1 h-px" style={{ background: 'rgba(232,0,26,0.25)' }} />
-          <p className="text-xs font-mono uppercase tracking-[0.35em]" style={{ color: '#6b7090' }}>
-            Select Operation
-          </p>
-          <div className="flex-1 h-px" style={{ background: 'rgba(232,0,26,0.25)' }} />
-        </div>
+      {/* ── Chapter briefing drawer ── */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40,
+        transform: selected ? 'translateY(0)' : 'translateY(110%)',
+        transition: 'transform 0.35s cubic-bezier(0.34,1.2,0.64,1)',
+        background: 'rgba(12,7,2,0.97)',
+        borderTop: `2px solid ${selected?.accentColor ?? '#d4a017'}`,
+        boxShadow: `0 -8px 40px ${selected?.accentColor ?? '#d4a017'}33`,
+        borderRadius: '24px 24px 0 0',
+        padding: '16px 20px 32px',
+        backdropFilter: 'blur(20px)',
+        maxHeight: '65vh', overflowY: 'auto',
+      }}>
+        {selected && (
+          <>
+            {/* Drag handle */}
+            <div className="flex justify-center mb-4">
+              <div style={{ width: 40, height: 3, borderRadius: 2, background: 'rgba(255,220,100,0.3)' }} />
+            </div>
 
-        {/* Mission list */}
-        <div className="w-full max-w-3xl space-y-2 mb-6">
-          {MISSIONS.map((m) => {
-            const isSelected = selected === m.id;
-            const diff = DIFF_STYLE[m.difficulty] ?? { label: m.difficulty, color: '#6b7090' };
-            return (
-              <button
-                key={m.id}
-                onClick={() => {
-                  if (!m.available) return;
-                  setSelected(m.id);
-                  setSelectedMap(null);
-                }}
-                disabled={!m.available}
-                className="w-full text-left p-5 transition-all duration-150 op-card"
-                style={{
-                  ...(isSelected && {
-                    borderColor: '#f7941d',
-                    background: 'rgba(247,148,29,0.07)',
-                    boxShadow: '0 0 22px rgba(247,148,29,0.2)',
-                  }),
-                  opacity: m.available ? 1 : 0.4,
-                  cursor: m.available ? 'pointer' : 'not-allowed',
-                }}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <p className="text-xs font-mono uppercase tracking-[0.3em] mb-0.5"
-                       style={{ color: isSelected ? '#f7941d' : 'rgba(232,0,26,0.7)' }}>
-                      {m.codename}
-                    </p>
-                    <p className="font-bold text-2xl uppercase tracking-wide leading-tight"
-                       style={{ color: isSelected ? '#ffffff' : '#c8cad6' }}>
-                      {m.name}
-                    </p>
-                    <p className="text-sm mt-1" style={{ color: '#6b7090' }}>{m.description}</p>
-                  </div>
-                  <div className="shrink-0 flex flex-col items-end gap-1 pt-0.5">
-                    <span className="text-xs font-mono uppercase tracking-widest px-2 py-0.5 border"
-                          style={{ color: diff.color, borderColor: `${diff.color}55`,
-                                   background: `${diff.color}10`,
-                                   clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))' }}>
-                      {diff.label}
-                    </span>
-                    {isSelected && (
-                      <span className="text-[10px] font-mono tracking-widest" style={{ color: '#f7941d' }}>
-                        ▶ SELECTED
-                      </span>
-                    )}
+            {/* Chapter header */}
+            <div className="flex items-center gap-4 mb-4">
+              <div style={{ position: 'relative', flexShrink: 0 }}>
+                <img src={`/Characters/8bit/${selected.bossId}.png`} alt={selected.bossName}
+                     style={{
+                       height: 88, width: 'auto', objectFit: 'contain', imageRendering: 'pixelated',
+                       filter: selectedState === 'locked' ? 'grayscale(1) brightness(0.3)' : 'drop-shadow(0 4px 16px rgba(0,0,0,0.9))',
+                     }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.3em', color: selected.accentColor, textTransform: 'uppercase', marginBottom: 2 }}>
+                  Chapter {selected.number} · {selected.region}
+                </p>
+                <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 20, fontWeight: 900, color: 'white', textTransform: 'uppercase', lineHeight: 1.1, marginBottom: 6 }}>
+                  {selected.name}
+                </p>
+                {/* Star rating in drawer */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                  {[1,2,3].map(i => (
+                    <span key={i} style={{ fontSize: 16, color: i <= (stars[selected.id] ?? 0) ? '#d4a017' : 'rgba(255,255,255,0.12)' }}>★</span>
+                  ))}
+                  {selectedState === 'completed' && (
+                    <span style={{ fontSize: 9, color: '#00c878', fontFamily: "'Fredoka One', sans-serif", letterSpacing: '0.1em', textTransform: 'uppercase' }}>Conquered</span>
+                  )}
+                </div>
+                <p style={{ fontSize: 10, color: 'rgba(255,220,150,0.5)', fontFamily: "'Fredoka One', sans-serif" }}>
+                  Boss: <span style={{ color: 'rgba(255,220,150,0.85)' }}>{selected.bossName}</span>
+                </p>
+              </div>
+              <button onClick={() => setSelected(null)}
+                      style={{ color: 'rgba(255,255,255,0.25)', fontSize: 22, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0, alignSelf: 'flex-start' }}>✕</button>
+            </div>
+
+            {/* Topic card */}
+            {selectedState !== 'locked' && (
+              <div style={{
+                background: `${selected.accentColor}18`,
+                border: `1px solid ${selected.accentColor}40`,
+                borderRadius: 12, padding: '10px 14px', marginBottom: 14,
+              }}>
+                <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.2em', color: selected.accentColor, textTransform: 'uppercase', marginBottom: 4 }}>
+                  📚 Topic — {selected.topic}
+                </p>
+                <p style={{ fontSize: 11, color: 'rgba(255,220,150,0.65)', fontFamily: "'Nunito', sans-serif" }}>
+                  {selected.topicHints}
+                </p>
+              </div>
+            )}
+
+            {selectedState === 'locked' ? (
+              <div className="text-center py-6">
+                <p style={{ color: 'rgba(255,220,150,0.4)', fontFamily: "'Fredoka One', sans-serif", fontSize: 14 }}>
+                  🔒 Complete Chapter {selected.number - 1} to unlock
+                </p>
+              </div>
+            ) : (
+              <>
+                {/* Character picker */}
+                <div className="mb-5">
+                  <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,220,150,0.5)', textTransform: 'uppercase', marginBottom: 8 }}>
+                    Play as
+                  </p>
+                  <div className="flex gap-2 flex-wrap">
+                    {unlockedArr.map(id => (
+                      <button key={id}
+                        onClick={() => { setPlayerChar(id); localStorage.setItem('rts-player-operator', id); }}
+                        style={{
+                          padding: 6, borderRadius: 12,
+                          border: `2px solid ${playerChar === id ? selected.accentColor : 'rgba(255,220,100,0.15)'}`,
+                          background: playerChar === id ? `${selected.accentColor}25` : 'rgba(255,255,255,0.04)',
+                          cursor: 'pointer', transition: 'all 0.1s',
+                        }}>
+                        <img src={`/Characters/8bit/${id}.png`} alt={id}
+                             style={{ width: 40, height: 40, objectFit: 'contain', imageRendering: 'pixelated', display: 'block' }} />
+                      </button>
+                    ))}
                   </div>
                 </div>
-              </button>
-            );
-          })}
-        </div>
 
-        {/* Map selection */}
-        {selectedMission?.maps && (
-          <div className="w-full max-w-3xl mb-6 animate-slide-up">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex-1 h-px" style={{ background: 'rgba(232,0,26,0.25)' }} />
-              <p className="text-xs font-mono uppercase tracking-[0.35em]" style={{ color: '#6b7090' }}>
-                Choose Map
-              </p>
-              <div className="flex-1 h-px" style={{ background: 'rgba(232,0,26,0.25)' }} />
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {selectedMission.maps.map((map) => {
-                const isActive = selectedMap === map.id;
-                const isLocked = map.available === false;
-                return (
-                  <button
-                    key={map.id}
-                    onClick={() => { if (!isLocked) setSelectedMap(map.id); }}
-                    disabled={isLocked}
-                    className="text-left p-4 transition-all duration-150 op-card"
-                    style={{
-                      ...(isActive && {
-                        borderColor: '#f7941d',
-                        background: 'rgba(247,148,29,0.07)',
-                        boxShadow: '0 0 16px rgba(247,148,29,0.2)',
-                      }),
-                      opacity: isLocked ? 0.35 : 1,
-                      cursor: isLocked ? 'not-allowed' : 'pointer',
-                    }}
-                  >
-                    <p className="text-[10px] font-mono uppercase tracking-[0.3em] mb-0.5"
-                       style={{ color: isActive ? '#f7941d' : 'rgba(232,0,26,0.6)' }}>
-                      {map.codename}
-                    </p>
-                    <p className="font-bold text-base uppercase tracking-wide"
-                       style={{ color: isActive ? '#ffffff' : '#c8cad6' }}>
-                      {map.name}
-                    </p>
-                    {isLocked && (
-                      <p className="text-[10px] font-mono mt-1 uppercase tracking-widest"
-                         style={{ color: '#6b7090' }}>
-                        [Classified]
-                      </p>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+                {/* Play button */}
+                <button
+                  onClick={() => handlePlay(selected)}
+                  disabled={loading}
+                  style={{
+                    width: '100%', padding: '15px',
+                    borderRadius: 18, border: `2px solid ${selected.accentColor}99`,
+                    background: `linear-gradient(135deg, ${selected.accentColor}ee, ${selected.accentColor}99)`,
+                    color: 'white', fontFamily: "'Fredoka One', sans-serif",
+                    fontSize: 18, fontWeight: 900, letterSpacing: '0.15em',
+                    textTransform: 'uppercase', cursor: loading ? 'wait' : 'pointer',
+                    boxShadow: `0 6px 30px ${selected.accentColor}55`,
+                    opacity: loading ? 0.7 : 1,
+                  }}>
+                  {loading ? '...' : selectedState === 'completed' ? `⚔ Replay CH${selected.number}` : `⚔ Siege ${selected.region}!`}
+                </button>
+              </>
+            )}
+          </>
         )}
-
-        {/* Deploy button */}
-        <button
-          onClick={handleDeploy}
-          disabled={!canDeploy}
-          className="siege-btn-primary mb-3"
-          style={{ minWidth: '320px', fontSize: '1.2rem', padding: '1rem 2rem' }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.8 }}>
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-          DEPLOY
-        </button>
-
-        <p className="text-xs font-mono uppercase tracking-[0.3em]" style={{ color: '#3a3a50' }}>
-          10 Objectives · 5 Lives
-        </p>
       </div>
-    </main>
+
+      {/* Click outside drawer to close */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-35"
+          style={{ zIndex: 35 }}
+          onClick={() => setSelected(null)}
+        />
+      )}
+    </div>
   );
 }

@@ -1,7 +1,24 @@
-# Rainbow Study Siege — CLAUDE.md
+# CapitalBrainRot — CLAUDE.md
+
+## Agent Team
+This project has a defined agent org. Before starting any significant work, check `.agents/TEAM.md`.
+
+| Invoke with | Agent | Good for |
+|---|---|---|
+| "As the Creative Director..." | Carla | New feature ideas, brand decisions |
+| "As the Game Designer..." | Marco | Mechanic design, UX flows, balance |
+| "As the Lead Engineer..." | Enzo | Implementation plans, code, estimates |
+| "As the Content Lead..." | Sofia | Writing/reviewing quiz questions |
+
+Full team session: *"Run a team session on [topic]"* — Carla pitches, Marco refines, Enzo estimates.
+
+---
 
 ## What this is
-A Duolingo-style flash study web app with a Rainbow Six Siege aesthetic. Built for Nacho to quiz himself on any subject using his own study materials.
+A Duolingo-style quiz app for Capital Markets (IE University) dressed in Italian brainrot aesthetic. The goal is to make studying feel chaotic, fun, and addictive.
+
+## Origin
+Forked from `rainbow_test_siege` (April 2026). All architecture decisions, patterns, and lessons learned from that project apply here — see below.
 
 ## Tech stack
 - **Next.js 15** (App Router, TypeScript)
@@ -12,7 +29,7 @@ A Duolingo-style flash study web app with a Rainbow Six Siege aesthetic. Built f
 
 ## Running locally
 ```bash
-cd ~/Desktop/Claudejects/rainbow_test_siege
+cd ~/Desktop/Claudejects/CapitalBrainRot
 npm install
 # Create .env.local with your API key (see .env.local.example)
 npm run dev
@@ -21,18 +38,18 @@ npm run dev
 
 ## Project structure
 ```
-rainbow_test_siege/
+CapitalBrainRot/
 ├── CLAUDE.md
 ├── package.json
 ├── next.config.ts               ← serverExternalPackages for pdf-parse & mammoth
-├── tailwind.config.ts           ← custom R6 color palette
+├── tailwind.config.ts           ← custom color palette (to be restyled)
 ├── .env.local                   ← ANTHROPIC_API_KEY (not committed)
 ├── app/
-│   ├── globals.css              ← R6 aesthetic: grid overlay, scanlines, animations
+│   ├── globals.css              ← visual aesthetic: grid overlay, scanlines, animations
 │   ├── layout.tsx
 │   ├── page.tsx                 ← Landing: subject + folder path inputs
-│   ├── quiz/page.tsx            ← Main quiz UI with HUD, armor, feedback
-│   ├── results/page.tsx         ← Score + R6 rank (Copper → Champion)
+│   ├── quiz/page.tsx            ← Main quiz UI with HUD, lives, feedback
+│   ├── results/page.tsx         ← Score + rank display
 │   └── api/
 │       ├── load-content/route.ts     ← Reads folder files, returns combined text
 │       └── generate-question/route.ts ← Calls Claude, returns typed Question JSON
@@ -42,9 +59,9 @@ rainbow_test_siege/
 │   ├── FillBlank.tsx
 │   ├── MatchPairs.tsx            ← Click-to-match interaction, shuffled right column
 │   ├── FeedbackOverlay.tsx       ← Shows correct/wrong + Claude's explanation
-│   ├── ArmorPlates.tsx           ← 3 orange armor bars (lives)
+│   ├── ArmorPlates.tsx           ← Lives display (3 bars)
 │   ├── ProgressBar.tsx
-│   └── HUDCorner.tsx             ← Tactical corner bracket decoration
+│   └── HUDCorner.tsx             ← Corner bracket decoration
 └── lib/
     └── types.ts                  ← All TypeScript types for questions
 ```
@@ -55,15 +72,15 @@ ANTHROPIC_API_KEY=sk-ant-...
 ```
 Same key used across all Claudejects projects.
 
-## How the quiz works
-1. User enters operation name (subject) + optional folder path on landing page
+## How the quiz works (inherited from Rainbow Study Siege)
+1. User enters subject name + optional folder path on landing page
 2. `POST /api/load-content` reads all .txt/.md/.pdf/.docx files from the folder
 3. Content is stored in localStorage, user navigates to /quiz
 4. Quiz cycles through 10 questions using a fixed type sequence:
    `MC → Fill → MC → Type → Match → MC → Fill → Type → MC → Fill`
 5. `POST /api/generate-question` sends content + type to Claude, returns JSON question
-6. On wrong answer: armor plate is lost, Claude's explanation is shown
-7. On armor = 0 or all 10 done → results page with R6 rank
+6. On wrong answer: a life is lost, Claude's explanation is shown
+7. On lives = 0 or all 10 done → results page with rank
 
 ## Question types
 | Type | Component |
@@ -73,16 +90,18 @@ Same key used across all Claudejects projects.
 | `type-answer` | Text field, checks against acceptableAnswers |
 | `match-pairs` | Click-to-match left ↔ right, shuffled right column |
 
-## R6 design language
-- **Colors**: bg `#080a0c`, card `#141820`, orange `#f7941d`, text `#dde3ee`
-- **Font**: Rajdhani (headings) + Share Tech Mono (mono) via Google Fonts
-- **Effects**: grid overlay (body::before), scanlines (.scanlines::after), HUD corners
-- **Feedback**: CORRECT = green / "TARGET ELIMINATED", WRONG = red / "OPERATOR DOWN"
+## Italian BrainRot design system
+- **Colors**: bg `#FFF9F0` (warm cream), primary `#008C45` (Italian green), accent `#CE2B37` (Italian red), text `#1A1A2E`
+- **Font**: Fredoka One (headings/buttons) + Nunito (body) via Google Fonts
+- **Effects**: confetti dot pattern (body::before), Italian tri-color divider (.siege-divider), rounded cards
+- **Feedback**: CORRECT = "BRAVISSIMO!", WRONG = "DISGRAZIATO!" + explanation
+- **Characters**: R6 operators renamed to Italian brainrot (Tralalero, Bombardiro, Cappuccino Assassino, etc.)
+- **Language**: all UI text in Italian brainrot style (Piazza, Domanda, Mandalo!, Mamma Mia!, etc.)
 
 ## Model
 - `claude-sonnet-4-6` — same as secretary-bot and ps_assistant
 
-## Known limitations
+## Known limitations (inherited)
 - No persistence across sessions (localStorage only)
 - Content is limited to first ~80k characters of folder contents
 - match-pairs auto-fails if mistakes ≥ number of pairs

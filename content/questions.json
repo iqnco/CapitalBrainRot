@@ -1,0 +1,429 @@
+[
+  {
+    "question": "Real assets in the economy include all but which one of the following?",
+    "options": ["Land", "Buildings", "Consumer durables", "Common stock"],
+    "correctIndex": 3,
+    "explanation": "Common stock is a financial asset — it represents a claim on real assets but is not itself a real asset. Land, buildings, and consumer durables are all tangible real assets.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "The material wealth of society is determined by the economy's ________, which is a function of the economy's ________.",
+    "options": ["investment bankers; financial assets", "investment bankers; real assets", "productive capacity; financial assets", "productive capacity; real assets"],
+    "correctIndex": 3,
+    "explanation": "Material wealth is determined by productive capacity (the ability to produce goods and services), which in turn depends on the real assets of the economy.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "________ assets generate net income to the economy, and ________ assets define allocation of income among investors.",
+    "options": ["Financial; financial", "Financial; real", "Real; financial", "Real; real"],
+    "correctIndex": 2,
+    "explanation": "Real assets (factories, machines, land) generate actual income. Financial assets (stocks, bonds) determine how that income is distributed among investors.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "________ is (are) real assets.",
+    "options": ["Bonds", "Production equipment", "Stocks", "Life insurance"],
+    "correctIndex": 1,
+    "explanation": "Production equipment is a tangible real asset used to produce goods. Bonds, stocks, and life insurance are all financial assets — claims on income or assets.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "Which one of the following best describes the purpose of derivatives markets?",
+    "options": ["Transferring risk from one party to another", "Investing for a short time period to earn a small rate of return", "Investing for retirement", "Earning interest income"],
+    "correctIndex": 0,
+    "explanation": "Derivatives (options, futures, swaps) allow parties to transfer or hedge risk. One party offloads risk to another who is willing to bear it, often in exchange for a premium.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "Which of the following is an example of an agency problem?",
+    "options": ["Managers engage in empire building", "Managers protect their jobs by avoiding risky projects", "Managers overconsume luxuries such as corporate jets", "All of the options are examples of agency problems"],
+    "correctIndex": 3,
+    "explanation": "Agency problems arise when managers (agents) act in their own interests rather than shareholders' interests. Empire building, risk avoidance, and perquisite consumption are all classic examples.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "In a market economy, capital resources are primarily allocated by ________.",
+    "options": ["governments", "corporation CEOs", "financial markets", "investment bankers"],
+    "correctIndex": 2,
+    "explanation": "Financial markets allocate capital by directing funds to firms and projects with the highest expected returns, channeling resources to their most productive uses.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "In securities markets, there should be a risk-return trade-off with higher-risk assets having ________ expected returns than lower-risk assets.",
+    "options": ["higher", "lower", "the same", "The answer cannot be determined from the information given"],
+    "correctIndex": 0,
+    "explanation": "Investors demand a risk premium for bearing additional risk. Higher-risk assets must offer higher expected returns to attract investors away from safer alternatives.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "________ portfolio management calls for holding diversified portfolios without spending effort or resources attempting to improve investment performance through security analysis.",
+    "options": ["Active", "Momentum", "Passive", "Market-timing"],
+    "correctIndex": 2,
+    "explanation": "Passive management accepts market returns by holding diversified portfolios (e.g., index funds) rather than trying to beat the market through security analysis.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "Security selection refers to ________.",
+    "options": ["choosing specific securities within each asset class", "deciding how much to invest in each asset class", "deciding how much to invest in the market portfolio versus the riskless asset", "deciding how much to hedge"],
+    "correctIndex": 0,
+    "explanation": "Security selection is the bottom-up process of identifying specific stocks or bonds within an asset class that are mispriced, as opposed to asset allocation which decides between broad categories.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "________ portfolio construction starts with asset allocation.",
+    "options": ["Bottom-up", "Top-down", "Upside-down", "Side-to-side"],
+    "correctIndex": 1,
+    "explanation": "Top-down portfolio construction begins with broad asset allocation decisions (e.g., stocks vs. bonds) before moving to sector selection and finally individual security selection.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "After much investigation, an investor finds that Intel stock is currently underpriced. This is an example of ________.",
+    "options": ["asset allocation", "security analysis", "top-down portfolio management", "passive management"],
+    "correctIndex": 1,
+    "explanation": "Security analysis involves evaluating individual securities to identify mispricing. Finding a stock underpriced is the goal of active security analysis.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "Firms that specialize in helping companies raise capital by selling securities to the public are called ________.",
+    "options": ["pension funds", "investment banks", "savings banks", "REITs"],
+    "correctIndex": 1,
+    "explanation": "Investment banks (e.g., Goldman Sachs, Morgan Stanley) underwrite and market new securities for corporations raising capital in primary markets.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "Financial intermediaries exist because small investors cannot efficiently ________.",
+    "options": ["diversify their portfolios", "gather information", "assess and monitor the credit risk of borrowers", "all of the options"],
+    "correctIndex": 3,
+    "explanation": "Financial intermediaries (banks, mutual funds, insurance companies) exist because they can do all three more cost-effectively than individual small investors acting alone.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "________ are examples of financial intermediaries.",
+    "options": ["Commercial banks", "Insurance companies", "Investment companies", "All of the options"],
+    "correctIndex": 3,
+    "explanation": "Commercial banks, insurance companies, and investment companies all act as financial intermediaries — channeling funds from savers to borrowers or investors.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "In which market do investment bankers market new securities?",
+    "options": ["Secondary market", "Tertiary market", "Primary market", "Derivatives market"],
+    "correctIndex": 2,
+    "explanation": "The primary market is where new securities are first issued and sold. Investment banks underwrite these offerings. Secondary markets are where already-issued securities trade between investors.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "In 2008 the largest corporate bankruptcy in U.S. history involved the investment banking firm of ________.",
+    "options": ["Goldman Sachs", "Lehman Brothers", "Morgan Stanley", "Merrill Lynch"],
+    "correctIndex": 1,
+    "explanation": "Lehman Brothers filed for Chapter 11 bankruptcy on September 15, 2008 — the largest bankruptcy in U.S. history — triggering a global financial crisis.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "A major cause of the mortgage market meltdown in 2007 and 2008 was linked to ________.",
+    "options": ["private equity investments", "securitization", "negative analyst recommendations", "online trading"],
+    "correctIndex": 1,
+    "explanation": "Securitization bundled subprime mortgages into complex instruments (CDOs, MBS). This spread risk opaquely, and when housing prices fell, losses cascaded through the financial system.",
+    "chapter": "CH1"
+  },
+  {
+    "question": "Which of the following is not a characteristic of a money market instrument?",
+    "options": ["liquidity", "marketability", "low risk", "maturity greater than 1 year"],
+    "correctIndex": 3,
+    "explanation": "Money market instruments have short maturities (under 1 year). They are liquid, marketable, and low risk. A maturity greater than 1 year is a capital market characteristic.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "An investor in a T-bill earns interest by ________.",
+    "options": ["receiving interest payments every 90 days", "receiving dividend payments every 30 days", "converting the T-bill at maturity into a higher-valued T-note", "buying the bill at a discount from the face value to be received at maturity"],
+    "correctIndex": 3,
+    "explanation": "T-bills are zero-coupon instruments. Investors pay less than face value at purchase and receive full face value at maturity — the difference is the interest earned.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "The bid price of a Treasury bill is ________.",
+    "options": ["the price at which the dealer is willing to sell the bill", "the price at which the dealer is willing to buy the bill", "greater than the ask price in dollar terms", "the price at which the investor can buy the Treasury bill"],
+    "correctIndex": 1,
+    "explanation": "The bid price is what the dealer will pay to buy the T-bill from you. The ask price is what the dealer charges to sell it to you. Bid < Ask always.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Which one of the following provides the best example of securitization?",
+    "options": ["convertible bond", "call option", "mortgage pass-through security", "preferred stock"],
+    "correctIndex": 2,
+    "explanation": "Securitization pools assets (like mortgages) and issues new securities backed by those cash flows. A mortgage pass-through security bundles many mortgages and passes payments through to investors.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "An investor in a 35% tax bracket wants to calculate the taxable equivalent yield r from a municipal bond yield rm. The formula she should use is ________.",
+    "options": ["r = rm × (1 - 35%)", "r = rm / (1 - 65%)", "r = rm × (1 - 65%)", "r = rm / (1 - 35%)"],
+    "correctIndex": 3,
+    "explanation": "Tax-exempt muni yield rm equals taxable yield r × (1 - tax rate). Solving for r: r = rm / (1 - tax rate). At 35% bracket: r = rm / 0.65.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "A bond that has no collateral is called a ________.",
+    "options": ["callable bond", "debenture", "junk bond", "mortgage"],
+    "correctIndex": 1,
+    "explanation": "A debenture is an unsecured bond backed only by the issuer's creditworthiness. Mortgages are secured by real estate; callable bonds have a call feature; junk bonds are high-yield/high-risk.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Currently, the Dow Jones Industrial Average is computed by ________.",
+    "options": ["adding the prices of 30 blue-chip stocks and dividing by 30", "calculating total market value of 30 firms and dividing by 30", "measuring current total market value relative to the previous day's value", "adding the prices of 30 blue-chip stocks and dividing by a divisor adjusted for stock splits and large dividends"],
+    "correctIndex": 3,
+    "explanation": "The DJIA is a price-weighted index. It sums 30 stock prices and divides by a divisor that is adjusted over time to account for stock splits and large dividends.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "In calculating the Dow Jones Industrial Average, the adjustment for a stock split occurs ________.",
+    "options": ["automatically", "by adjusting the divisor", "by adjusting the numerator", "by adjusting the market value weights"],
+    "correctIndex": 1,
+    "explanation": "When a stock splits, its price drops proportionally. To keep the DJIA continuous, the divisor is reduced so the index value remains unchanged through the split.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "What would be the P&L per share to an investor who bought an NVDA Call option with exercise price $150 if NVDA closed at $140 on expiration? The option premium was $8.00.",
+    "options": ["$0", "$8.00 gain", "$8.00 loss", "$10.00 gain"],
+    "correctIndex": 2,
+    "explanation": "The call is out-of-the-money (stock $140 < strike $150), so it expires worthless. The investor loses the entire $8.00 premium paid. Total P&L = -$8.00.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "An individual who goes short in a futures position ________.",
+    "options": ["commits to delivering the underlying commodity at contract maturity", "commits to purchasing the underlying commodity at contract maturity", "has the right to deliver the underlying commodity at contract maturity", "has the right to purchase the underlying commodity at contract maturity"],
+    "correctIndex": 0,
+    "explanation": "A short futures position is an obligation (not a right) to deliver the underlying asset at the futures price on the delivery date. The long side commits to purchase.",
+    "chapter": "CH2"
+  },
+  {
+    "question": "Company ABC sold 100,000 shares in an IPO at $20, with explicit bank fees of $150,000. The price immediately jumped to $28. What is the best estimate of the total cost to Company ABC?",
+    "options": ["$800,000", "$150,000", "$650,000", "$950,000"],
+    "correctIndex": 3,
+    "explanation": "Total IPO cost = explicit fees + underpricing cost. Underpricing = (28-20) × 100,000 = $800,000. Plus $150,000 fees = $950,000 total cost.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "Initial public offerings (IPOs) are usually ________ relative to the levels at which their prices stabilize after they begin trading in the secondary market.",
+    "options": ["overpriced", "correctly priced", "underpriced", "mispriced, but without any particular bias"],
+    "correctIndex": 2,
+    "explanation": "Empirically, IPOs are systematically underpriced — prices jump significantly on the first trading day. This benefits initial investors but is a cost to the issuing firm.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "The term 'underwriting syndicate' describes:",
+    "options": ["the issuing firm", "the lead underwriter", "the investment banks that participate in the underwriting", "the private investors that purchase the shares"],
+    "correctIndex": 2,
+    "explanation": "An underwriting syndicate is a group of investment banks that join together to underwrite and distribute a large securities offering, sharing both the risk and the fees.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "You hold 5,000 of 1 million outstanding shares of Wealthy Wranglers. The company plans to issue more shares so 2 million will be outstanding. This is called ________.",
+    "options": ["an advanced equity offering", "a weathered equity offering", "a seasoned equity offering", "a preseason equity offering"],
+    "correctIndex": 2,
+    "explanation": "A seasoned equity offering (SEO) is when an already-public company issues additional shares. Unlike an IPO, the company already has shares trading in the market.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "Which one of the following is a FALSE statement regarding NYSE specialists?",
+    "options": ["On a stock exchange most buy or sell orders are executed via an electronic system", "Specialists cannot trade for their own accounts", "Specialists maintain limit order books containing outstanding unexecuted limit orders", "Specialists stand ready to trade at narrower bid-ask spreads when the spread has become too wide"],
+    "correctIndex": 1,
+    "explanation": "This is false — specialists CAN trade for their own accounts. They act as dealers, buying and selling for their own inventory to maintain an orderly market.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "The term Inside Quotes refers to:",
+    "options": ["the difference between the lowest bid and the highest ask in the limit order book", "the difference between the highest bid and the lowest ask in the limit order book", "the difference between the lowest bid and the lowest ask in the limit order book", "the difference between the highest bid and the highest ask in the limit order book"],
+    "correctIndex": 1,
+    "explanation": "Inside quotes are the best available prices: the highest bid (best price anyone will pay) and the lowest ask (best price anyone will sell at). The spread between them is the inside spread.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "A bond dealer maintains a bid of 100.05 and ask of 100.32 on a bond (par $1,000). 500 bonds trade that day. What is the dealer's gross trading profit?",
+    "options": ["$1,350", "$500", "$2,700", "$1,450"],
+    "correctIndex": 0,
+    "explanation": "Spread = 100.32% - 100.05% = 0.27% of $1,000 = $2.70 per bond. 500 bonds × $2.70 = $1,350 gross profit.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "The ________ price is the price at which a dealer is willing to sell a security.",
+    "options": ["bid", "ask", "clearing", "settlement"],
+    "correctIndex": 1,
+    "explanation": "The ask (or offer) price is what the dealer charges to sell. The bid is what the dealer pays to buy. Investors buy at the ask and sell at the bid.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "The difference between the price at which a dealer is willing to buy and the price at which a dealer is willing to sell is called:",
+    "options": ["market spread", "bid-ask spread", "bid-ask gap", "market variation"],
+    "correctIndex": 1,
+    "explanation": "The bid-ask spread is the dealer's compensation for providing liquidity. It represents a transaction cost for investors — they buy higher than they can immediately sell.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "You purchased a stock at $17 per share. The stock is currently selling at $25. Your gains could be protected by placing a:",
+    "options": ["limit buy order", "limit sell order", "market order", "stop-loss order"],
+    "correctIndex": 3,
+    "explanation": "A stop-loss order triggers a sell if the price falls to a specified level (e.g., $22), locking in most of the gain. A limit sell order would only execute at or above the limit price.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "Commission structure: $30 plus $0.01 per share. If you purchase 3 round lots of a stock at $56, what is your commission? (1 round lot = 100 shares)",
+    "options": ["$20", "$22", "$33", "$26"],
+    "correctIndex": 2,
+    "explanation": "3 round lots = 300 shares. Commission = $30 + (300 × $0.01) = $30 + $3 = $33.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "In ________ markets, participants post bid and ask prices but orders are not automatically executed. ________ execute trades for others, and in ________ markets a computer matches orders with the limit order book automatically.",
+    "options": ["electronic; Dealers; brokers", "dealer; Brokers; electronic", "direct search; Brokers; electronic", "brokered; Dealers; direct search"],
+    "correctIndex": 1,
+    "explanation": "Dealer markets require human negotiation. Brokers act as agents executing trades on behalf of clients. Electronic markets automate execution via limit order book matching.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "Restrictions on trading involving insider information apply to: I. Corporate officers and directors  II. Major stockholders  III. Relatives of corporate directors and officers",
+    "options": ["I only", "I and II only", "II and III only", "I, II, and III"],
+    "correctIndex": 3,
+    "explanation": "SEC insider trading rules apply broadly — to officers, directors, major shareholders, AND their immediate relatives who may receive material non-public information.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "All major stock markets today are effectively:",
+    "options": ["specialist trading systems", "electronic trading systems", "continuous auction markets", "direct search markets"],
+    "correctIndex": 1,
+    "explanation": "Modern stock exchanges (NYSE, NASDAQ, etc.) have moved to electronic trading. Even the NYSE, once dominated by floor specialists, now processes the vast majority of trades electronically.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "The term latency refers to:",
+    "options": ["the lag between when an order is placed on the NYSE and when it is executed", "the amount of time it takes to accept, process, and deliver a trading order", "the time it takes to implement new rules for stock exchanges and computer trading systems", "the lag between when an order is executed and when the investor takes possession of the securities"],
+    "correctIndex": 1,
+    "explanation": "Latency is the total processing time for a trade order — a critical measure in high-frequency trading where milliseconds matter for competitive advantage.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "What was the result of high-frequency traders leaving the market during the flash crash of 2010?",
+    "options": ["Market liquidity decreased", "Market liquidity increased", "Market volatility decreased", "Trading frequency increased"],
+    "correctIndex": 0,
+    "explanation": "HFTs provide liquidity by continuously posting bid and ask quotes. When they withdrew during the 2010 flash crash, liquidity evaporated and prices crashed briefly before recovering.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "Margin requirement is 25%. You use full margin to buy 100 MSFT shares at $25. If price drops to $22, what is your percentage loss?",
+    "options": ["9%", "15%", "48%", "57%"],
+    "correctIndex": 2,
+    "explanation": "Amount invested (your equity) = 25% × $25 × 100 = $625. Loss = ($22 - $25) × 100 = -$300. Return = -$300 / $625 = -48%.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "You buy 200 shares of ABC at $50 on margin (initial margin 50%, maintenance margin 30%). Below what price will you get a margin call? (No dividends, ignore margin loan interest.)",
+    "options": ["$26.55", "$35.71", "$28.95", "$30.77"],
+    "correctIndex": 1,
+    "explanation": "Amount borrowed = 50% × $10,000 = $5,000. Margin call when: Market Value = Borrowed / (1 - MMR) = $5,000 / 0.70 = $7,142.86. Price = $7,142.86 / 200 = $35.71.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "You short-sell 200 shares of Tuckerton Trading Co. at $50 per share. What is your maximum possible gain, ignoring transaction costs?",
+    "options": ["$50", "$150", "$10,000", "Unlimited"],
+    "correctIndex": 2,
+    "explanation": "Maximum gain on a short sale = proceeds at sale price (stock can only fall to $0). Max gain = 200 × $50 = $10,000. Note: losses are unlimited as price can rise indefinitely.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "You short-sell 200 shares of Doggie Treats at $25. You post 50% margin. With a 25% maintenance margin, at what stock price do you get a margin call?",
+    "options": ["$28.85", "$30.00", "$31.50", "$32.25"],
+    "correctIndex": 1,
+    "explanation": "Total margin account = $5,000 + 50% × $5,000 = $7,500. Margin call when: M.V. = Total Margin / (1 + MMR) = $7,500 / 1.25 = $6,000. Price per share = $6,000 / 200 = $30.00.",
+    "chapter": "CH3"
+  },
+  {
+    "question": "If the currency of your country is depreciating, this should ________ exports and ________ imports.",
+    "options": ["stimulate; stimulate", "stimulate; discourage", "discourage; stimulate", "discourage; discourage"],
+    "correctIndex": 1,
+    "explanation": "A weaker currency makes your exports cheaper for foreigners (stimulating exports) and makes imports more expensive for domestic buyers (discouraging imports).",
+    "chapter": "CH12"
+  },
+  {
+    "question": "If interest rates increase, business investment expenditures are likely to ________ and consumer durable expenditures are likely to ________.",
+    "options": ["increase; increase", "increase; decrease", "decrease; increase", "decrease; decrease"],
+    "correctIndex": 3,
+    "explanation": "Higher interest rates raise borrowing costs for both businesses (capital investment) and consumers (mortgages, car loans), reducing both types of spending.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "Which of the following would NOT be considered a supply shock?",
+    "options": ["a change in the price of imported oil", "frost damage to the orange crop", "a change in the level of education of the average worker", "an increase in the level of government spending"],
+    "correctIndex": 3,
+    "explanation": "Government spending is a demand shock — it affects the demand for goods and services. Supply shocks affect productive capacity and costs (energy prices, natural disasters, workforce skills).",
+    "chapter": "CH12"
+  },
+  {
+    "question": "Which one of the following is NOT a demand shock?",
+    "options": ["increase in government spending", "increases in the money supply", "reductions in consumer spending", "improvements in education of U.S. workers"],
+    "correctIndex": 3,
+    "explanation": "Improvements in worker education affect productive capacity — a supply-side factor. Government spending, money supply changes, and consumer spending shifts all affect aggregate demand.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "Stock prices tend to ________ when corporate earnings ________.",
+    "options": ["rise; rise", "rise; fall", "fall; rise", "none of the options"],
+    "correctIndex": 0,
+    "explanation": "Stock prices reflect the present value of future earnings. When earnings rise, the fundamental value of firms increases, driving stock prices higher.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "The yield curve spread between the 10-year T-bond yield and the federal funds rate is a ________ economic indicator.",
+    "options": ["leading", "lagging", "coincident", "mixed"],
+    "correctIndex": 0,
+    "explanation": "The yield spread is a leading indicator — a steep yield curve (long rates much higher than short rates) typically predicts economic expansion, while an inverted curve predicts recession.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "If you believe the economy is about to go into a recession, you might change your asset allocation by selling ________ and buying ________.",
+    "options": ["growth stocks; long-term bonds", "long-term bonds; growth stocks", "defensive stocks; growth stocks", "defensive stocks; long-term bonds"],
+    "correctIndex": 0,
+    "explanation": "In a recession, growth stocks (cyclical) fall sharply. Long-term bonds tend to appreciate as interest rates fall during recessions. Shifting from equities to bonds is a defensive rotation.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "Which of the following affects a firm's sensitivity of its earnings to the business cycle? I. Financial leverage  II. Operating leverage  III. Type of product",
+    "options": ["II only", "I and II only", "I and III only", "I, II, and III"],
+    "correctIndex": 3,
+    "explanation": "All three matter: financial leverage amplifies earnings swings; operating leverage (fixed vs. variable costs) affects earnings volatility; product type determines whether demand is cyclical or defensive.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "Which industry would you expect to have the highest dividend payout yields?",
+    "options": ["biotech", "technology", "electric utility", "business software"],
+    "correctIndex": 2,
+    "explanation": "Electric utilities are mature, regulated businesses with stable cash flows and limited reinvestment needs, so they pay out high dividends. Biotech and tech reinvest heavily for growth.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "If very slow economic growth is expected in the foreseeable future, one would want to invest in industries with ________ sensitivity to economic conditions.",
+    "options": ["below-average", "average", "above-average", "Since growth is slow, sensitivity to economic conditions is not an issue"],
+    "correctIndex": 0,
+    "explanation": "In a slow-growth environment, cyclical industries perform poorly. Defensive industries (food, utilities, healthcare) with below-average economic sensitivity hold up better.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "Pharmaceuticals, food, and other necessities would be good performers during the ________ stage of the business cycle.",
+    "options": ["peak", "contraction", "trough", "expansion"],
+    "correctIndex": 1,
+    "explanation": "Defensive industries providing necessities perform relatively well during contractions because demand for food, medicine, and utilities doesn't fall sharply even when incomes decline.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "An investment strategy that entails shifting the portfolio into industry sectors expected to outperform based on macroeconomic forecasts is termed ________.",
+    "options": ["sector rotation", "contraction/expansion analysis", "life-cycle analysis", "business-cycle shifting"],
+    "correctIndex": 0,
+    "explanation": "Sector rotation is an active strategy of moving between industry sectors based on where we are in the business cycle — e.g., into cyclicals during expansion, defensives during contraction.",
+    "chapter": "CH12"
+  },
+  {
+    "question": "A personal care gadget industry has a 60% household penetration rate (difficult to grow further) and fierce price competition. This indicates the industry is in the ________ stage.",
+    "options": ["start-up", "consolidation", "maturity", "relative decline"],
+    "correctIndex": 2,
+    "explanation": "High market penetration and price wars are hallmarks of the maturity stage — the market is saturated, growth slows, and firms compete on price rather than differentiation.",
+    "chapter": "CH12"
+  }
+]
