@@ -3,21 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MatchReport } from '@/lib/types';
-
-const RANKS = [
-  { name: 'Copper',   color: '#a0522d' },
-  { name: 'Bronze',   color: '#cd7f32' },
-  { name: 'Silver',   color: '#9da8ba' },
-  { name: 'Gold',     color: '#d4a017' },
-  { name: 'Platinum', color: '#00b4cc' },
-  { name: 'Emerald',  color: '#00c878' },
-  { name: 'Diamond',  color: '#8b7cf7' },
-  { name: 'Champion', color: '#f7941d' },
-];
+import { kdToRank } from '@/lib/supabase';
 
 function getRank(score: number, total: number) {
   const pct = total > 0 ? score / total : 0;
-  return RANKS[Math.min(7, Math.floor(pct * 8))];
+  return kdToRank(pct);
 }
 
 export default function HistoryPage() {
@@ -91,11 +81,12 @@ export default function HistoryPage() {
                        style={{ color: '#e8eaf2' }}>{report.subject}</p>
                     <p className="text-xs font-mono mt-0.5" style={{ color: '#6b7090' }}>{date}</p>
                   </div>
-                  <div className="text-right shrink-0">
-                    <p className="font-bold text-sm" style={{ color: rank.color, fontFamily: "'Barlow Condensed', sans-serif" }}>
-                      {rank.name}
-                    </p>
-                    <p className="text-xs font-mono" style={{ color: '#6b7090' }}>{pct}%</p>
+                  <div className="flex flex-col items-center shrink-0 gap-0.5">
+                    <img src={`/RankIcons/${rank.file}.png`} alt={rank.label}
+                         style={{ width: 36, height: 36, imageRendering: 'pixelated' }} />
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-center"
+                       style={{ color: '#FFF9F0', fontFamily: "'Fredoka One', sans-serif" }}>{rank.label}</p>
+                    <p className="text-[10px] font-mono" style={{ color: '#7A7A8C' }}>{pct}%</p>
                   </div>
                 </div>
 

@@ -55,6 +55,12 @@ export default function AccountPage() {
           <span className="text-xs font-mono uppercase tracking-[0.3em]"
                 style={{ color: 'rgba(232,0,26,0.75)' }}>// Operator HQ</span>
         </div>
+        <button
+          onClick={async () => { await supabase.auth.signOut(); router.push('/login'); }}
+          className="text-xs font-mono tracking-widest uppercase transition-colors hover:text-white"
+          style={{ color: '#CE2B37' }}>
+          SIGN OUT
+        </button>
       </header>
 
       <div className="mx-auto max-w-md px-4 pt-8 space-y-8">
