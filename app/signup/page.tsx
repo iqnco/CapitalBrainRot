@@ -38,6 +38,9 @@ export default function SignupPage() {
     if (signupErr) { setError(signupErr.message); setLoading(false); return; }
 
     if (signupData.user) {
+      if (signupData.session) {
+        await supabase.auth.setSession(signupData.session);
+      }
       await supabase.from('profiles').upsert({
         id: signupData.user.id,
         username,

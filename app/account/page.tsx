@@ -7,7 +7,7 @@ import { useAuth } from '@/components/AuthProvider';
 
 export default function AccountPage() {
   const router = useRouter();
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading, refreshProfile } = useAuth();
   const [operator, setOperator] = useState('ash');
   const [country, setCountry]   = useState('US');
   const [saving, setSaving]     = useState(false);
@@ -28,6 +28,7 @@ export default function AccountPage() {
     if (!user) return;
     setSaving(true);
     await supabase.from('profiles').update({ favorite_operator: operator, country }).eq('id', user.id);
+    await refreshProfile();
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
