@@ -8,7 +8,7 @@ import { useAuth } from '@/components/AuthProvider';
 export default function AccountPage() {
   const router = useRouter();
   const { user, profile, loading, refreshProfile } = useAuth();
-  const [operator, setOperator] = useState('ash');
+  const [operator, setOperator] = useState('tralalero');
   const [country, setCountry]   = useState('US');
   const [saving, setSaving]     = useState(false);
   const [saved, setSaved]       = useState(false);
@@ -19,7 +19,7 @@ export default function AccountPage() {
 
   useEffect(() => {
     if (profile) {
-      setOperator(profile.favorite_operator ?? 'ash');
+      setOperator(profile.favorite_operator ?? 'tralalero');
       setCountry(profile.country ?? 'US');
     }
   }, [profile]);
@@ -38,29 +38,38 @@ export default function AccountPage() {
     return (
       <main className="h-screen siege-bg flex items-center justify-center">
         <div className="w-5 h-5 rounded-full border-2 animate-spin"
-             style={{ borderColor: '#f7941d', borderTopColor: 'transparent' }} />
+             style={{ borderColor: '#008C45', borderTopColor: 'transparent' }} />
       </main>
     );
   }
 
+  const labelStyle: React.CSSProperties = {
+    color: '#7A7A8C',
+    fontFamily: "'Fredoka One', sans-serif",
+    fontSize: '0.7rem',
+    textTransform: 'uppercase',
+    letterSpacing: '0.15em',
+  };
+
   return (
-    <main className="min-h-screen siege-bg pb-16">
-      <header className="sticky top-0 z-10 flex items-center gap-4 px-5 h-12 border-b"
-              style={{ background: 'rgba(5,5,10,0.95)', borderColor: 'rgba(232,0,26,0.2)' }}>
+    <main className="min-h-screen siege-bg pb-24">
+      {/* Header */}
+      <header className="sticky top-0 z-10 flex items-center px-5 h-14 border-b"
+              style={{ background: 'rgba(255,249,240,0.95)', borderColor: '#E0CCB0', backdropFilter: 'blur(8px)' }}>
         <button onClick={() => router.push('/')}
-                className="text-xs font-mono tracking-widest uppercase transition-colors hover:text-white"
-                style={{ color: '#6b7090' }}>
-          ← LOBBY
+                className="text-sm transition-colors hover:opacity-70"
+                style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>
+          ← Lobby
         </button>
-        <div className="flex-1 text-center">
-          <span className="text-xs font-mono uppercase tracking-[0.3em]"
-                style={{ color: 'rgba(232,0,26,0.75)' }}>// Operator HQ</span>
-        </div>
+        <h1 className="flex-1 text-center text-base uppercase tracking-widest"
+            style={{ color: '#1A1A2E', fontFamily: "'Fredoka One', sans-serif" }}>
+          Operator HQ
+        </h1>
         <button
           onClick={async () => { await supabase.auth.signOut(); router.push('/login'); }}
-          className="text-xs font-mono tracking-widest uppercase transition-colors hover:text-white"
-          style={{ color: '#CE2B37' }}>
-          SIGN OUT
+          className="text-sm transition-colors hover:opacity-70"
+          style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>
+          Sign Out
         </button>
       </header>
 
@@ -68,19 +77,17 @@ export default function AccountPage() {
 
         {/* Identity */}
         <div className="op-card px-5 py-4">
-          <p className="text-[9px] font-mono uppercase tracking-widest mb-1" style={{ color: '#3d4560' }}>Callsign</p>
-          <p className="font-black text-xl uppercase tracking-widest" style={{ color: '#e8eaf2' }}>
-            {profile?.username}
+          <p className="mb-1" style={labelStyle}>Callsign</p>
+          <p className="font-black text-xl uppercase tracking-widest" style={{ color: '#1A1A2E', fontFamily: "'Fredoka One', sans-serif" }}>
+            {profile?.username ?? '—'}
           </p>
-          <p className="text-xs font-mono mt-1" style={{ color: '#6b7090' }}>{user.email}</p>
+          <p className="text-xs mt-1" style={{ color: '#B0A090', fontFamily: "'Nunito', sans-serif" }}>{user.email}</p>
         </div>
 
         {/* Operator picker */}
         <div>
-          <p className="text-xs font-mono uppercase tracking-widest mb-3" style={{ color: '#6b7090' }}>
-            Favorite Operator
-          </p>
-          <div className="grid grid-cols-3 gap-2">
+          <p className="mb-3" style={labelStyle}>Favourite Character</p>
+          <div className="grid grid-cols-5 gap-2">
             {OPERATORS.map(op => {
               const active = operator === op.id;
               return (
@@ -88,22 +95,22 @@ export default function AccountPage() {
                   key={op.id}
                   type="button"
                   onClick={() => setOperator(op.id)}
-                  className="flex flex-col items-center gap-1 py-2 px-1 transition-all"
+                  className="flex flex-col items-center gap-1 py-2 px-1 transition-all rounded-xl"
                   style={{
-                    background: active ? 'rgba(247,148,29,0.12)' : 'rgba(13,13,20,0.6)',
-                    border: `1px solid ${active ? 'rgba(247,148,29,0.7)' : 'rgba(255,255,255,0.07)'}`,
-                    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))',
+                    background: active ? 'rgba(0,140,69,0.1)' : 'rgba(255,255,255,0.7)',
+                    border: `2px solid ${active ? '#008C45' : '#E0CCB0'}`,
+                    boxShadow: active ? '0 0 0 3px rgba(0,140,69,0.15)' : 'none',
                   }}
                 >
                   <img
                     src={`/Characters/8bit/${op.id}.png`}
                     alt={op.name}
-                    style={{ width: 52, height: 52, objectFit: 'contain', imageRendering: 'pixelated' }}
-                    onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
+                    style={{ width: 44, height: 44, objectFit: 'contain', imageRendering: 'pixelated' }}
+                    onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.15'; }}
                   />
-                  <span className="text-[9px] font-mono uppercase tracking-widest"
-                        style={{ color: active ? '#f7941d' : '#6b7090' }}>
-                    {op.name}
+                  <span className="text-[8px] uppercase tracking-wide text-center leading-tight"
+                        style={{ color: active ? '#008C45' : '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
+                    {op.name.split(' ')[0]}
                   </span>
                 </button>
               );
@@ -113,28 +120,26 @@ export default function AccountPage() {
 
         {/* Country picker */}
         <div>
-          <p className="text-xs font-mono uppercase tracking-widest mb-2" style={{ color: '#6b7090' }}>Country</p>
+          <p className="mb-2" style={labelStyle}>Country</p>
           <div className="flex items-center gap-3 mb-2">
-            <span style={{ fontSize: '2rem' }}>{flagEmoji(country)}</span>
-            <span className="text-sm font-mono" style={{ color: '#e8eaf2' }}>
+            <span style={{ fontSize: '1.8rem' }}>{flagEmoji(country)}</span>
+            <span className="text-sm" style={{ color: '#1A1A2E', fontFamily: "'Nunito', sans-serif" }}>
               {COUNTRIES.find(c => c.code === country)?.name}
             </span>
           </div>
           <select
             value={country}
             onChange={e => setCountry(e.target.value)}
-            className="w-full px-4 py-3 text-sm font-mono outline-none"
+            className="w-full px-4 py-3 text-sm outline-none rounded-xl"
             style={{
-              background: 'rgba(13,13,20,0.8)',
-              border: '1px solid rgba(247,148,29,0.3)',
-              color: '#e8eaf2',
-              clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
+              background: 'rgba(255,255,255,0.8)',
+              border: '2px solid #E0CCB0',
+              color: '#1A1A2E',
+              fontFamily: "'Nunito', sans-serif",
             }}
           >
             {COUNTRIES.map(c => (
-              <option key={c.code} value={c.code} style={{ background: '#0d0d14' }}>
-                {c.name}
-              </option>
+              <option key={c.code} value={c.code}>{c.name}</option>
             ))}
           </select>
         </div>
@@ -145,7 +150,7 @@ export default function AccountPage() {
           disabled={saving}
           className="w-full siege-btn-primary"
         >
-          {saved ? '✓ SAVED' : saving ? 'Saving...' : 'Save Changes'}
+          {saved ? '✓ Salvato!' : saving ? 'Saving...' : '🍕 Save Changes'}
         </button>
       </div>
     </main>
