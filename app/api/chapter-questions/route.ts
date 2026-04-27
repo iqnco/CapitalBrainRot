@@ -24,12 +24,18 @@ function shuffle<T>(arr: T[]): T[] {
 export async function POST(req: NextRequest) {
   const { chapterId, ranked } = (await req.json()) as { chapterId?: string; ranked?: boolean };
 
-  const bankPath = path.join(process.cwd(), 'content', 'questions.json');
-  if (!fs.existsSync(bankPath)) {
+  const cwd = process.cwd();
+  const mainPath   = path.join(cwd, 'content', 'questions.json');
+  const obFinalPath = path.join(cwd, 'content', 'missions', 'ob-final', 'questions.json');
+
+  if (!fs.existsSync(mainPath)) {
     return NextResponse.json({ error: 'Question bank not found' }, { status: 404 });
   }
 
-  const raw: BankQuestion[] = JSON.parse(fs.readFileSync(bankPath, 'utf-8'));
+  const raw: BankQuestion[] = [
+    ...JSON.parse(fs.readFileSync(mainPath, 'utf-8')),
+    ...(fs.existsSync(obFinalPath) ? JSON.parse(fs.readFileSync(obFinalPath, 'utf-8')) : []),
+  ];
 
   let pool: BankQuestion[];
   let subject: string;

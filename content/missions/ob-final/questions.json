@@ -108,198 +108,6 @@
     "chapter": "CH2"
   },
   {
-    "question": "What does a P/E (Price-to-Earnings) ratio measure?",
-    "options": [
-      "How much a company pays in dividends relative to its share price",
-      "How many times earnings investors are willing to pay per share",
-      "A company's total debt divided by total equity",
-      "The percentage return from dividends alone"
-    ],
-    "correctIndex": 1,
-    "explanation": "The P/E ratio is the current share price divided by earnings per share (EPS). It indicates how many dollars investors are paying for each dollar of earnings, reflecting growth expectations and market sentiment.",
-    "chapter": "CH3"
-  },
-  {
-    "question": "What is a dividend?",
-    "options": [
-      "A fee paid to a broker for executing a trade",
-      "A portion of company profits distributed to shareholders",
-      "The difference between a stock's buy and sell price",
-      "The interest payment on a corporate bond"
-    ],
-    "correctIndex": 1,
-    "explanation": "A dividend is a distribution of a portion of a company's earnings to its shareholders. It represents a return on equity investment, paid in cash or additional shares.",
-    "chapter": "CH3"
-  },
-  {
-    "question": "Which of the following best describes market capitalisation?",
-    "options": [
-      "A company's total debt outstanding",
-      "The book value of a company's assets",
-      "The total market value of a company's outstanding shares",
-      "A company's annual revenue"
-    ],
-    "correctIndex": 2,
-    "explanation": "Market capitalisation = share price \u00d7 number of outstanding shares. It reflects the market's total valuation of the company.",
-    "chapter": "CH3"
-  },
-  {
-    "question": "What is the role of an investment bank in an IPO?",
-    "options": [
-      "To buy all shares offered and hold them long-term",
-      "To regulate the issuance process on behalf of the government",
-      "To underwrite and distribute the new shares to investors",
-      "To act as the stock exchange for the new listing"
-    ],
-    "correctIndex": 2,
-    "explanation": "Investment banks act as underwriters in IPOs \u2014 they help the issuer price the shares, buy them from the company, and distribute them to institutional and retail investors.",
-    "chapter": "CH12"
-  },
-  {
-    "question": "What is 'underwriting' in the context of securities issuance?",
-    "options": [
-      "Writing the legal terms of a bond indenture",
-      "The guarantee by a bank to buy any unsold shares from an offering",
-      "The process of rating a company's creditworthiness",
-      "Insuring a company's assets against losses"
-    ],
-    "correctIndex": 1,
-    "explanation": "Underwriting means the investment bank guarantees to purchase any securities not bought by the public in an offering, taking on the risk of the issue in exchange for a fee (the underwriting spread).",
-    "chapter": "CH12"
-  },
-  {
-    "question": "Which regulatory body oversees securities markets in the United States?",
-    "options": [
-      "The Federal Reserve (Fed)",
-      "The Department of the Treasury",
-      "The Securities and Exchange Commission (SEC)",
-      "The Financial Industry Regulatory Authority (FINRA) only"
-    ],
-    "correctIndex": 2,
-    "explanation": "The SEC is the primary federal regulator of U.S. securities markets. It enforces securities laws, requires disclosure from public companies, and protects investors.",
-    "chapter": "CH12"
-  },
-  {
-    "question": "What is a derivative?",
-    "options": [
-      "A share of ownership in a company",
-      "A financial contract whose value is derived from an underlying asset",
-      "A government-issued bond",
-      "A type of savings account"
-    ],
-    "correctIndex": 1,
-    "explanation": "A derivative is a financial instrument whose value depends on (is derived from) the value of another asset, such as a stock, bond, commodity, or currency. Examples include options, futures, and swaps.",
-    "chapter": "CH12"
-  },
-  {
-    "question": "An options contract that gives the holder the right \u2014 but not the obligation \u2014 to BUY an asset at a set price is called a:",
-    "options": [
-      "Put option",
-      "Futures contract",
-      "Call option",
-      "Swap"
-    ],
-    "correctIndex": 2,
-    "explanation": "A call option gives the buyer the right to purchase the underlying asset at the strike price before or at expiration. A put option gives the right to sell.",
-    "chapter": "CH12"
-  },
-  {
-    "question": "What is the 'strike price' of an option?",
-    "options": [
-      "The current market price of the underlying asset",
-      "The premium paid to buy the option",
-      "The pre-agreed price at which the option can be exercised",
-      "The price at which the option was first issued"
-    ],
-    "correctIndex": 2,
-    "explanation": "The strike (or exercise) price is the fixed price at which the holder of the option can buy (call) or sell (put) the underlying asset if they choose to exercise the contract.",
-    "chapter": "CH12"
-  },
-  {
-    "question": "Which of the following best describes a futures contract?",
-    "options": [
-      "An optional agreement to trade an asset at a future date",
-      "A binding agreement to buy or sell an asset at a predetermined price on a future date",
-      "A loan agreement between two corporations",
-      "A dividend payment schedule for equity holders"
-    ],
-    "correctIndex": 1,
-    "explanation": "Unlike options, futures contracts obligate both parties to complete the transaction at the agreed price and date. They are standardised and traded on exchanges.",
-    "chapter": "CH12"
-  },
-  {
-    "question": "What does 'portfolio diversification' aim to achieve?",
-    "options": [
-      "Maximise returns by concentrating in the best-performing asset",
-      "Eliminate all investment risk entirely",
-      "Reduce unsystematic risk by spreading investments across different assets",
-      "Guarantee a fixed return regardless of market conditions"
-    ],
-    "correctIndex": 2,
-    "explanation": "Diversification reduces unsystematic (company-specific) risk by holding a mix of assets whose returns are not perfectly correlated. Systematic (market) risk cannot be diversified away.",
-    "chapter": "CH13"
-  },
-  {
-    "question": "According to the Capital Asset Pricing Model (CAPM), which type of risk is rewarded by the market?",
-    "options": [
-      "Unsystematic risk",
-      "Diversifiable risk",
-      "Systematic (market) risk measured by beta",
-      "Liquidity risk"
-    ],
-    "correctIndex": 2,
-    "explanation": "CAPM states that investors are only compensated for systematic risk (beta), because unsystematic risk can be eliminated through diversification and therefore carries no risk premium.",
-    "chapter": "CH13"
-  },
-  {
-    "question": "A stock with a beta of 1.5 is expected to:",
-    "options": [
-      "Move exactly in line with the market",
-      "Be 50% less volatile than the market",
-      "Move 1.5 times as much as the market in the same direction",
-      "Provide a return 1.5% above the risk-free rate"
-    ],
-    "correctIndex": 2,
-    "explanation": "Beta measures systematic risk relative to the market. A beta of 1.5 means the stock is expected to move 1.5\u00d7 the market's return \u2014 more volatile than the market.",
-    "chapter": "CH13"
-  },
-  {
-    "question": "What is the 'risk-free rate' typically represented by in financial models?",
-    "options": [
-      "The return on a blue-chip equity index",
-      "The yield on short-term government Treasury bills",
-      "The average corporate bond yield",
-      "The central bank's policy interest rate"
-    ],
-    "correctIndex": 1,
-    "explanation": "The risk-free rate is the theoretical return on an investment with zero risk, commonly approximated by the yield on short-term government Treasury bills (e.g. US T-bills).",
-    "chapter": "CH13"
-  },
-  {
-    "question": "What does 'liquidity' refer to in financial markets?",
-    "options": [
-      "The amount of cash a company holds",
-      "The ease with which an asset can be bought or sold without significantly affecting its price",
-      "The profitability of an investment",
-      "The credit rating of a bond issuer"
-    ],
-    "correctIndex": 1,
-    "explanation": "Liquidity describes how quickly and easily an asset can be converted to cash at or near its fair market value. Highly liquid markets (like major stock exchanges) allow large trades with minimal price impact.",
-    "chapter": "CH17"
-  },
-  {
-    "question": "What is the bid-ask spread?",
-    "options": [
-      "The difference between a stock's 52-week high and low",
-      "The difference between a bond's coupon rate and its yield to maturity",
-      "The difference between the highest price a buyer will pay and the lowest price a seller will accept",
-      "The fee charged by a mutual fund"
-    ],
-    "correctIndex": 2,
-    "explanation": "The bid-ask spread is the gap between the bid (maximum buyers will pay) and the ask (minimum sellers will accept). A narrower spread indicates higher liquidity.",
-    "chapter": "CH17"
-  },
-  {
     "question": "Which of the following is an example of a money market instrument?",
     "options": [
       "A 10-year government bond",
@@ -312,30 +120,6 @@
     "chapter": "CH1"
   },
   {
-    "question": "What is 'leverage' in a financial context?",
-    "options": [
-      "The process of issuing new shares to raise equity",
-      "Using borrowed capital to amplify potential returns (and losses)",
-      "The ratio of dividends paid to earnings per share",
-      "A strategy of only investing in government bonds"
-    ],
-    "correctIndex": 1,
-    "explanation": "Leverage involves using debt to increase the potential return on an investment. It amplifies both gains and losses, increasing risk.",
-    "chapter": "CH17"
-  },
-  {
-    "question": "What is the Efficient Market Hypothesis (EMH)?",
-    "options": [
-      "The theory that all investors make rational decisions",
-      "The claim that asset prices always fully reflect all available information",
-      "The idea that markets always produce the highest possible returns",
-      "The theory that only institutional investors can beat the market"
-    ],
-    "correctIndex": 1,
-    "explanation": "EMH states that asset prices fully and instantly reflect all available information, making it impossible to consistently achieve above-average returns through analysis or timing.",
-    "chapter": "CH13"
-  },
-  {
     "question": "Which of the following is classified as a fixed-income security?",
     "options": [
       "Common stock",
@@ -346,18 +130,6 @@
     "correctIndex": 2,
     "explanation": "Fixed-income securities pay a predetermined (fixed) stream of income. Corporate bonds pay regular coupon payments and return principal at maturity.",
     "chapter": "CH2"
-  },
-  {
-    "question": "What is 'short selling'?",
-    "options": [
-      "Selling shares you own at a price below purchase cost",
-      "Borrowing shares and selling them, hoping to buy them back cheaper later",
-      "Selling derivatives before their expiry date",
-      "Selling a bond before its maturity date"
-    ],
-    "correctIndex": 1,
-    "explanation": "Short selling involves borrowing shares from a broker, selling them at the current price, and hoping the price falls so you can buy them back cheaper and pocket the difference.",
-    "chapter": "CH17"
   },
   {
     "question": "Transportation stocks currently provide an expected rate of return of 15%. TTT will pay a dividend of $3. If the stock price is $60, what is the expected growth rate?",
@@ -708,18 +480,6 @@
     "chapter": "CH15"
   },
   {
-    "question": "A bull call spread (buy 45 call at $6.50, sell 55 call at $0) has a profit of ________ when the stock price at expiration is $53.",
-    "options": [
-      "$150",
-      "$400",
-      "$600",
-      "$1,850"
-    ],
-    "correctIndex": 0,
-    "explanation": "Payoff = ($53 \u2212 $45) \u00d7 100 = $800. Net profit = $800 \u2212 $650 (net cost) = $150.",
-    "chapter": "CH15"
-  },
-  {
     "question": "Which transaction is the riskiest if the market rises sharply?",
     "options": [
       "Writing an uncovered call",
@@ -732,15 +492,255 @@
     "chapter": "CH15"
   },
   {
-    "question": "The expected profit of a naked (uncovered) put strategy in a given scenario is:",
+    "question": "In a futures contract, margin must be posted by:",
     "options": [
-      "$300",
-      "$200",
-      "$475",
-      "$0"
+      "Buyers only",
+      "Sellers only",
+      "Both buyers and sellers",
+      "Speculators only"
     ],
     "correctIndex": 2,
-    "explanation": "Based on the probability-weighted payoffs from the slide scenario, the expected profit of the naked put position is $475.",
-    "chapter": "CH15"
+    "explanation": "Unlike options, both the long (buyer) and short (seller) party in a futures contract must post initial margin, since both face potential losses.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "A wheat farmer who wants to reduce price risk should:",
+    "options": [
+      "Sell wheat futures",
+      "Buy wheat futures",
+      "Buy wheat now and sell later",
+      "Do nothing and wait"
+    ],
+    "correctIndex": 0,
+    "explanation": "A farmer who will sell wheat at harvest should short (sell) futures to lock in the current price and eliminate the risk of prices falling before harvest.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "By acting as the counterparty to all trades, a futures exchange eliminates which type of risk?",
+    "options": [
+      "Market risk",
+      "Credit (default) risk",
+      "Interest rate risk",
+      "Basis risk"
+    ],
+    "correctIndex": 1,
+    "explanation": "The clearinghouse interposes itself between buyer and seller, guaranteeing performance. This eliminates credit/default risk \u2014 you don't need to worry about your counterparty defaulting.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "A long futures investor will ________ gains and ________ losses via daily mark-to-market.",
+    "options": [
+      "pay; pay",
+      "pay; receive",
+      "receive; pay",
+      "receive; receive"
+    ],
+    "correctIndex": 2,
+    "explanation": "With mark-to-market, the long position receives credits when futures prices rise (gains) and pays debits when prices fall (losses).",
+    "chapter": "CH17"
+  },
+  {
+    "question": "Margin requirements for futures can be met by:",
+    "options": [
+      "Cash only",
+      "Cash or highly marketable securities such as T-bills",
+      "Any securities including equities",
+      "Warehouse receipts only"
+    ],
+    "correctIndex": 1,
+    "explanation": "Futures margin can be posted in cash or in highly liquid, low-risk securities such as Treasury bills, which earn interest while serving as collateral.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "Which statement about futures margin is true?",
+    "options": [
+      "Only cash can satisfy margin requirements",
+      "The same margin level applies throughout the life of the contract",
+      "Maintenance margin equals the initial margin",
+      "When equity falls below maintenance margin, a margin call is triggered"
+    ],
+    "correctIndex": 3,
+    "explanation": "The maintenance margin is a lower threshold. When your account balance falls below it due to adverse price moves, you receive a margin call and must restore it to the initial margin level.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "The daily resettlement of gains and losses in a futures account is called:",
+    "options": [
+      "Marking to market",
+      "Convergence",
+      "Open interest",
+      "Triple witching"
+    ],
+    "correctIndex": 0,
+    "explanation": "Marking to market is the daily process of crediting gains and debiting losses to/from futures margin accounts based on the closing futures price each day.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "An investor who wants to exploit falling interest rates using futures should:",
+    "options": [
+      "Sell stock-index futures",
+      "Sell Treasury-bond futures",
+      "Buy Treasury-bond futures",
+      "Buy wheat futures"
+    ],
+    "correctIndex": 2,
+    "explanation": "Bond prices rise when interest rates fall. Buying T-bond futures profits from this price increase, allowing an investor to benefit from falling rates without holding bonds.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "The strategy of exploiting mispricings between a futures price and its theoretical parity value is called:",
+    "options": [
+      "Index arbitrage",
+      "Marking to market",
+      "Reversing trades",
+      "Cash settlement"
+    ],
+    "correctIndex": 0,
+    "explanation": "Index arbitrage involves simultaneously buying (or selling) the underlying basket of stocks and taking the opposite position in index futures whenever their prices diverge from the cost-of-carry parity.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "When the futures price violates cost-of-carry parity, the result is:",
+    "options": [
+      "Regulatory fines",
+      "Arbitrage opportunities",
+      "Contract suspension",
+      "Market halt"
+    ],
+    "correctIndex": 1,
+    "explanation": "If the futures price strays from F\u2080 = S\u2080(1+rf)^T, traders can earn a risk-free profit by combining the underlying asset and the futures position \u2014 an arbitrage opportunity.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "At contract maturity, the spot price and futures price must be equal. This is known as the:",
+    "options": [
+      "Marking to market",
+      "Convergence property",
+      "Open interest effect",
+      "Triple witching"
+    ],
+    "correctIndex": 1,
+    "explanation": "Convergence: as a futures contract approaches expiration, its price converges to the spot price. Any gap would create an immediate arbitrage at delivery.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "At contract maturity, the basis (spot price minus futures price) equals:",
+    "options": [
+      "1",
+      "0",
+      "The risk-free rate",
+      "\u22121"
+    ],
+    "correctIndex": 1,
+    "explanation": "Basis = Spot \u2212 Futures. At expiration, convergence forces the futures price to equal the spot price, so the basis = 0.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "A price difference between the spot market and the futures market beyond the cost of carry creates an opportunity for:",
+    "options": [
+      "Arbitrage",
+      "Hedging",
+      "Speculation",
+      "Loss"
+    ],
+    "correctIndex": 0,
+    "explanation": "If futures are mispriced relative to spot plus carrying costs, traders can lock in a risk-free profit by simultaneously trading spot and futures \u2014 a classic arbitrage.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "The threshold below which an account balance triggers a margin call is called the:",
+    "options": [
+      "Daily price limit",
+      "Daily margin",
+      "Maintenance margin",
+      "Convergence limit"
+    ],
+    "correctIndex": 2,
+    "explanation": "The maintenance margin is set below the initial margin. If mark-to-market losses push the account balance below this level, the investor must restore funds to the initial margin level.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "A corporation planning to issue bonds in three months and worried about rising rates should:",
+    "options": [
+      "Buy T-bond futures",
+      "Sell T-bond futures",
+      "Buy stock-index futures",
+      "Sell stock-index futures"
+    ],
+    "correctIndex": 1,
+    "explanation": "Rising rates mean falling bond prices. By shorting T-bond futures, the corporation locks in a price today, hedging against the higher borrowing cost it would face if rates rise before issuance.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "A bank holding a portfolio of fixed-rate mortgages wants to hedge against rising interest rates. It should:",
+    "options": [
+      "Sell T-bond futures",
+      "Buy T-bond futures",
+      "Buy stock-index futures",
+      "Sell stock-index futures"
+    ],
+    "correctIndex": 0,
+    "explanation": "Rising rates reduce the market value of fixed-rate mortgages. Selling T-bond futures creates a short position that profits if rates rise, offsetting losses on the mortgage portfolio.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "A bauxite mining firm uses aluminum futures (not bauxite futures) to hedge its price risk. This is an example of:",
+    "options": [
+      "Cross-hedging",
+      "Short hedging",
+      "Spreading",
+      "Speculating"
+    ],
+    "correctIndex": 0,
+    "explanation": "Cross-hedging uses a futures contract on a related (but different) commodity when no futures contract exists for the exact commodity being hedged. Bauxite and aluminum prices are correlated.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "A hog farmer who sells hog futures to lock in a price for their upcoming harvest is engaging in:",
+    "options": [
+      "Cross-hedging",
+      "Short hedging",
+      "Spreading",
+      "Speculating"
+    ],
+    "correctIndex": 1,
+    "explanation": "Short hedging means selling futures contracts to protect against a fall in the price of an asset you already own or will produce \u2014 the farmer is short the futures to offset long exposure to hog prices.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "If futures are overpriced relative to parity, the correct arbitrage strategy is to:",
+    "options": [
+      "Buy stocks and buy futures",
+      "Sell stocks and sell futures",
+      "Sell futures and buy the underlying stocks",
+      "Short the underlying stocks and buy futures"
+    ],
+    "correctIndex": 2,
+    "explanation": "If F\u2080 > S\u2080(1+rf)^T, futures are expensive. Profit by selling the overpriced futures and buying the cheaper underlying, locking in a risk-free gain at delivery.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "The correct arbitrage strategy when futures are underpriced relative to parity is to:",
+    "options": [
+      "Buy the underlying with borrowed money and sell futures",
+      "Buy futures and sell (short) the underlying spot",
+      "Buy both futures and spot",
+      "Short both futures and spot"
+    ],
+    "correctIndex": 1,
+    "explanation": "If F\u2080 < S\u2080(1+rf)^T, futures are cheap. Buy the underpriced futures and short-sell the overpriced underlying spot, earning the difference risk-free.",
+    "chapter": "CH17"
+  },
+  {
+    "question": "A market timer who believes both stock prices and bond prices will fall should:",
+    "options": [
+      "Buy bond futures, sell stock-index futures",
+      "Sell bond futures, buy stock-index futures",
+      "Buy both bond and stock-index futures",
+      "Sell both stock-index futures and T-bond futures"
+    ],
+    "correctIndex": 3,
+    "explanation": "To profit from falling prices in both markets, the timer should short both asset classes via futures \u2014 selling stock-index futures and selling T-bond futures.",
+    "chapter": "CH17"
   }
 ]
