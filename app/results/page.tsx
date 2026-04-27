@@ -227,7 +227,7 @@ export default function ResultsPage() {
 
       {/* Level-up banner */}
       {leveledUp && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-2xl text-center"
+        <div className={`fixed left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-2xl text-center ${chapterCleared || chapterFailed ? 'top-52' : 'top-5'}`}
              style={{ background: '#1A1A2E', border: '2px solid #008C45', boxShadow: '0 4px 24px rgba(0,140,69,0.4)' }}>
           <p className="text-xs uppercase tracking-widest mb-0.5" style={{ color: '#008C45' }}>Level Up!</p>
           <p className="font-black text-lg uppercase" style={{ color: '#FFF9F0', fontFamily: "'Fredoka One', sans-serif" }}>
