@@ -50,13 +50,9 @@ export default function BackgroundMusic() {
       title={muted ? 'Unmute music' : 'Mute music'}
       style={{
         position: 'fixed', top: '50%', right: 16, transform: 'translateY(-50%)', zIndex: 50,
-        width: 32, height: 32, borderRadius: '50%',
-        background: 'rgba(10,5,0,0.85)',
-        border: '1px solid rgba(212,160,23,0.3)',
-        backdropFilter: 'blur(8px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 14, cursor: 'pointer',
-        color: muted ? 'rgba(255,220,150,0.35)' : 'rgba(255,220,150,0.85)',
+        background: 'none', border: 'none', padding: 0,
+        fontSize: 22, cursor: 'pointer',
+        opacity: muted ? 0.3 : 0.75,
         transition: 'opacity 0.2s',
       }}
     >
