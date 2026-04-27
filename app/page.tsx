@@ -8,7 +8,7 @@ import {
   isChapterAvailable, isRankedUnlocked, getChapterStars, type Chapter,
 } from '@/lib/chapters';
 import { OPERATORS } from '@/lib/supabase';
-import { loadXP, getLevel } from '@/lib/progression';
+import { loadXP, loadStats, getLevel, getCombinedUnlockedIds } from '@/lib/progression';
 
 // Pin positions as % of the italy_map.png (1024×1536 portrait)
 // Calibrated by reading the actual map image pixel positions
@@ -76,7 +76,7 @@ export default function CampaignMap() {
   useEffect(() => {
     const comp = getCompletedChapters();
     setCompleted(comp);
-    setUnlocked(getUnlockedCharacters());
+    setUnlocked(new Set(getCombinedUnlockedIds(loadStats(), getUnlockedCharacters())));
     setRankedOk(isRankedUnlocked());
     setLevelInfo(getLevel(loadXP()));
     setPlayerChar(localStorage.getItem('rts-player-operator') ?? 'tralalero');
