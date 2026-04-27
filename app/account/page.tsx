@@ -4,15 +4,18 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase, OPERATORS, COUNTRIES, flagEmoji } from '@/lib/supabase';
 import { useAuth } from '@/components/AuthProvider';
+import { syncChapterToRemote } from '@/lib/chapter-sync';
 
 export default function AccountPage() {
   const router = useRouter();
   const { user, profile, loading, refreshProfile } = useAuth();
   const [operator, setOperator] = useState('tralalero');
   const [country, setCountry]   = useState('US');
-  const [saving, setSaving]     = useState(false);
-  const [saved, setSaved]       = useState(false);
+  const [saving, setSaving]       = useState(false);
+  const [saved, setSaved]         = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [syncing, setSyncing]     = useState(false);
+  const [syncDone, setSyncDone]   = useState(false);
 
   useEffect(() => {
     if (!loading && !user) router.push('/login');
@@ -24,6 +27,19 @@ export default function AccountPage() {
       setCountry(profile.country ?? 'US');
     }
   }, [profile]);
+
+  const handleSyncProgress = async () => {
+    setSyncing(true);
+    const completed: string[] = JSON.parse(localStorage.getItem('rts-chapters-complete') ?? '[]');
+    const stars: Record<string, number> = JSON.parse(localStorage.getItem('rts-chapter-stars') ?? '{}');
+    const allIds = new Set([...completed, ...Object.keys(stars)]);
+    for (const chapterId of allIds) {
+      await syncChapterToRemote(chapterId, stars[chapterId] ?? 0, completed.includes(chapterId));
+    }
+    setSyncing(false);
+    setSyncDone(true);
+    setTimeout(() => setSyncDone(false), 3000);
+  };
 
   const handleSave = async () => {
     if (!user) return;
@@ -163,6 +179,24 @@ export default function AccountPage() {
             ))}
           </select>
         </div>
+
+        {/* Sync progress */}
+        <button
+          onClick={handleSyncProgress}
+          disabled={syncing}
+          style={{
+            width: '100%', padding: '14px',
+            borderRadius: 16, border: '1px solid rgba(212,160,23,0.35)',
+            background: syncDone ? 'rgba(34,197,94,0.1)' : 'rgba(212,160,23,0.08)',
+            color: syncDone ? '#22c55e' : '#d4a017',
+            fontFamily: "'Fredoka One', sans-serif",
+            fontSize: 15, letterSpacing: '0.1em', textTransform: 'uppercase',
+            cursor: syncing ? 'wait' : 'pointer',
+            opacity: syncing ? 0.7 : 1,
+          }}
+        >
+          {syncDone ? '✓ Progress Synced!' : syncing ? 'Syncing...' : '☁ Sync Progress to Cloud'}
+        </button>
 
         {/* Save */}
         <button
