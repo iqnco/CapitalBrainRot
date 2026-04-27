@@ -262,19 +262,11 @@ function QuizContent() {
 
       supabase.auth.getSession().then(async ({ data: { session } }) => {
         if (!session?.user) return;
-        const uid = session.user.id;
-        const { data, error: selErr } = await supabase
-          .from('profiles')
-          .select('total_correct, total_answered, sessions')
-          .eq('id', uid)
-          .single();
-        if (data) {
-          await supabase.from('profiles').update({
-            total_correct:  (data.total_correct  ?? 0) + newScore,
-            total_answered: (data.total_answered ?? 0) + total,
-            sessions:       (data.sessions       ?? 0) + 1,
-          }).eq('id', uid);
-        }
+        fetch('/api/profile/stats', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: session.user.id, correct: newScore, total }),
+        });
       });
     }
     setPhase('feedback');

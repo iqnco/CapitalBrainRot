@@ -12,6 +12,9 @@ export interface Profile {
   country: string | null;
   created_at: string;
   snake_highscore: number | null;
+  sessions: number;
+  total_correct: number;
+  total_answered: number;
 }
 
 export interface LeaderboardEntry {
