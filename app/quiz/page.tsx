@@ -117,6 +117,7 @@ function QuizContent() {
   const [isDamaged, setIsDamaged]         = useState(false);
   const [isPlayerHit, setIsPlayerHit]     = useState(false);
   const [isPlayerVictory, setIsPlayerVictory] = useState(false);
+  const [isGameOver, setIsGameOver]           = useState(false);
   const [isEnemyTaunt, setIsEnemyTaunt]   = useState(false);
   const [playerLine, setPlayerLine]       = useState<string | null>(null);
   const [enemyLine, setEnemyLine]         = useState<string | null>(null);
@@ -243,8 +244,11 @@ function QuizContent() {
     const newLog = [...answerLogRef.current, record];
     answerLogRef.current = newLog;
 
-    const isLast = qIndex >= total - 1;
-    if (isLast) {
+    const isLast     = qIndex >= total - 1;
+    const nowGameOver = newHp <= 0 && !correct;
+    if (nowGameOver) setIsGameOver(true);
+
+    if (isLast || nowGameOver) {
       const reportId = Date.now().toString();
       const report: MatchReport = {
         id: reportId, subject, date: new Date().toISOString(),
@@ -277,11 +281,11 @@ function QuizContent() {
     setPlayerLine(null);
     setEnemyLine(null);
     setStreakBanner(null);
-    if (qIndex >= total - 1) { router.push('/results'); return; }
+    if (isGameOver || qIndex >= total - 1) { router.push('/results'); return; }
     setQIndex((i) => i + 1);
     setFeedback(null);
     setPhase('answering');
-  }, [qIndex, total, router]);
+  }, [qIndex, total, router, isGameOver]);
 
   if (!questions.length) {
     return (
@@ -388,6 +392,36 @@ function QuizContent() {
           background: 'linear-gradient(to bottom, transparent, #1A1A2E)',
           pointerEvents: 'none',
         }} />
+
+        {/* Game over overlay */}
+        {isGameOver && phase === 'feedback' && (
+          <div style={{
+            position: 'absolute', inset: 0, zIndex: 18,
+            background: 'rgba(20,0,0,0.88)',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            gap: 8,
+          }}>
+            <p style={{
+              fontFamily: "'Fredoka One', sans-serif",
+              fontSize: 'clamp(2.2rem, 8vw, 3.5rem)',
+              color: '#CE2B37',
+              textShadow: '0 0 40px rgba(206,43,55,0.9), 0 0 80px rgba(206,43,55,0.4)',
+              letterSpacing: '0.12em',
+              animation: 'pulse 1.5s ease-in-out infinite',
+            }}>
+              💀 GAME OVER
+            </p>
+            <p style={{
+              fontFamily: "'Fredoka One', sans-serif",
+              fontSize: '0.8rem',
+              color: 'rgba(255,249,240,0.5)',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+            }}>
+              Score dropped below 60%
+            </p>
+          </div>
+        )}
 
         {/* ── Enemy HUD card — top RIGHT ── */}
         <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 12, minWidth: 162 }}>
@@ -571,23 +605,13 @@ function QuizContent() {
               explanation={feedback.explanation}
               correctAnswer={feedback.correctAnswer}
               onContinue={handleNext}
-              isGameOver={false}
+              isGameOver={isGameOver}
               isComplete={qIndex >= total - 1}
             />
           )}
         </div>
       </div>
 
-      {hp === 0 && phase === 'answering' && (
-        <div style={{
-          position: 'fixed', bottom: 8, left: '50%', transform: 'translateX(-50%)',
-          background: 'rgba(206,43,55,0.08)', border: '2px solid rgba(206,43,55,0.45)',
-          color: '#CE2B37', borderRadius: 999, padding: '7px 18px', zIndex: 50,
-          fontFamily: "'Fredoka One',sans-serif", fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em',
-        }}>
-          🍕 No lives — keep going!
-        </div>
-      )}
     </main>
   );
 }
