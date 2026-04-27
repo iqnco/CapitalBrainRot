@@ -30,15 +30,20 @@ export default function AccountPage() {
     setSaving(true);
     setSaveError(null);
 
-    const { error } = await supabase.from('profiles').upsert({
-      id: user.id,
-      username: profile?.username ?? user.email?.split('@')[0] ?? user.id.slice(0, 8),
-      favorite_operator: operator,
-      country,
-    }, { onConflict: 'id' });
+    const res = await fetch('/api/profile/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: user.id,
+        username: profile?.username ?? user.email?.split('@')[0] ?? user.id.slice(0, 8),
+        favorite_operator: operator,
+        country,
+      }),
+    });
+    const json = await res.json();
 
-    if (error) {
-      setSaveError(error.message);
+    if (!res.ok) {
+      setSaveError(json.error ?? 'Save failed');
       setSaving(false);
       return;
     }
