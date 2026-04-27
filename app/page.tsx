@@ -565,86 +565,22 @@ export default function CampaignMap() {
               <style>{`
                 @keyframes trophy-pulse {
                   0%,100% { filter: drop-shadow(0 0 5px rgba(212,160,23,0.55)) drop-shadow(0 2px 12px rgba(139,92,246,0.45)); }
-                  50%     { filter: drop-shadow(0 0 12px rgba(212,160,23,0.95)) drop-shadow(0 2px 22px rgba(139,92,246,0.8)); }
+                  50%     { filter: drop-shadow(0 0 14px rgba(212,160,23,1)) drop-shadow(0 2px 24px rgba(139,92,246,0.9)); }
                 }
               `}</style>
 
-              {/* Trophy SVG pin */}
-              <svg
-                viewBox="0 0 80 88"
-                width="82" height="90"
+              {/* Trophy image pin */}
+              <img
+                src="/ui/skibidi_trophy.png"
+                alt="Skibidi Toilet Bowl"
                 style={{
+                  width: 88, height: 88,
+                  objectFit: 'contain',
                   display: 'block',
                   animation: skibidiOk ? 'trophy-pulse 2.8s ease-in-out infinite' : 'none',
-                  filter: skibidiOk ? undefined : 'brightness(0.4) saturate(0)',
+                  filter: skibidiOk ? undefined : 'brightness(0.25) saturate(0)',
                 }}
-              >
-                <defs>
-                  <radialGradient id="sk-fill" cx="38%" cy="28%" r="72%">
-                    <stop offset="0%" stopColor="#2e0d5c" />
-                    <stop offset="100%" stopColor="#080010" />
-                  </radialGradient>
-                  <linearGradient id="sk-rim" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%"   stopColor="#d4a017" />
-                    <stop offset="42%"  stopColor="#f7e06a" />
-                    <stop offset="68%"  stopColor="#a78bfa" />
-                    <stop offset="100%" stopColor="#d4a017" />
-                  </linearGradient>
-                  <linearGradient id="sk-sheen" x1="20%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%"   stopColor="rgba(255,240,180,0.18)" />
-                    <stop offset="60%"  stopColor="rgba(255,240,180,0.04)" />
-                    <stop offset="100%" stopColor="transparent" />
-                  </linearGradient>
-                </defs>
-
-                {/* ── Cup body ── */}
-                {/* Main trophy shape: wide cup → narrowing curve → slim stem → wide base */}
-                <path
-                  d="M 6,2 H 74 V 44 C 74,57 63,63 50,66 V 74 H 59 V 82 H 21 V 74 H 30 V 66 C 17,63 6,57 6,44 Z"
-                  fill="url(#sk-fill)"
-                  stroke="url(#sk-rim)"
-                  strokeWidth="2.8"
-                  strokeLinejoin="round"
-                />
-
-                {/* Inner sheen highlight */}
-                <path
-                  d="M 10,4 H 70 V 44 C 70,55 61,61 50,64 V 74 H 57 V 80 H 23 V 74 H 30 V 64 C 19,61 10,55 10,44 Z"
-                  fill="url(#sk-sheen)"
-                />
-
-                {/* ── Left handle ── */}
-                <path
-                  d="M 6,14 C -5,14 -5,40 6,40"
-                  fill="none"
-                  stroke="url(#sk-rim)"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                />
-
-                {/* ── Right handle ── */}
-                <path
-                  d="M 74,14 C 85,14 85,40 74,40"
-                  fill="none"
-                  stroke="url(#sk-rim)"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                />
-
-                {/* ── Base plate bottom line ── */}
-                <line x1="18" y1="86" x2="62" y2="86" stroke="url(#sk-rim)" strokeWidth="2.8" strokeLinecap="round" />
-
-                {/* ── Emoji / lock centered in cup area ── */}
-                <text
-                  x="40" y="37"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fontSize="28"
-                  style={{ userSelect: 'none' }}
-                >
-                  {skibidiOk ? '🏆' : '🔒'}
-                </text>
-              </svg>
+              />
 
               {/* Label */}
               <div style={{
