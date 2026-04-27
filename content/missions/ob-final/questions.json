@@ -358,5 +358,77 @@
     "correctIndex": 1,
     "explanation": "Short selling involves borrowing shares from a broker, selling them at the current price, and hoping the price falls so you can buy them back cheaper and pocket the difference.",
     "chapter": "CH17"
+  },
+  {
+    "question": "Transportation stocks currently provide an expected rate of return of 15%. TTT will pay a dividend of $3. If the stock price is $60, what is the expected growth rate?",
+    "options": [
+      "5%",
+      "10%",
+      "20%",
+      "Cannot be determined"
+    ],
+    "correctIndex": 1,
+    "explanation": "Using the DDM: g = k \u2212 D\u2081/P\u2080 = 0.15 \u2212 3/60 = 0.15 \u2212 0.05 = 0.10 = 10%.",
+    "chapter": "CH13"
+  },
+  {
+    "question": "A stock pays a constant dividend of $1.80. The required return is 9%. What is the intrinsic value?",
+    "options": [
+      "$17.78",
+      "$20",
+      "$40",
+      "$16.20"
+    ],
+    "correctIndex": 1,
+    "explanation": "Zero-growth DDM: V\u2080 = D/k = 1.80 / 0.09 = $20.",
+    "chapter": "CH13"
+  },
+  {
+    "question": "In the DDM formula V\u2080 = D\u2081 / (k \u2212 g), which variable is negatively related to intrinsic value?",
+    "options": [
+      "D\u2081",
+      "D\u2080",
+      "g",
+      "k"
+    ],
+    "correctIndex": 3,
+    "explanation": "A higher required return k increases the denominator, reducing V\u2080. All other variables (D\u2081, g) are positively related.",
+    "chapter": "CH13"
+  },
+  {
+    "question": "Given D\u2081 = $3.36, g = 8%, and P\u2080 = $84. What is the required return k?",
+    "options": [
+      "9%",
+      "12%",
+      "14%",
+      "18%"
+    ],
+    "correctIndex": 1,
+    "explanation": "k = D\u2081/P\u2080 + g = 3.36/84 + 0.08 = 0.04 + 0.08 = 12%.",
+    "chapter": "CH13"
+  },
+  {
+    "question": "A firm has a no-growth value of $20 and an actual stock price of $90. What is the Present Value of Growth Opportunities (PVGO)?",
+    "options": [
+      "$20",
+      "$70",
+      "$90",
+      "$110"
+    ],
+    "correctIndex": 1,
+    "explanation": "PVGO = Stock price \u2212 No-growth value = 90 \u2212 20 = $70.",
+    "chapter": "CH13"
+  },
+  {
+    "question": "A firm has a no-growth value of $50 and an actual stock price of $75. What is the PVGO?",
+    "options": [
+      "$25",
+      "$50",
+      "$75",
+      "$100"
+    ],
+    "correctIndex": 0,
+    "explanation": "PVGO = Stock price \u2212 No-growth value = 75 \u2212 50 = $25.",
+    "chapter": "CH13"
   }
 ]
