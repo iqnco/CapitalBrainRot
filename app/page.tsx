@@ -9,6 +9,7 @@ import {
 } from '@/lib/chapters';
 import { OPERATORS } from '@/lib/supabase';
 import { loadXP, loadStats, getLevel, getCombinedUnlockedIds } from '@/lib/progression';
+import { loadRemoteProgressIntoLocal } from '@/lib/chapter-sync';
 
 // Pin positions as % of the italy_map.png (1024×1536 portrait)
 // Calibrated by reading the actual map image pixel positions
@@ -76,28 +77,28 @@ export default function CampaignMap() {
   const isDraggingRef = useRef(false);
   const dragStartRef  = useRef({ mouseX: 0, mouseY: 0, panX: 0, panY: 0 });
 
-  useEffect(() => {
+  function applyLocalState() {
     const comp = getCompletedChapters();
     setCompleted(comp);
     setUnlocked(new Set(getCombinedUnlockedIds(loadStats(), getUnlockedCharacters())));
     setRankedOk(isRankedUnlocked());
     setSkibidiOk(isSkibidiUnlocked());
+    const starMap: Record<string, number> = {};
+    CHAPTERS.forEach(ch => { starMap[ch.id] = getChapterStars(ch.id); });
+    setStars(starMap);
+    const firstAvailable = CHAPTERS.find((ch, idx) =>
+      !comp.has(ch.id) && (idx === 0 || comp.has(CHAPTERS[idx - 1].id))
+    );
+    setCharPos(firstAvailable?.id ?? CHAPTERS[0].id);
+  }
+
+  useEffect(() => {
+    applyLocalState();
     setLevelInfo(getLevel(loadXP()));
     setPlayerChar(localStorage.getItem('rts-player-operator') ?? 'tralalero');
     const today = new Date().toISOString().slice(0, 10);
     const saved = localStorage.getItem(`rts-daily-${today}`);
     if (saved) setDailyDone(JSON.parse(saved));
-
-    // Load star ratings
-    const starMap: Record<string, number> = {};
-    CHAPTERS.forEach(ch => { starMap[ch.id] = getChapterStars(ch.id); });
-    setStars(starMap);
-
-    // Place character at first available chapter
-    const firstAvailable = CHAPTERS.find((ch, idx) =>
-      !comp.has(ch.id) && (idx === 0 || comp.has(CHAPTERS[idx - 1].id))
-    );
-    setCharPos(firstAvailable?.id ?? CHAPTERS[0].id);
 
     // Walk animation triggered from results page
     const from = localStorage.getItem('rts-move-from');
@@ -108,6 +109,9 @@ export default function CampaignMap() {
       const path = buildWalkPath(from, to);
       if (path.length > 0) setWalkPath(path);
     }
+
+    // Sync remote progress for logged-in users, then re-apply local state
+    loadRemoteProgressIntoLocal().then(() => applyLocalState());
   }, []);
 
   // Track the map container size so we can place SVG overlays in pixels

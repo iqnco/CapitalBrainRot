@@ -11,6 +11,7 @@ import {
 import { OPERATORS } from '@/lib/supabase';
 import { getUnlockedRegions, REGIONS } from '@/lib/regions';
 import { CHAPTERS, getChapterById, markChapterComplete, setChapterStars, calcStars } from '@/lib/chapters';
+import { syncChapterToRemote } from '@/lib/chapter-sync';
 
 const CONFETTI_COLORS = ['#008C45','#CE2B37','#FFF9F0','#d4a017','#8b7cf7','#00c878'];
 
@@ -142,6 +143,7 @@ export default function ResultsPage() {
             markChapterComplete(ch.id);
             const earnedStars = calcStars(r.score, r.total);
             setChapterStars(ch.id, earnedStars);
+            syncChapterToRemote(ch.id, earnedStars, true); // fire-and-forget
             setChapterCleared({ id: ch.id, bossId: ch.bossId, bossName: ch.bossName, name: ch.name, stars: earnedStars });
             setTimeout(() => setChapterCleared(null), 3000);
             localStorage.removeItem('rts-chapter-id');
