@@ -129,10 +129,11 @@ export default function ResultsPage() {
         localStorage.removeItem('rts-daily-mode');
       }
 
-      // Chapter outcome — win requires ≥ 60% AND full HP (survived)
+      // Chapter outcome — win requires ≥ 60% AND didn't run out of HP
       const chapterId   = localStorage.getItem('rts-chapter-id');
       const isSkibidi   = chapterId === 'skibidi';
-      const survived    = r.wrongCount < 5;
+      const maxHp       = parseInt(localStorage.getItem('rts-max-hp') ?? '5', 10);
+      const survived    = r.wrongCount < maxHp;
       const won         = survived && r.score / r.total >= 0.6;
       if (chapterId && !isSkibidi) {
         const ch = getChapterById(chapterId);
@@ -155,8 +156,9 @@ export default function ResultsPage() {
     setTimeout(() => setAnimReady(true), 200);
   }, [router]);
 
-  const pct      = results ? (results.total > 0 ? Math.round((results.score / results.total) * 100) : 0) : 0;
-  const survived = results ? (results.wrongCount < 5 && results.score / results.total >= 0.6) : false;
+  const pct         = results ? (results.total > 0 ? Math.round((results.score / results.total) * 100) : 0) : 0;
+  const maxHpRender = typeof window !== 'undefined' ? parseInt(localStorage.getItem('rts-max-hp') ?? '5', 10) : 5;
+  const survived    = results ? (results.wrongCount < maxHpRender && results.score / results.total >= 0.6) : false;
   const rank     = results ? getRank(results.score, results.total) : RANKS[0];
 
   const animScore     = useCounter(results?.score      ?? 0, 900);
@@ -221,7 +223,7 @@ export default function ResultsPage() {
               <p className="font-black text-base uppercase" style={{ color: '#FFF9F0', fontFamily: "'Fredoka One', sans-serif" }}>
                 {chapterFailed.bossName}
               </p>
-              <p className="text-[10px]" style={{ color: 'rgba(255,120,100,0.7)', fontFamily: "'Fredoka One', sans-serif" }}>Need 6/10 to conquer</p>
+              <p className="text-[10px]" style={{ color: 'rgba(255,120,100,0.7)', fontFamily: "'Fredoka One', sans-serif" }}>Need 60% to conquer</p>
             </div>
           </div>
         </div>
