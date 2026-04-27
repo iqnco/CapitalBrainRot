@@ -16,6 +16,9 @@ export default function AccountPage() {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [syncing, setSyncing]     = useState(false);
   const [syncDone, setSyncDone]   = useState(false);
+  const [musicOn, setMusicOn]     = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('cbr-muted') !== 'true' : true
+  );
 
   useEffect(() => {
     if (!loading && !user) router.push('/login');
@@ -179,6 +182,30 @@ export default function AccountPage() {
             ))}
           </select>
         </div>
+
+        {/* Music toggle */}
+        <button
+          onClick={() => {
+            const next = !musicOn;
+            setMusicOn(next);
+            localStorage.setItem('cbr-muted', String(!next));
+            // Notify BackgroundMusic component across the tab
+            window.dispatchEvent(new StorageEvent('storage', { key: 'cbr-muted', newValue: String(!next) }));
+          }}
+          style={{
+            width: '100%', padding: '14px',
+            borderRadius: 16,
+            border: `1px solid ${musicOn ? 'rgba(212,160,23,0.35)' : 'rgba(255,255,255,0.1)'}`,
+            background: musicOn ? 'rgba(212,160,23,0.08)' : 'rgba(255,255,255,0.04)',
+            color: musicOn ? '#d4a017' : 'rgba(255,220,150,0.35)',
+            fontFamily: "'Fredoka One', sans-serif",
+            fontSize: 15, letterSpacing: '0.1em', textTransform: 'uppercase',
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+          }}
+        >
+          <span>{musicOn ? '🎵' : '🔇'}</span>
+          <span>Background Music — {musicOn ? 'ON' : 'OFF'}</span>
+        </button>
 
         {/* Sync progress */}
         <button

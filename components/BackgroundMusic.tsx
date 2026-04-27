@@ -32,31 +32,19 @@ export default function BackgroundMusic() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toggleMute = (e: React.MouseEvent) => {
-    e.stopPropagation(); // don't trigger the window click → start listener
-    const next = !muted;
-    setMuted(next);
-    localStorage.setItem('cbr-muted', String(next));
-    if (audioRef.current) {
-      audioRef.current.muted = next;
-      // If they unmute and audio hasn't started yet, start now
-      if (!next) audioRef.current.play().catch(() => {});
-    }
-  };
+  // Listen for mute changes from the account page
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'cbr-muted' && audioRef.current) {
+        const next = e.newValue === 'true';
+        setMuted(next);
+        audioRef.current.muted = next;
+        if (!next) audioRef.current.play().catch(() => {});
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
-  return (
-    <button
-      onClick={toggleMute}
-      title={muted ? 'Unmute music' : 'Mute music'}
-      style={{
-        position: 'fixed', top: '50%', right: 16, transform: 'translateY(-50%)', zIndex: 50,
-        background: 'none', border: 'none', padding: 0,
-        fontSize: 22, cursor: 'pointer',
-        opacity: muted ? 0.3 : 0.75,
-        transition: 'opacity 0.2s',
-      }}
-    >
-      {muted ? '🔇' : '🎵'}
-    </button>
-  );
+  return null;
 }
