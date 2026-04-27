@@ -52,7 +52,7 @@ export const CHAPTERS: Chapter[] = [
     questionChapters: ['CH12'],
   },
   {
-    id: 'ch1', number: 5,
+    id: 'ch1', number: 12,
     name: 'The Roman Siege',
     region: 'Lazio', topic: 'Equity Valuation',
     topicHints: 'DDM · P/E ratios · ROE · Intrinsic value',
@@ -61,7 +61,7 @@ export const CHAPTERS: Chapter[] = [
     questionChapters: ['CH13'],
   },
   {
-    id: 'ch2', number: 6,
+    id: 'ch2', number: 13,
     name: 'Neapolitan Chaos',
     region: 'Campania', topic: 'Derivatives Markets',
     topicHints: 'Options · Put-call parity · Option strategies · Payoffs',
@@ -70,7 +70,7 @@ export const CHAPTERS: Chapter[] = [
     questionChapters: ['CH15'],
   },
   {
-    id: 'ch3', number: 7,
+    id: 'ch3', number: 17,
     name: 'Sicilian Delirium',
     region: 'Sicilia', topic: 'Futures Markets & Risk Management',
     topicHints: 'Futures pricing · Hedging · Basis risk · Swaps',
@@ -102,8 +102,9 @@ export function getUnlockedCharacters(): Set<string> {
 }
 
 export function isChapterAvailable(ch: Chapter): boolean {
-  if (ch.number === 1) return true;
-  const prev = CHAPTERS.find(c => c.number === ch.number - 1);
+  const idx = CHAPTERS.findIndex(c => c.id === ch.id);
+  if (idx === 0) return true;
+  const prev = CHAPTERS[idx - 1];
   return prev ? getCompletedChapters().has(prev.id) : true;
 }
 
