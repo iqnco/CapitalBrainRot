@@ -561,42 +561,52 @@ export default function CampaignMap() {
                 cursor: 'pointer',
               }}
             >
+              {/* Outer trophy glow ring */}
               <div style={{
-                width: 56, height: 56,
+                width: 78, height: 78,
                 borderRadius: '50%',
                 background: skibidiOk
-                  ? 'linear-gradient(135deg, #6b21a8, #4c1d95)'
+                  ? 'conic-gradient(from 0deg, #d4a017, #f7c948, #6b21a8, #a78bfa, #d4a017)'
                   : 'linear-gradient(135deg, #2a2a2a, #1a1a1a)',
-                border: `3px solid ${skibidiOk ? 'rgba(167,139,250,0.85)' : 'rgba(255,255,255,0.15)'}`,
+                padding: 3,
                 boxShadow: skibidiOk
-                  ? '0 4px 20px rgba(139,92,246,0.7), 0 0 0 4px rgba(139,92,246,0.2)'
+                  ? '0 0 0 3px rgba(212,160,23,0.25), 0 6px 28px rgba(139,92,246,0.7), 0 0 40px rgba(212,160,23,0.35)'
                   : 'none',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 26,
-                transform: isOpen ? 'scale(1.2)' : 'scale(1)',
+                transform: isOpen ? 'scale(1.18)' : 'scale(1)',
                 transition: 'transform 0.15s',
+                animation: skibidiOk ? 'spin-ring 6s linear infinite' : 'none',
               }}>
-                {skibidiOk ? '🚽' : '🔒'}
+                <div style={{
+                  width: '100%', height: '100%',
+                  borderRadius: '50%',
+                  background: skibidiOk
+                    ? 'radial-gradient(circle at 35% 35%, #1e0a3c, #0d0020)'
+                    : 'linear-gradient(135deg, #2a2a2a, #1a1a1a)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 32,
+                }}>
+                  {skibidiOk ? '🏆' : '🔒'}
+                </div>
               </div>
+              <style>{`
+                @keyframes spin-ring {
+                  from { filter: hue-rotate(0deg) drop-shadow(0 0 6px rgba(212,160,23,0.6)); }
+                  to   { filter: hue-rotate(360deg) drop-shadow(0 0 6px rgba(212,160,23,0.6)); }
+                }
+              `}</style>
               <div style={{
                 marginTop: 5, textAlign: 'center',
-                background: 'rgba(10,5,0,0.8)',
+                background: 'rgba(10,5,0,0.88)',
                 backdropFilter: 'blur(4px)',
-                borderRadius: 8, padding: '3px 8px',
-                border: `1px solid ${isOpen ? 'rgba(139,92,246,0.6)' : 'rgba(255,220,100,0.2)'}`,
+                borderRadius: 8, padding: '4px 10px',
+                border: `1px solid ${isOpen ? 'rgba(212,160,23,0.6)' : skibidiOk ? 'rgba(212,160,23,0.3)' : 'rgba(255,220,100,0.15)'}`,
               }}>
                 <p style={{
                   fontFamily: "'Fredoka One', sans-serif",
-                  fontSize: 8, letterSpacing: '0.04em',
-                  color: skibidiOk ? '#a78bfa' : 'rgba(255,255,255,0.3)',
-                  whiteSpace: 'nowrap',
-                }}>🏝 SARDEGNA</p>
-                <p style={{
-                  fontFamily: "'Fredoka One', sans-serif",
-                  fontSize: 7, letterSpacing: '0.03em',
-                  color: skibidiOk ? 'rgba(167,139,250,0.7)' : 'rgba(255,255,255,0.2)',
-                  whiteSpace: 'nowrap',
-                }}>EVENT</p>
+                  fontSize: 7, letterSpacing: '0.06em',
+                  color: skibidiOk ? '#d4a017' : 'rgba(255,255,255,0.3)',
+                  whiteSpace: 'nowrap', textTransform: 'uppercase',
+                }}>🚽 Skibidi Toilet Bowl</p>
               </div>
             </button>
           );
