@@ -189,8 +189,7 @@ export default function AccountPage() {
             const next = !musicOn;
             setMusicOn(next);
             localStorage.setItem('cbr-muted', String(!next));
-            // Notify BackgroundMusic component across the tab
-            window.dispatchEvent(new StorageEvent('storage', { key: 'cbr-muted', newValue: String(!next) }));
+            window.dispatchEvent(new CustomEvent('cbr-mute-change', { detail: !next }));
           }}
           style={{
             width: '100%', padding: '14px',

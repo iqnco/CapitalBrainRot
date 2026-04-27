@@ -32,18 +32,18 @@ export default function BackgroundMusic() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Listen for mute changes from the account page
+  // Listen for mute changes from the account page (same-tab custom event)
   useEffect(() => {
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === 'cbr-muted' && audioRef.current) {
-        const next = e.newValue === 'true';
-        setMuted(next);
-        audioRef.current.muted = next;
-        if (!next) audioRef.current.play().catch(() => {});
+    const onMuteChange = (e: Event) => {
+      const muted = (e as CustomEvent<boolean>).detail;
+      setMuted(muted);
+      if (audioRef.current) {
+        audioRef.current.muted = muted;
+        if (!muted) audioRef.current.play().catch(() => {});
       }
     };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
+    window.addEventListener('cbr-mute-change', onMuteChange);
+    return () => window.removeEventListener('cbr-mute-change', onMuteChange);
   }, []);
 
   return null;
