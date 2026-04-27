@@ -856,7 +856,7 @@ export default function CampaignMap() {
             {selectedState === 'locked' ? (
               <div className="text-center py-6">
                 <p style={{ color: 'rgba(255,220,150,0.4)', fontFamily: "'Fredoka One', sans-serif", fontSize: 14 }}>
-                  🔒 Complete Chapter {selected.number - 1} to unlock
+                  🔒 Complete Chapter {CHAPTERS[CHAPTERS.findIndex(c => c.id === selected.id) - 1]?.number ?? '?'} to unlock
                 </p>
               </div>
             ) : (
@@ -968,7 +968,7 @@ export default function CampaignMap() {
                 📋 25-Question Gauntlet — All Chapters
               </p>
               <p style={{ fontSize: 11, color: 'rgba(167,139,250,0.7)', fontFamily: "'Nunito', sans-serif", lineHeight: 1.5 }}>
-                CH1 (×3) · CH2 (×4) · CH3 (×3) · CH4 (×3) · CH12 (×4) · CH13 (×4) · CH17 (×4)
+                CH1 (×3) · CH2 (×4) · CH3 (×4) · CH12 (×5) · CH13 (×5) · CH15 (×4) · CH17 (×4)
               </p>
               <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: "'Nunito', sans-serif", marginTop: 4 }}>
                 Questions drawn randomly from every chapter. No second chances.

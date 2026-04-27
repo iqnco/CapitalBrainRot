@@ -12,13 +12,15 @@ interface BankQuestion {
 }
 
 // Questions per chapter tag for the 25-question Skibidi Toilet Bowl
+// Chapters that exist: 1, 2, 3, 12, 13, 15, 17
+// CH15 has no questions yet — it'll contribute 0 until questions are added
 const DISTRIBUTION: Record<string, number> = {
   CH1:  3,
   CH2:  4,
-  CH3:  3,
-  CH4:  3,
-  CH12: 4,
-  CH13: 4,
+  CH3:  4,
+  CH12: 5,
+  CH13: 5,
+  CH15: 4,
   CH17: 4,
 };
 

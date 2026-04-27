@@ -43,7 +43,7 @@ export const CHAPTERS: Chapter[] = [
     questionChapters: ['CH3'],
   },
   {
-    id: 'ch4', number: 4,
+    id: 'ch4', number: 12,
     name: 'Florentine Fury',
     region: 'Toscana', topic: 'Macroeconomic & Industry Analysis',
     topicHints: 'GDP · Business cycles · Industry structure · Global macro',
@@ -52,7 +52,7 @@ export const CHAPTERS: Chapter[] = [
     questionChapters: ['CH12'],
   },
   {
-    id: 'ch1', number: 12,
+    id: 'ch1', number: 13,
     name: 'The Roman Siege',
     region: 'Lazio', topic: 'Equity Valuation',
     topicHints: 'DDM · P/E ratios · ROE · Intrinsic value',
@@ -61,9 +61,9 @@ export const CHAPTERS: Chapter[] = [
     questionChapters: ['CH13'],
   },
   {
-    id: 'ch2', number: 13,
+    id: 'ch2', number: 15,
     name: 'Neapolitan Chaos',
-    region: 'Campania', topic: 'Derivatives Markets',
+    region: 'Campania', topic: 'Options Markets',
     topicHints: 'Options · Put-call parity · Option strategies · Payoffs',
     bossId: 'bombardinigusini', bossName: 'Bombardini Gusini',
     accentColor: '#f7941d', bgImage: '/regions/campania.png',

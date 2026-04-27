@@ -153,7 +153,7 @@
     ],
     "correctIndex": 2,
     "explanation": "Investment banks act as underwriters in IPOs \u2014 they help the issuer price the shares, buy them from the company, and distribute them to institutional and retail investors.",
-    "chapter": "CH4"
+    "chapter": "CH12"
   },
   {
     "question": "What is 'underwriting' in the context of securities issuance?",
@@ -165,7 +165,7 @@
     ],
     "correctIndex": 1,
     "explanation": "Underwriting means the investment bank guarantees to purchase any securities not bought by the public in an offering, taking on the risk of the issue in exchange for a fee (the underwriting spread).",
-    "chapter": "CH4"
+    "chapter": "CH12"
   },
   {
     "question": "Which regulatory body oversees securities markets in the United States?",
@@ -177,7 +177,7 @@
     ],
     "correctIndex": 2,
     "explanation": "The SEC is the primary federal regulator of U.S. securities markets. It enforces securities laws, requires disclosure from public companies, and protects investors.",
-    "chapter": "CH4"
+    "chapter": "CH12"
   },
   {
     "question": "What is a derivative?",
