@@ -11,13 +11,15 @@ export async function syncChapterToRemote(chapterId: string, stars: number, comp
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
 
-  await supabase.from('chapter_progress').upsert({
-    user_id:    user.id,
-    chapter_id: chapterId,
+  const { error } = await supabase.from('chapter_progress').upsert({
+    user_id:      user.id,
+    chapter_id:   chapterId,
     stars,
     completed,
-    updated_at: new Date().toISOString(),
+    completed_at: new Date().toISOString(),
   }, { onConflict: 'user_id,chapter_id' });
+
+  if (error) console.error('[chapter-sync] upsert error:', error.message);
 }
 
 // Pull all chapter progress from Supabase and merge into localStorage
