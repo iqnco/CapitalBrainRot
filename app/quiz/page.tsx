@@ -59,21 +59,23 @@ const OPERATOR_META: Record<string, { name: string; role: string }> = {
   trippitroppi:          { name: 'TRIPPI',      role: '🦐 TROPPI'         },
   chimpanzinibananini:   { name: 'CHIMPANZINI', role: '🍌 BANANINI'       },
   lavacasaturnosaturnita:{ name: 'LA VACA',      role: '🪐 SATURNITA'      },
+  mrskib:                { name: 'MR. SKIB',    role: '🚽 TOILET BOWL'    },
 };
 
 
 // Explicit facing direction per sprite — 'L' = faces left, 'R' = faces right
 const SPRITE_DIR: Record<string, 'L' | 'R'> = {
-  tralalero:              'L',  // shark faces left
-  bombardilocrocodilo:    'L',  // croc-plane faces left (mouth on left)
-  bombardinigusini:       'L',  // goose faces left (beak on left)
-  tungtungsahur:          'R',  // wooden figure faces right
-  brrprrpatapim:          'R',  // moss creature faces right
-  lavacasaturnosaturnita: 'L',  // saturn cow faces left (snout on left)
-  chimpanzinibananini:    'R',  // monkey banana faces right
-  lirililarila:           'R',  // elephant faces right
-  trippitroppi:           'R',  // cat-shrimp faces right
-  capuccinoasesino:       'R',  // ninja forward/right
+  tralalero:              'L',
+  bombardilocrocodilo:    'L',
+  bombardinigusini:       'L',
+  tungtungsahur:          'R',
+  brrprrpatapim:          'R',
+  lavacasaturnosaturnita: 'L',
+  chimpanzinibananini:    'R',
+  lirililarila:           'R',
+  trippitroppi:           'R',
+  capuccinoasesino:       'R',
+  mrskib:                 'R',
 };
 
 // Enemy sits on the RIGHT → needs to face LEFT. Player sits on the LEFT → needs to face RIGHT.
@@ -139,7 +141,11 @@ function QuizContent() {
     setPlayerOpId(localStorage.getItem('rts-player-operator') ?? 'tralalero');
     setTimePressure(localStorage.getItem('rts-time-pressure') === 'true');
     const chapterId = localStorage.getItem('rts-chapter-id');
-    if (chapterId) setRegionBg(getChapterById(chapterId)?.bgImage ?? null);
+    if (chapterId === 'skibidi') {
+      setRegionBg('/regions/skibidi_bathroom.png');
+    } else if (chapterId) {
+      setRegionBg(getChapterById(chapterId)?.bgImage ?? null);
+    }
   }, [router]);
 
   // Enemy taunt on each new question — stays for 5 seconds

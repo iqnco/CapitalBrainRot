@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import {
   CHAPTERS, getCompletedChapters, getUnlockedCharacters,
-  isChapterAvailable, isRankedUnlocked, getChapterStars, type Chapter,
+  isChapterAvailable, isRankedUnlocked, isSkibidiUnlocked, getChapterStars, type Chapter,
 } from '@/lib/chapters';
 import { OPERATORS } from '@/lib/supabase';
 import { loadXP, loadStats, getLevel, getCombinedUnlockedIds } from '@/lib/progression';
@@ -53,7 +53,9 @@ export default function CampaignMap() {
 
   const [completed,  setCompleted]  = useState<Set<string>>(new Set());
   const [unlocked,   setUnlocked]   = useState<Set<string>>(new Set(['tralalero']));
-  const [rankedOk,   setRankedOk]   = useState(false);
+  const [rankedOk,      setRankedOk]      = useState(false);
+  const [skibidiOk,     setSkibidiOk]     = useState(false);
+  const [skibidiOpen,   setSkibidiOpen]   = useState(false);
   const [selected,   setSelected]   = useState<Chapter | null>(null);
   const [playerChar, setPlayerChar] = useState('tralalero');
   const [levelInfo,  setLevelInfo]  = useState<ReturnType<typeof getLevel> | null>(null);
@@ -78,6 +80,7 @@ export default function CampaignMap() {
     setCompleted(comp);
     setUnlocked(new Set(getCombinedUnlockedIds(loadStats(), getUnlockedCharacters())));
     setRankedOk(isRankedUnlocked());
+    setSkibidiOk(isSkibidiUnlocked());
     setLevelInfo(getLevel(loadXP()));
     setPlayerChar(localStorage.getItem('rts-player-operator') ?? 'tralalero');
     const today = new Date().toISOString().slice(0, 10);
@@ -279,6 +282,21 @@ export default function CampaignMap() {
     localStorage.setItem('rts-player-operator', profile?.favorite_operator ?? playerChar);
     localStorage.removeItem('rts-chapter-id');
     router.push('/quiz?subject=%F0%9F%94%A5%20Daily%20Brain%20Rot');
+  };
+
+  const handleSkibidi = async () => {
+    setLoading(true);
+    const res  = await fetch('/api/skibidi-questions');
+    const data = await res.json();
+    if (!res.ok || !data.questions) { setLoading(false); return; }
+    localStorage.setItem('rts-questions',      JSON.stringify(data.questions));
+    localStorage.setItem('rts-subject',         data.subject);
+    localStorage.setItem('rts-operator-ids',    JSON.stringify(data.questions.map(() => 'mrskib')));
+    localStorage.setItem('rts-player-operator', playerChar);
+    localStorage.setItem('rts-chapter-id',      'skibidi');
+    localStorage.removeItem('rts-daily-mode');
+    setLoading(false);
+    router.push(`/quiz?subject=${encodeURIComponent(data.subject)}`);
   };
 
   const unlockedArr = [...unlocked];
@@ -518,6 +536,71 @@ export default function CampaignMap() {
             </button>
           );
         })}
+
+        {/* ── Sardegna: Skibidi Toilet Bowl event pin ── */}
+        {mapSize.w > 1 && (() => {
+          const pos = PIN_POS['ch8'];
+          if (!pos) return null;
+          const { x, y } = pinPx(pos.top, pos.left);
+          const isOpen = skibidiOpen;
+          return (
+            <button
+              key="sardegna-event"
+              onClick={() => {
+                if (isDraggingRef.current) return;
+                setSelected(null);
+                setSkibidiOpen(o => !o);
+                setPanOffset({ x: 0, y: 0 });
+              }}
+              style={{
+                position: 'absolute',
+                left: x, top: y,
+                transform: 'translate(-50%, -50%)',
+                zIndex: isOpen ? 25 : 15,
+                background: 'none', border: 'none', padding: 0,
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{
+                width: 56, height: 56,
+                borderRadius: '50%',
+                background: skibidiOk
+                  ? 'linear-gradient(135deg, #6b21a8, #4c1d95)'
+                  : 'linear-gradient(135deg, #2a2a2a, #1a1a1a)',
+                border: `3px solid ${skibidiOk ? 'rgba(167,139,250,0.85)' : 'rgba(255,255,255,0.15)'}`,
+                boxShadow: skibidiOk
+                  ? '0 4px 20px rgba(139,92,246,0.7), 0 0 0 4px rgba(139,92,246,0.2)'
+                  : 'none',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 26,
+                transform: isOpen ? 'scale(1.2)' : 'scale(1)',
+                transition: 'transform 0.15s',
+              }}>
+                {skibidiOk ? '🚽' : '🔒'}
+              </div>
+              <div style={{
+                marginTop: 5, textAlign: 'center',
+                background: 'rgba(10,5,0,0.8)',
+                backdropFilter: 'blur(4px)',
+                borderRadius: 8, padding: '3px 8px',
+                border: `1px solid ${isOpen ? 'rgba(139,92,246,0.6)' : 'rgba(255,220,100,0.2)'}`,
+              }}>
+                <p style={{
+                  fontFamily: "'Fredoka One', sans-serif",
+                  fontSize: 8, letterSpacing: '0.04em',
+                  color: skibidiOk ? '#a78bfa' : 'rgba(255,255,255,0.3)',
+                  whiteSpace: 'nowrap',
+                }}>🏝 SARDEGNA</p>
+                <p style={{
+                  fontFamily: "'Fredoka One', sans-serif",
+                  fontSize: 7, letterSpacing: '0.03em',
+                  color: skibidiOk ? 'rgba(167,139,250,0.7)' : 'rgba(255,255,255,0.2)',
+                  whiteSpace: 'nowrap',
+                }}>EVENT</p>
+              </div>
+            </button>
+          );
+        })()}
 
         {/* ── Player character — walks along road segments, enters pin circle on arrival ── */}
         {mapSize.w > 1 && isMoving && walkPath.length > 0 && (() => {
@@ -823,13 +906,133 @@ export default function CampaignMap() {
         )}
       </div>
 
-      {/* Click outside drawer to close */}
+      {/* Click outside chapter drawer to close */}
       {selected && (
-        <div
-          className="fixed inset-0 z-35"
-          style={{ zIndex: 35 }}
-          onClick={() => setSelected(null)}
-        />
+        <div className="fixed inset-0" style={{ zIndex: 35 }} onClick={() => setSelected(null)} />
+      )}
+
+      {/* ── Skibidi Toilet Bowl drawer ── */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40,
+        transform: skibidiOpen ? 'translateY(0)' : 'translateY(110%)',
+        transition: 'transform 0.35s cubic-bezier(0.34,1.2,0.64,1)',
+        background: 'rgba(10,3,20,0.97)',
+        borderTop: '2px solid rgba(139,92,246,0.8)',
+        boxShadow: '0 -8px 40px rgba(139,92,246,0.35)',
+        borderRadius: '24px 24px 0 0',
+        padding: '16px 20px 32px',
+        backdropFilter: 'blur(20px)',
+        maxHeight: '65vh', overflowY: 'auto',
+      }}>
+        {skibidiOpen && (
+          <>
+            <div className="flex justify-center mb-4">
+              <div style={{ width: 40, height: 3, borderRadius: 2, background: 'rgba(139,92,246,0.4)' }} />
+            </div>
+
+            <div className="flex items-center gap-4 mb-4">
+              <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <img
+                  src="/Characters/8bit/mrskib.png"
+                  alt="Mr. Skib"
+                  style={{
+                    height: 88, width: 'auto', objectFit: 'contain', imageRendering: 'pixelated',
+                    filter: skibidiOk
+                      ? 'drop-shadow(0 4px 16px rgba(139,92,246,0.9))'
+                      : 'grayscale(1) brightness(0.3)',
+                  }}
+                  onError={e => { (e.currentTarget as HTMLImageElement).style.fontSize = '3rem'; (e.currentTarget as HTMLImageElement).alt = '🚽'; }}
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.3em', color: '#a78bfa', textTransform: 'uppercase', marginBottom: 2 }}>
+                  Special Event · Sardegna
+                </p>
+                <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 20, fontWeight: 900, color: 'white', textTransform: 'uppercase', lineHeight: 1.1, marginBottom: 6 }}>
+                  🚽 Skibidi Toilet Bowl
+                </p>
+                <p style={{ fontSize: 10, color: 'rgba(167,139,250,0.6)', fontFamily: "'Fredoka One', sans-serif" }}>
+                  Boss: <span style={{ color: 'rgba(167,139,250,0.9)' }}>Mr. Skib</span>
+                </p>
+              </div>
+              <button onClick={() => setSkibidiOpen(false)}
+                      style={{ color: 'rgba(255,255,255,0.25)', fontSize: 22, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0, alignSelf: 'flex-start' }}>✕</button>
+            </div>
+
+            {/* Event description */}
+            <div style={{
+              background: 'rgba(139,92,246,0.1)',
+              border: '1px solid rgba(139,92,246,0.3)',
+              borderRadius: 12, padding: '10px 14px', marginBottom: 14,
+            }}>
+              <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.2em', color: '#a78bfa', textTransform: 'uppercase', marginBottom: 4 }}>
+                📋 25-Question Gauntlet — All Chapters
+              </p>
+              <p style={{ fontSize: 11, color: 'rgba(167,139,250,0.7)', fontFamily: "'Nunito', sans-serif", lineHeight: 1.5 }}>
+                CH1 (×4) · CH2 (×3) · CH3 (×3) · CH4 (×3) · CH12 (×4) · CH13 (×4) · CH17 (×4)
+              </p>
+              <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: "'Nunito', sans-serif", marginTop: 4 }}>
+                Questions drawn randomly from every chapter. No second chances.
+              </p>
+            </div>
+
+            {!skibidiOk ? (
+              <div className="text-center py-6">
+                <p style={{ color: 'rgba(167,139,250,0.45)', fontFamily: "'Fredoka One', sans-serif", fontSize: 14 }}>
+                  🔒 Complete 3 chapters to unlock
+                </p>
+                <p style={{ color: 'rgba(167,139,250,0.25)', fontFamily: "'Nunito', sans-serif", fontSize: 11, marginTop: 4 }}>
+                  {completed.size}/3 chapters done
+                </p>
+              </div>
+            ) : (
+              <>
+                {/* Character picker */}
+                <div className="mb-5">
+                  <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.2em', color: 'rgba(167,139,250,0.5)', textTransform: 'uppercase', marginBottom: 8 }}>
+                    Play as
+                  </p>
+                  <div className="flex gap-2 flex-wrap">
+                    {unlockedArr.map(id => (
+                      <button key={id}
+                        onClick={() => { setPlayerChar(id); localStorage.setItem('rts-player-operator', id); }}
+                        style={{
+                          padding: 6, borderRadius: 12,
+                          border: `2px solid ${playerChar === id ? '#a78bfa' : 'rgba(139,92,246,0.2)'}`,
+                          background: playerChar === id ? 'rgba(139,92,246,0.25)' : 'rgba(255,255,255,0.04)',
+                          cursor: 'pointer', transition: 'all 0.1s',
+                        }}>
+                        <img src={`/Characters/8bit/${id}.png`} alt={id}
+                             style={{ width: 40, height: 40, objectFit: 'contain', imageRendering: 'pixelated', display: 'block' }} />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleSkibidi}
+                  disabled={loading}
+                  style={{
+                    width: '100%', padding: '15px',
+                    borderRadius: 18, border: '2px solid rgba(139,92,246,0.6)',
+                    background: 'linear-gradient(135deg, #7c3aed, #4c1d95)',
+                    color: 'white', fontFamily: "'Fredoka One', sans-serif",
+                    fontSize: 18, fontWeight: 900, letterSpacing: '0.15em',
+                    textTransform: 'uppercase', cursor: loading ? 'wait' : 'pointer',
+                    boxShadow: '0 6px 30px rgba(139,92,246,0.55)',
+                    opacity: loading ? 0.7 : 1,
+                  }}>
+                  {loading ? '...' : '🚽 Enter the Toilet Bowl'}
+                </button>
+              </>
+            )}
+          </>
+        )}
+      </div>
+
+      {/* Click outside Skibidi drawer to close */}
+      {skibidiOpen && (
+        <div className="fixed inset-0" style={{ zIndex: 35 }} onClick={() => setSkibidiOpen(false)} />
       )}
     </div>
   );

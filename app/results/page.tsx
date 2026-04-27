@@ -130,10 +130,11 @@ export default function ResultsPage() {
       }
 
       // Chapter outcome — win requires ≥ 60% AND full HP (survived)
-      const chapterId = localStorage.getItem('rts-chapter-id');
-      const survived  = r.wrongCount < 5;
-      const won       = survived && r.score / r.total >= 0.6;
-      if (chapterId) {
+      const chapterId   = localStorage.getItem('rts-chapter-id');
+      const isSkibidi   = chapterId === 'skibidi';
+      const survived    = r.wrongCount < 5;
+      const won         = survived && r.score / r.total >= 0.6;
+      if (chapterId && !isSkibidi) {
         const ch = getChapterById(chapterId);
         if (ch) {
           if (won) {

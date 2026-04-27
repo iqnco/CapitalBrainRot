@@ -114,6 +114,11 @@ export function isRankedUnlocked(): boolean {
   return CHAPTERS.filter(ch => completed.has(ch.id)).length >= 5;
 }
 
+// Skibidi Toilet Bowl event unlocks after completing 3 chapters
+export function isSkibidiUnlocked(): boolean {
+  return getCompletedChapters().size >= 3;
+}
+
 export function getChapterById(id: string): Chapter | undefined {
   return CHAPTERS.find(c => c.id === id);
 }
