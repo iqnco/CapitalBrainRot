@@ -41,8 +41,8 @@ export default function RotMeter() {
     <div
       className="fixed bottom-0 left-0 right-0 z-40 flex items-center gap-3 px-4 py-2"
       style={{
-        background:  'rgba(255,249,240,0.97)',
-        borderTop:   '1px solid #E0CCB0',
+        background:  'rgba(10,5,0,0.95)',
+        borderTop:   '1px solid rgba(212,160,23,0.2)',
         backdropFilter: 'blur(8px)',
       }}
     >
@@ -51,7 +51,7 @@ export default function RotMeter() {
         <div
           className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm"
           style={{
-            background: 'rgba(206,43,55,0.12)',
+            background: 'rgba(206,43,55,0.2)',
             color: '#CE2B37',
             fontFamily: "'Fredoka One', sans-serif",
           }}
@@ -59,10 +59,10 @@ export default function RotMeter() {
           {info.level}
         </div>
         <div className="leading-none">
-          <p className="text-[8px] uppercase tracking-widest" style={{ color: '#B0A090', fontFamily: "'Fredoka One', sans-serif" }}>
+          <p className="text-[8px] uppercase tracking-widest" style={{ color: 'rgba(255,220,150,0.4)', fontFamily: "'Fredoka One', sans-serif" }}>
             Level
           </p>
-          <p className="text-xs font-bold uppercase" style={{ color: '#1A1A2E', fontFamily: "'Fredoka One', sans-serif" }}>
+          <p className="text-xs font-bold uppercase" style={{ color: 'rgba(255,220,150,0.9)', fontFamily: "'Fredoka One', sans-serif" }}>
             {info.name}
           </p>
         </div>
@@ -71,14 +71,14 @@ export default function RotMeter() {
       {/* XP bar */}
       <div className="flex-1">
         <div className="flex justify-between mb-1">
-          <span className="text-[8px] uppercase tracking-widest" style={{ color: '#B0A090', fontFamily: "'Fredoka One', sans-serif" }}>
+          <span className="text-[8px] uppercase tracking-widest" style={{ color: 'rgba(255,220,150,0.4)', fontFamily: "'Fredoka One', sans-serif" }}>
             Rot Progress
           </span>
-          <span className="text-[8px] font-bold" style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>
+          <span className="text-[8px] font-bold" style={{ color: '#f7941d', fontFamily: "'Fredoka One', sans-serif" }}>
             {xpLabel}
           </span>
         </div>
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: '#F0E8D8' }}>
+        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,220,100,0.1)' }}>
           <div
             className="h-full rounded-full"
             style={{
@@ -89,7 +89,7 @@ export default function RotMeter() {
           />
         </div>
         {info.nextName && (
-          <p className="text-[8px] mt-0.5 text-right" style={{ color: '#B0A090', fontFamily: "'Fredoka One', sans-serif" }}>
+          <p className="text-[8px] mt-0.5 text-right" style={{ color: 'rgba(255,220,150,0.35)', fontFamily: "'Fredoka One', sans-serif" }}>
             Next: {info.nextName}
           </p>
         )}
