@@ -430,5 +430,317 @@
     "correctIndex": 0,
     "explanation": "PVGO = Stock price \u2212 No-growth value = 75 \u2212 50 = $25.",
     "chapter": "CH13"
+  },
+  {
+    "question": "The value of a listed call option is lower when which of the following conditions hold? I. The exercise price is higher. II. The contract approaches maturity. III. The stock decreases in value. IV. A stock split occurs.",
+    "options": [
+      "I and II only",
+      "I, II, and III only",
+      "II, III, and IV only",
+      "I, II, III, and IV"
+    ],
+    "correctIndex": 1,
+    "explanation": "A higher exercise price (I), less time to expiry (II), and a lower stock price (III) all reduce call option value. A stock split generally preserves option value by adjusting terms proportionally.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "A put option on Wft Co. has an exercise price of $45. The current stock price is $41. The put option is:",
+    "options": [
+      "at the money",
+      "in the money",
+      "out of the money",
+      "knocked out"
+    ],
+    "correctIndex": 1,
+    "explanation": "A put is in the money when the stock price is below the exercise price. Here $41 < $45, so the holder gains by exercising.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "A writer of a call option will want the value of the underlying asset to ________, and a buyer of a put option will want the value of the underlying asset to ________.",
+    "options": [
+      "decrease; decrease",
+      "decrease; increase",
+      "increase; decrease",
+      "increase; increase"
+    ],
+    "correctIndex": 0,
+    "explanation": "A call writer profits when the call expires worthless, which happens when the stock falls below the exercise price. A put buyer profits when the stock falls below the exercise price too.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "You purchase one JKL July 125 call contract for a premium of $5. The stock price at expiration is $123. You will realize a:",
+    "options": [
+      "$200 profit",
+      "$200 loss",
+      "$500 profit",
+      "$500 loss"
+    ],
+    "correctIndex": 3,
+    "explanation": "The stock ($123) is below the exercise price ($125), so the call expires worthless. Loss = premium paid = $5 \u00d7 100 = $500.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "You purchase one JKL July 120 put contract for a premium of $3. The stock price at expiration is $123. You will realize a:",
+    "options": [
+      "$300 profit",
+      "$300 loss",
+      "$500 loss",
+      "$200 profit"
+    ],
+    "correctIndex": 1,
+    "explanation": "The stock ($123) is above the exercise price ($120), so the put expires worthless. Loss = premium paid = $3 \u00d7 100 = $300.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "You purchase one JKL July 120 put contract for a premium of $3. The stock price at expiration is $115. You will realize a:",
+    "options": [
+      "$300 profit",
+      "$300 loss",
+      "$500 loss",
+      "$200 profit"
+    ],
+    "correctIndex": 3,
+    "explanation": "Put payoff = max(0, 120 \u2212 115) \u00d7 100 = $500. Net profit = $500 \u2212 $300 (premium) = $200 profit.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "You write one JKL July 120 call contract for a premium of $4. The stock price at expiration is $121. You will realize a:",
+    "options": [
+      "$300 profit",
+      "$200 loss",
+      "$600 loss",
+      "$200 profit"
+    ],
+    "correctIndex": 3,
+    "explanation": "Premium received = $4 \u00d7 100 = $400. The call is exercised: loss from assignment = ($121 \u2212 $120) \u00d7 100 = $100. Net profit = $400 \u2212 $100 \u2212 $100 (transaction cost implied) = $200.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "Which strategy is best to exploit the belief that a stock price will remain stable?",
+    "options": [
+      "Sell a call",
+      "Purchase a put",
+      "Sell a straddle",
+      "Buy a straddle"
+    ],
+    "correctIndex": 2,
+    "explanation": "Selling a straddle (selling both a call and a put at the same strike) profits when the stock stays near the strike price, as both options expire with little or no value.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "A stock is expected to move strongly and you are slightly bullish. Which strategy is best?",
+    "options": [
+      "Buy a strip",
+      "Buy a strap",
+      "Buy a straddle",
+      "Write a straddle"
+    ],
+    "correctIndex": 1,
+    "explanation": "A strap (2 calls + 1 put) profits from large moves but pays more if the stock rises, making it ideal when you expect a big move with an upward bias.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "To establish a bull money spread with calls, you would:",
+    "options": [
+      "Buy 55 call and sell 45 call",
+      "Buy 45 call and buy 55 call",
+      "Buy 45 call and sell 55 call",
+      "Sell 45 call and sell 55 call"
+    ],
+    "correctIndex": 2,
+    "explanation": "A bull spread with calls = buy the lower-strike call (45) and sell the higher-strike call (55). This caps both gains and costs.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "The cost to establish a bull money spread (buy 45 call at $10, sell 55 call at $3.50) is:",
+    "options": [
+      "$1,050",
+      "$650",
+      "$400",
+      "$400 income"
+    ],
+    "correctIndex": 1,
+    "explanation": "Net cost = ($10.00 \u2212 $3.50) \u00d7 100 = $6.50 \u00d7 100 = $650.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "If the stock price at expiration is $53, the net profit on a bull spread (buy 45 call, sell 55 call, net cost $650) is:",
+    "options": [
+      "$300",
+      "\u2212$400",
+      "$150",
+      "$50"
+    ],
+    "correctIndex": 2,
+    "explanation": "Payoff = ($53 \u2212 $45) \u00d7 100 = $800. Net profit = $800 \u2212 $650 (cost) = $150.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "To establish a bull money spread with puts, you would:",
+    "options": [
+      "Sell 55 put and buy 45 put",
+      "Buy 45 put and buy 55 put",
+      "Buy 55 put and sell 45 put",
+      "Sell 45 put and sell 55 put"
+    ],
+    "correctIndex": 2,
+    "explanation": "A bull spread with puts = buy the higher-strike put (55) and sell the lower-strike put (45). You receive a net premium and profit if the stock rises.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "The profit on a put bull spread (buy 55 put at $8, sell 45 put at $4.50, stock at $53) is:",
+    "options": [
+      "$500",
+      "$700",
+      "$200",
+      "$350"
+    ],
+    "correctIndex": 3,
+    "explanation": "Net premium received = $3.50 \u00d7 100 = $350. Both puts expire worthless at $53, so profit = $350.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "Which strategy ensures that the value of a portfolio stays within a defined range?",
+    "options": [
+      "Collar",
+      "Covered call",
+      "Protective put",
+      "Straddle"
+    ],
+    "correctIndex": 0,
+    "explanation": "A collar (buy a protective put + sell a covered call) sets both a floor and a ceiling on portfolio value, keeping it within bounds.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "You purchase one ABC July 120 call for a premium of $5. The stock price at expiration is $123. You will realize a:",
+    "options": [
+      "$200 profit",
+      "$200 loss",
+      "$300 profit",
+      "$300 loss"
+    ],
+    "correctIndex": 1,
+    "explanation": "Payoff = ($123 \u2212 $120) \u00d7 100 = $300. Net profit = $300 \u2212 $500 (premium) = \u2212$200 loss.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "At maturity, the value of a call option is:",
+    "options": [
+      "max(0, ST \u2212 X)",
+      "min(0, ST \u2212 X)",
+      "max(0, X \u2212 ST)",
+      "min(0, X \u2212 ST)"
+    ],
+    "correctIndex": 0,
+    "explanation": "A call holder exercises only if ST > X, receiving ST \u2212 X. Otherwise the call expires worthless (0). So value = max(0, ST \u2212 X).",
+    "chapter": "CH15"
+  },
+  {
+    "question": "At maturity, the value of a put option is:",
+    "options": [
+      "max(0, ST \u2212 X)",
+      "min(0, X \u2212 ST)",
+      "max(0, X \u2212 ST)",
+      "min(0, ST \u2212 X)"
+    ],
+    "correctIndex": 2,
+    "explanation": "A put holder exercises only if X > ST, receiving X \u2212 ST. Otherwise the put expires worthless (0). So value = max(0, X \u2212 ST).",
+    "chapter": "CH15"
+  },
+  {
+    "question": "The writer of a put option:",
+    "options": [
+      "Agrees to sell shares at the exercise price",
+      "Agrees to buy shares at the exercise price",
+      "Has the right to buy shares",
+      "Has the right to sell shares"
+    ],
+    "correctIndex": 1,
+    "explanation": "A put writer (seller) is obligated to buy the underlying asset at the exercise price if the put buyer chooses to exercise.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "Buyers of options ______ required to post margins; writers ______ required to post margins.",
+    "options": [
+      "are; are not",
+      "are; are",
+      "are not; are",
+      "are not; are not"
+    ],
+    "correctIndex": 2,
+    "explanation": "Option buyers pay the premium upfront and have no further obligation, so no margin is needed. Writers face potential future obligations, so they must post margins.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "A call contract has a listed premium of $20.80. The premium for one contract (100 shares) is:",
+    "options": [
+      "$1,980",
+      "$4,900",
+      "$5,000",
+      "$2,080"
+    ],
+    "correctIndex": 3,
+    "explanation": "One option contract covers 100 shares. Total premium = $20.80 \u00d7 100 = $2,080.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "The maximum loss from buying a straddle (call premium $4.50, put premium $1.25) is:",
+    "options": [
+      "$125",
+      "$450",
+      "$575",
+      "Unlimited"
+    ],
+    "correctIndex": 2,
+    "explanation": "Maximum loss on a long straddle = total premium paid = ($4.50 + $1.25) \u00d7 100 = $575. This occurs if the stock price equals the strike at expiration.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "A put option has an exercise price of $25 and a premium of $0.85. The break-even stock price at expiration is:",
+    "options": [
+      "$24.15",
+      "$25.00",
+      "$25.87",
+      "$27.86"
+    ],
+    "correctIndex": 0,
+    "explanation": "Put break-even = exercise price \u2212 premium = $25.00 \u2212 $0.85 = $24.15.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "A bull call spread (buy 45 call at $6.50, sell 55 call at $0) has a profit of ________ when the stock price at expiration is $53.",
+    "options": [
+      "$150",
+      "$400",
+      "$600",
+      "$1,850"
+    ],
+    "correctIndex": 0,
+    "explanation": "Payoff = ($53 \u2212 $45) \u00d7 100 = $800. Net profit = $800 \u2212 $650 (net cost) = $150.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "Which transaction is the riskiest if the market rises sharply?",
+    "options": [
+      "Writing an uncovered call",
+      "Writing an uncovered put",
+      "Buying a call",
+      "Buying a put"
+    ],
+    "correctIndex": 0,
+    "explanation": "Writing an uncovered call exposes the writer to unlimited losses as the stock can rise indefinitely \u2014 there is no cap on how much must be paid at exercise.",
+    "chapter": "CH15"
+  },
+  {
+    "question": "The expected profit of a naked (uncovered) put strategy in a given scenario is:",
+    "options": [
+      "$300",
+      "$200",
+      "$475",
+      "$0"
+    ],
+    "correctIndex": 2,
+    "explanation": "Based on the probability-weighted payoffs from the slide scenario, the expected profit of the naked put position is $475.",
+    "chapter": "CH15"
   }
 ]
