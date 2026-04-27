@@ -73,6 +73,8 @@ export function saveStats(s: PlayerStats) {
 }
 
 // ── Character unlock conditions ──────────────────────────────────────────────
+// Campaign bosses unlock by completing their chapter (see lib/chapters.ts).
+// Only non-campaign characters are listed here.
 
 export interface UnlockDef {
   id:    string;
@@ -81,16 +83,9 @@ export interface UnlockDef {
 }
 
 export const UNLOCK_DEFS: UnlockDef[] = [
-  { id: 'tralalero',              label: 'Starter — always unlocked',  check: () => true           },
-  { id: 'bombardilocrocodilo',    label: 'Starter — always unlocked',  check: () => true           },
-  { id: 'bombardinigusini',       label: 'Complete 1 quiz',            check: s => s.quizzesCompleted >= 1  },
-  { id: 'capuccinoasesino',       label: 'Score 80%+ in a quiz',       check: s => s.bestPct >= 80          },
-  { id: 'tungtungsahur',          label: 'Get a 3-streak',             check: s => s.maxStreak >= 3         },
-  { id: 'lirililarila',          label: 'Complete 5 quizzes',         check: s => s.quizzesCompleted >= 5  },
-  { id: 'brrprrpatapim',          label: 'Get a 5-streak',             check: s => s.maxStreak >= 5         },
-  { id: 'trippitroppi',           label: 'Score 100% in a quiz',       check: s => s.bestPct >= 100         },
+  { id: 'tralalero',              label: 'Starter — always unlocked',  check: () => true                    },
   { id: 'chimpanzinibananini',    label: 'Complete 10 quizzes',        check: s => s.quizzesCompleted >= 10 },
-  { id: 'lavacasaturnosaturnita', label: 'Get a 7-streak',             check: s => s.maxStreak >= 7         },
+  { id: 'lavacasaturnosaturnita', label: 'Score 100% in a quiz',       check: s => s.bestPct >= 100         },
 ];
 
 export function getUnlockedIds(stats: PlayerStats): string[] {
@@ -100,4 +95,14 @@ export function getUnlockedIds(stats: PlayerStats): string[] {
 export function getNewUnlocks(before: PlayerStats, after: PlayerStats): string[] {
   const prev = new Set(getUnlockedIds(before));
   return getUnlockedIds(after).filter(id => !prev.has(id));
+}
+
+// Combines campaign-boss unlocks (from chapter completions) with achievement unlocks.
+// Import getUnlockedCharacters from lib/chapters in the call site to avoid circular deps.
+export function getCombinedUnlockedIds(
+  stats: PlayerStats,
+  campaignUnlocked: Set<string>,
+): string[] {
+  const achievement = new Set(getUnlockedIds(stats));
+  return [...new Set([...campaignUnlocked, ...achievement])];
 }

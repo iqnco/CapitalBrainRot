@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { OPERATORS } from '@/lib/supabase';
-import { UNLOCK_DEFS, loadStats, getUnlockedIds } from '@/lib/progression';
+import { UNLOCK_DEFS, loadStats, getCombinedUnlockedIds } from '@/lib/progression';
+import { CHAPTERS, getUnlockedCharacters } from '@/lib/chapters';
 import { getTaunt } from '@/lib/commentary';
 
 export default function CharactersPage() {
@@ -13,7 +14,7 @@ export default function CharactersPage() {
 
   useEffect(() => {
     const stats = loadStats();
-    setUnlocked(getUnlockedIds(stats));
+    setUnlocked(getCombinedUnlockedIds(stats, getUnlockedCharacters()));
   }, []);
 
   const totalUnlocked = unlocked.length;
@@ -62,9 +63,13 @@ export default function CharactersPage() {
       <div className="mx-auto max-w-3xl px-4 pt-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {OPERATORS.map(op => {
-            const isUnlocked = unlocked.includes(op.id);
-            const def        = UNLOCK_DEFS.find(d => d.id === op.id);
-            const taunt      = isUnlocked ? getTaunt(op.id) : null;
+            const isUnlocked   = unlocked.includes(op.id);
+            const campaignCh   = CHAPTERS.find(ch => ch.bossId === op.id);
+            const achievDef    = UNLOCK_DEFS.find(d => d.id === op.id);
+            const lockLabel    = campaignCh
+              ? `Beat Ch.${campaignCh.number} · ${campaignCh.region}`
+              : (achievDef?.label ?? 'Locked');
+            const taunt        = isUnlocked ? getTaunt(op.id) : null;
             const isHovered  = hovered === op.id;
 
             return (
@@ -88,7 +93,7 @@ export default function CharactersPage() {
                       <p style={{ fontSize: '1.5rem' }}>🔒</p>
                       <p className="text-[9px] uppercase tracking-wide mt-1 leading-tight"
                          style={{ color: '#7A7A8C', fontFamily: "'Fredoka One', sans-serif" }}>
-                        {def?.label ?? 'Locked'}
+                        {lockLabel}
                       </p>
                     </div>
                   </div>
