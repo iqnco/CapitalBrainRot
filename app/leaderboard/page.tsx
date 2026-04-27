@@ -25,7 +25,6 @@ export default function LeaderboardPage() {
 
   const fameList  = entries.slice(0, 10);
   const shameList = [...entries]
-    .filter(e => e.sessions >= 3)
     .sort((a, b) => Number(a.kd) - Number(b.kd))
     .slice(0, 10);
 
@@ -91,7 +90,7 @@ export default function LeaderboardPage() {
           <p className="text-xs uppercase tracking-widest" style={{ color: '#B0A090', fontFamily: "'Fredoka One', sans-serif" }}>
             {tab === 'fame'
               ? 'Top 10 by accuracy — K/D = correct / total'
-              : 'Bottom 10 — min 3 sessions to qualify'}
+              : 'Bottom 10 by accuracy — everyone qualifies'}
           </p>
         </div>
 
