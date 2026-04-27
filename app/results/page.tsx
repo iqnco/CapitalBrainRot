@@ -141,6 +141,7 @@ export default function ResultsPage() {
             const earnedStars = calcStars(r.score, r.total);
             setChapterStars(ch.id, earnedStars);
             setChapterCleared({ id: ch.id, bossId: ch.bossId, bossName: ch.bossName, name: ch.name, stars: earnedStars });
+            setTimeout(() => setChapterCleared(null), 3000);
             localStorage.removeItem('rts-chapter-id');
           } else {
             setChapterFailed({ id: ch.id, bossId: ch.bossId, bossName: ch.bossName, name: ch.name });
