@@ -12,6 +12,7 @@ export default function AccountPage() {
   const [country, setCountry]   = useState('US');
   const [saving, setSaving]     = useState(false);
   const [saved, setSaved]       = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!loading && !user) router.push('/login');
@@ -27,7 +28,21 @@ export default function AccountPage() {
   const handleSave = async () => {
     if (!user) return;
     setSaving(true);
-    await supabase.from('profiles').update({ favorite_operator: operator, country }).eq('id', user.id);
+    setSaveError(null);
+
+    const { error } = await supabase.from('profiles').upsert({
+      id: user.id,
+      username: profile?.username ?? user.email?.split('@')[0] ?? user.id.slice(0, 8),
+      favorite_operator: operator,
+      country,
+    }, { onConflict: 'id' });
+
+    if (error) {
+      setSaveError(error.message);
+      setSaving(false);
+      return;
+    }
+
     await refreshProfile();
     setSaving(false);
     setSaved(true);
@@ -152,6 +167,12 @@ export default function AccountPage() {
         >
           {saved ? '✓ Salvato!' : saving ? 'Saving...' : '🍕 Save Changes'}
         </button>
+
+        {saveError && (
+          <p className="text-center text-sm" style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>
+            ⚠ {saveError}
+          </p>
+        )}
       </div>
     </main>
   );
