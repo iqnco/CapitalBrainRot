@@ -537,12 +537,11 @@ export default function CampaignMap() {
           );
         })}
 
-        {/* ── Sardegna: Skibidi Toilet Bowl event pin ── */}
+        {/* ── Sardegna: Skibidi Toilet Bowl event pin (trophy-shaped SVG) ── */}
         {mapSize.w > 1 && (() => {
           const pos = PIN_POS['ch8'];
           if (!pos) return null;
           const { x, y } = pinPx(pos.top, pos.left);
-          const isOpen = skibidiOpen;
           return (
             <button
               key="sardegna-event"
@@ -555,51 +554,105 @@ export default function CampaignMap() {
               style={{
                 position: 'absolute',
                 left: x, top: y,
-                transform: 'translate(-50%, -50%)',
-                zIndex: isOpen ? 25 : 15,
+                transform: `translate(-50%, -55%) ${skibidiOpen ? 'scale(1.15)' : 'scale(1)'}`,
+                transition: 'transform 0.15s',
+                zIndex: skibidiOpen ? 25 : 15,
                 background: 'none', border: 'none', padding: 0,
                 cursor: 'pointer',
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
               }}
             >
-              {/* Outer trophy glow ring */}
-              <div style={{
-                width: 78, height: 78,
-                borderRadius: '50%',
-                background: skibidiOk
-                  ? 'conic-gradient(from 0deg, #d4a017, #f7c948, #6b21a8, #a78bfa, #d4a017)'
-                  : 'linear-gradient(135deg, #2a2a2a, #1a1a1a)',
-                padding: 3,
-                boxShadow: skibidiOk
-                  ? '0 0 0 3px rgba(212,160,23,0.25), 0 6px 28px rgba(139,92,246,0.7), 0 0 40px rgba(212,160,23,0.35)'
-                  : 'none',
-                transform: isOpen ? 'scale(1.18)' : 'scale(1)',
-                transition: 'transform 0.15s',
-                animation: skibidiOk ? 'spin-ring 6s linear infinite' : 'none',
-              }}>
-                <div style={{
-                  width: '100%', height: '100%',
-                  borderRadius: '50%',
-                  background: skibidiOk
-                    ? 'radial-gradient(circle at 35% 35%, #1e0a3c, #0d0020)'
-                    : 'linear-gradient(135deg, #2a2a2a, #1a1a1a)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 32,
-                }}>
-                  {skibidiOk ? '🏆' : '🔒'}
-                </div>
-              </div>
               <style>{`
-                @keyframes spin-ring {
-                  from { filter: hue-rotate(0deg) drop-shadow(0 0 6px rgba(212,160,23,0.6)); }
-                  to   { filter: hue-rotate(360deg) drop-shadow(0 0 6px rgba(212,160,23,0.6)); }
+                @keyframes trophy-pulse {
+                  0%,100% { filter: drop-shadow(0 0 5px rgba(212,160,23,0.55)) drop-shadow(0 2px 12px rgba(139,92,246,0.45)); }
+                  50%     { filter: drop-shadow(0 0 12px rgba(212,160,23,0.95)) drop-shadow(0 2px 22px rgba(139,92,246,0.8)); }
                 }
               `}</style>
+
+              {/* Trophy SVG pin */}
+              <svg
+                viewBox="0 0 80 88"
+                width="82" height="90"
+                style={{
+                  display: 'block',
+                  animation: skibidiOk ? 'trophy-pulse 2.8s ease-in-out infinite' : 'none',
+                  filter: skibidiOk ? undefined : 'brightness(0.4) saturate(0)',
+                }}
+              >
+                <defs>
+                  <radialGradient id="sk-fill" cx="38%" cy="28%" r="72%">
+                    <stop offset="0%" stopColor="#2e0d5c" />
+                    <stop offset="100%" stopColor="#080010" />
+                  </radialGradient>
+                  <linearGradient id="sk-rim" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%"   stopColor="#d4a017" />
+                    <stop offset="42%"  stopColor="#f7e06a" />
+                    <stop offset="68%"  stopColor="#a78bfa" />
+                    <stop offset="100%" stopColor="#d4a017" />
+                  </linearGradient>
+                  <linearGradient id="sk-sheen" x1="20%" y1="0%" x2="50%" y2="100%">
+                    <stop offset="0%"   stopColor="rgba(255,240,180,0.18)" />
+                    <stop offset="60%"  stopColor="rgba(255,240,180,0.04)" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </linearGradient>
+                </defs>
+
+                {/* ── Cup body ── */}
+                {/* Main trophy shape: wide cup → narrowing curve → slim stem → wide base */}
+                <path
+                  d="M 6,2 H 74 V 44 C 74,57 63,63 50,66 V 74 H 59 V 82 H 21 V 74 H 30 V 66 C 17,63 6,57 6,44 Z"
+                  fill="url(#sk-fill)"
+                  stroke="url(#sk-rim)"
+                  strokeWidth="2.8"
+                  strokeLinejoin="round"
+                />
+
+                {/* Inner sheen highlight */}
+                <path
+                  d="M 10,4 H 70 V 44 C 70,55 61,61 50,64 V 74 H 57 V 80 H 23 V 74 H 30 V 64 C 19,61 10,55 10,44 Z"
+                  fill="url(#sk-sheen)"
+                />
+
+                {/* ── Left handle ── */}
+                <path
+                  d="M 6,14 C -5,14 -5,40 6,40"
+                  fill="none"
+                  stroke="url(#sk-rim)"
+                  strokeWidth="2.8"
+                  strokeLinecap="round"
+                />
+
+                {/* ── Right handle ── */}
+                <path
+                  d="M 74,14 C 85,14 85,40 74,40"
+                  fill="none"
+                  stroke="url(#sk-rim)"
+                  strokeWidth="2.8"
+                  strokeLinecap="round"
+                />
+
+                {/* ── Base plate bottom line ── */}
+                <line x1="18" y1="86" x2="62" y2="86" stroke="url(#sk-rim)" strokeWidth="2.8" strokeLinecap="round" />
+
+                {/* ── Emoji / lock centered in cup area ── */}
+                <text
+                  x="40" y="37"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize="28"
+                  style={{ userSelect: 'none' }}
+                >
+                  {skibidiOk ? '🏆' : '🔒'}
+                </text>
+              </svg>
+
+              {/* Label */}
               <div style={{
-                marginTop: 5, textAlign: 'center',
+                marginTop: 3, textAlign: 'center',
                 background: 'rgba(10,5,0,0.88)',
                 backdropFilter: 'blur(4px)',
                 borderRadius: 8, padding: '4px 10px',
-                border: `1px solid ${isOpen ? 'rgba(212,160,23,0.6)' : skibidiOk ? 'rgba(212,160,23,0.3)' : 'rgba(255,220,100,0.15)'}`,
+                border: `1px solid ${skibidiOpen ? 'rgba(212,160,23,0.65)' : skibidiOk ? 'rgba(212,160,23,0.3)' : 'rgba(255,220,100,0.15)'}`,
               }}>
                 <p style={{
                   fontFamily: "'Fredoka One', sans-serif",
