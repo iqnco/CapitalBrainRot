@@ -46,7 +46,7 @@ import { supabase } from '@/lib/supabase';
 import { getCommentary, getTaunt } from '@/lib/commentary';
 import PizzaTimer from '@/components/PizzaTimer';
 
-const MAX_HP = 5;
+const DEFAULT_MAX_HP = 5;
 
 const OPERATOR_META: Record<string, { name: string; role: string }> = {
   tralalero:             { name: 'TRALALERO',   role: '🦈 TRALALA'        },
@@ -109,7 +109,8 @@ function QuizContent() {
   const [questions, setQuestions]       = useState<Question[]>([]);
   const [qIndex, setQIndex]             = useState(0);
   const [score, setScore]               = useState(0);
-  const [hp, setHp]                     = useState(MAX_HP);
+  const [maxHp, setMaxHp]               = useState(DEFAULT_MAX_HP);
+  const [hp, setHp]                     = useState(DEFAULT_MAX_HP);
   const [wrongCount, setWrongCount]     = useState(0);
   const [phase, setPhase]               = useState<Phase>('answering');
   const [feedback, setFeedback]         = useState<Feedback | null>(null);
@@ -140,6 +141,9 @@ function QuizContent() {
     setEnemyIds(JSON.parse(localStorage.getItem('rts-operator-ids') ?? '["brrprrpatapim"]') as string[]);
     setPlayerOpId(localStorage.getItem('rts-player-operator') ?? 'tralalero');
     setTimePressure(localStorage.getItem('rts-time-pressure') === 'true');
+    const storedMaxHp = parseInt(localStorage.getItem('rts-max-hp') ?? String(DEFAULT_MAX_HP), 10);
+    setMaxHp(storedMaxHp);
+    setHp(storedMaxHp);
     const chapterId = localStorage.getItem('rts-chapter-id');
     if (chapterId === 'skibidi') {
       setRegionBg('/regions/skibidi_bathroom.png');
@@ -539,14 +543,14 @@ function QuizContent() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
               <p style={{ fontFamily: "'Fredoka One',sans-serif", fontSize: 8, color: '#008C45', letterSpacing: '0.15em', flexShrink: 0 }}>HP</p>
               <div style={{ flex: 1, height: 10, background: '#E0CCB0', borderRadius: 4, border: '1px solid rgba(0,0,0,0.2)', overflow: 'hidden' }}>
-                <div style={{ height: '100%', borderRadius: 4, transition: 'width 0.4s ease', width: `${(hp / MAX_HP) * 100}%`,
-                  background: hp > 2 ? '#22c55e' : hp > 1 ? '#f7941d' : '#CE2B37' }} />
+                <div style={{ height: '100%', borderRadius: 4, transition: 'width 0.4s ease', width: `${(hp / maxHp) * 100}%`,
+                  background: hp > maxHp * 0.4 ? '#22c55e' : hp > maxHp * 0.2 ? '#f7941d' : '#CE2B37' }} />
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ fontFamily: "'Fredoka One',sans-serif", fontSize: 9, color: '#7A7A8C' }}>{score}/{total}</p>
               <div style={{ display: 'flex', gap: 2 }}>
-                {Array.from({ length: MAX_HP }).map((_, i) => (
+                {Array.from({ length: Math.min(maxHp, 10) }).map((_, i) => (
                   <span key={i} style={{ fontSize: 9 }}>{i < hp ? '❤️' : '🖤'}</span>
                 ))}
               </div>

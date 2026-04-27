@@ -22,7 +22,7 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export async function POST(req: NextRequest) {
-  const { chapterId, ranked } = (await req.json()) as { chapterId?: string; ranked?: boolean };
+  const { chapterId, ranked, full } = (await req.json()) as { chapterId?: string; ranked?: boolean; full?: boolean };
 
   const cwd = process.cwd();
   const mainPath   = path.join(cwd, 'content', 'questions.json');
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     subject = `CH${chapter.number}: ${chapter.name} — ${chapter.topic}`;
   }
 
-  const picked = shuffle(pool).slice(0, 10);
+  const picked = full ? shuffle(pool) : shuffle(pool).slice(0, 10);
   const questions: MultipleChoiceQuestion[] = picked.map(q => {
     const correct  = q.options[q.correctIndex];
     const shuffled = shuffle(q.options);

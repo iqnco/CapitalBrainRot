@@ -66,7 +66,8 @@ export default function CampaignMap() {
   const [walkProgress, setWalkProgress] = useState(0); // 0→1 across entire path
   const [isMoving,     setIsMoving]     = useState(false);
   const [charPos,      setCharPos]      = useState<string>('ch1');
-  const [zoomed,       setZoomed]       = useState(true);
+  const [zoomed,       setZoomed]       = useState(false);
+  const [missionMode,  setMissionMode]  = useState<'snippet' | 'full'>('snippet');
   const [stars,        setStars]        = useState<Record<string, number>>({});
   const [panOffset,    setPanOffset]    = useState({ x: 0, y: 0 });
   const [isDragging,   setIsDragging]   = useState(false);
@@ -237,15 +238,17 @@ export default function CampaignMap() {
     setLoading(true);
     const res  = await fetch('/api/chapter-questions', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chapterId: ch.id }),
+      body: JSON.stringify({ chapterId: ch.id, full: missionMode === 'full' }),
     });
     const data = await res.json();
     if (!res.ok || !data.questions) { setLoading(false); return; }
+    const qCount = data.questions.length;
     localStorage.setItem('rts-questions',       JSON.stringify(data.questions));
     localStorage.setItem('rts-subject',          data.subject);
     localStorage.setItem('rts-chapter-id',       ch.id);
     localStorage.setItem('rts-player-operator',  playerChar);
-    localStorage.setItem('rts-operator-ids',     JSON.stringify(Array(data.questions.length).fill(ch.bossId)));
+    localStorage.setItem('rts-operator-ids',     JSON.stringify(Array(qCount).fill(ch.bossId)));
+    localStorage.setItem('rts-max-hp',           String(Math.max(5, Math.floor(qCount * 0.4))));
     localStorage.removeItem('rts-daily-mode');
     setLoading(false);
     router.push(`/quiz?subject=${encodeURIComponent(data.subject)}`);
@@ -264,6 +267,7 @@ export default function CampaignMap() {
     localStorage.setItem('rts-subject',         data.subject);
     localStorage.setItem('rts-operator-ids',    JSON.stringify(data.questions.map((_: unknown, i: number) => ops[i % ops.length].id)));
     localStorage.setItem('rts-player-operator', playerChar);
+    localStorage.setItem('rts-max-hp',          '5');
     localStorage.removeItem('rts-chapter-id');
     localStorage.removeItem('rts-daily-mode');
     setLoading(false);
@@ -863,6 +867,32 @@ export default function CampaignMap() {
               </div>
             ) : (
               <>
+                {/* Mission mode toggle */}
+                <div className="mb-5">
+                  <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,220,150,0.5)', textTransform: 'uppercase', marginBottom: 8 }}>
+                    Mission type
+                  </p>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    {(['snippet', 'full'] as const).map(mode => (
+                      <button key={mode} onClick={() => setMissionMode(mode)}
+                        style={{
+                          flex: 1, padding: '9px 0', borderRadius: 12,
+                          border: `2px solid ${missionMode === mode ? selected.accentColor : 'rgba(255,220,100,0.15)'}`,
+                          background: missionMode === mode ? `${selected.accentColor}25` : 'rgba(255,255,255,0.04)',
+                          color: missionMode === mode ? 'white' : 'rgba(255,220,150,0.4)',
+                          fontFamily: "'Fredoka One', sans-serif", fontSize: 12,
+                          letterSpacing: '0.08em', textTransform: 'uppercase',
+                          cursor: 'pointer', transition: 'all 0.15s',
+                        }}>
+                        {mode === 'snippet' ? '✂ Snippet  ·  10 Qs' : '📚 Full Mission'}
+                      </button>
+                    ))}
+                  </div>
+                  <p style={{ fontSize: 9, color: 'rgba(255,220,150,0.3)', fontFamily: "'Nunito', sans-serif", marginTop: 5 }}>
+                    {missionMode === 'snippet' ? '10 random questions from this chapter\'s bank' : 'Every question in this chapter\'s bank, shuffled'}
+                  </p>
+                </div>
+
                 {/* Character picker */}
                 <div className="mb-5">
                   <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,220,150,0.5)', textTransform: 'uppercase', marginBottom: 8 }}>
