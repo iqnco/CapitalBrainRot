@@ -8,7 +8,6 @@ export default function BackgroundMusic() {
     if (typeof window === 'undefined') return false;
     return localStorage.getItem('cbr-muted') === 'true';
   });
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const audio = new Audio('/audio/theme.mp3');
@@ -17,29 +16,33 @@ export default function BackgroundMusic() {
     audio.muted = muted;
     audioRef.current = audio;
 
-    // Start on first user interaction (browser autoplay policy)
-    const tryPlay = () => {
-      audio.play().then(() => setReady(true)).catch(() => {});
-    };
+    // Try autoplay immediately; if browser blocks it, start on first interaction
+    const start = () => audio.play().catch(() => {});
+    start();
 
-    window.addEventListener('click', tryPlay, { once: true });
-    window.addEventListener('keydown', tryPlay, { once: true });
+    const onInteract = () => { start(); };
+    window.addEventListener('click',   onInteract, { once: true });
+    window.addEventListener('keydown', onInteract, { once: true });
 
     return () => {
       audio.pause();
-      window.removeEventListener('click', tryPlay);
-      window.removeEventListener('keydown', tryPlay);
+      window.removeEventListener('click',   onInteract);
+      window.removeEventListener('keydown', onInteract);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toggleMute = () => {
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation(); // don't trigger the window click → start listener
     const next = !muted;
     setMuted(next);
     localStorage.setItem('cbr-muted', String(next));
-    if (audioRef.current) audioRef.current.muted = next;
+    if (audioRef.current) {
+      audioRef.current.muted = next;
+      // If they unmute and audio hasn't started yet, start now
+      if (!next) audioRef.current.play().catch(() => {});
+    }
   };
-
-  if (!ready && muted) return null;
 
   return (
     <button
@@ -54,6 +57,7 @@ export default function BackgroundMusic() {
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 14, cursor: 'pointer',
         color: muted ? 'rgba(255,220,150,0.35)' : 'rgba(255,220,150,0.85)',
+        transition: 'opacity 0.2s',
       }}
     >
       {muted ? '🔇' : '🎵'}
