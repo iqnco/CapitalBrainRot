@@ -49,7 +49,7 @@ export default function BackgroundMusic() {
       onClick={toggleMute}
       title={muted ? 'Unmute music' : 'Mute music'}
       style={{
-        position: 'fixed', bottom: 44, right: 16, zIndex: 50,
+        position: 'fixed', top: '50%', right: 16, transform: 'translateY(-50%)', zIndex: 50,
         width: 32, height: 32, borderRadius: '50%',
         background: 'rgba(10,5,0,0.85)',
         border: '1px solid rgba(212,160,23,0.3)',
