@@ -29,7 +29,7 @@
       "The money market deals with equity instruments only",
       "The capital market handles short-term instruments under one year",
       "The money market deals with short-term instruments; the capital market with long-term instruments",
-      "There is no difference — they are the same market"
+      "There is no difference \u2014 they are the same market"
     ],
     "correctIndex": 2,
     "explanation": "The money market handles instruments with maturities of one year or less (e.g. T-bills, commercial paper). The capital market handles long-term instruments such as stocks and bonds.",
@@ -44,7 +44,7 @@
       "Forex market"
     ],
     "correctIndex": 2,
-    "explanation": "An IPO is a primary market transaction — the company issues new shares to the public for the first time and receives the proceeds directly.",
+    "explanation": "An IPO is a primary market transaction \u2014 the company issues new shares to the public for the first time and receives the proceeds directly.",
     "chapter": "CH1"
   },
   {
@@ -140,7 +140,7 @@
       "A company's annual revenue"
     ],
     "correctIndex": 2,
-    "explanation": "Market capitalisation = share price × number of outstanding shares. It reflects the market's total valuation of the company.",
+    "explanation": "Market capitalisation = share price \u00d7 number of outstanding shares. It reflects the market's total valuation of the company.",
     "chapter": "CH3"
   },
   {
@@ -152,7 +152,7 @@
       "To act as the stock exchange for the new listing"
     ],
     "correctIndex": 2,
-    "explanation": "Investment banks act as underwriters in IPOs — they help the issuer price the shares, buy them from the company, and distribute them to institutional and retail investors.",
+    "explanation": "Investment banks act as underwriters in IPOs \u2014 they help the issuer price the shares, buy them from the company, and distribute them to institutional and retail investors.",
     "chapter": "CH4"
   },
   {
@@ -189,10 +189,10 @@
     ],
     "correctIndex": 1,
     "explanation": "A derivative is a financial instrument whose value depends on (is derived from) the value of another asset, such as a stock, bond, commodity, or currency. Examples include options, futures, and swaps.",
-    "chapter": "CH5"
+    "chapter": "CH12"
   },
   {
-    "question": "An options contract that gives the holder the right — but not the obligation — to BUY an asset at a set price is called a:",
+    "question": "An options contract that gives the holder the right \u2014 but not the obligation \u2014 to BUY an asset at a set price is called a:",
     "options": [
       "Put option",
       "Futures contract",
@@ -201,7 +201,7 @@
     ],
     "correctIndex": 2,
     "explanation": "A call option gives the buyer the right to purchase the underlying asset at the strike price before or at expiration. A put option gives the right to sell.",
-    "chapter": "CH5"
+    "chapter": "CH12"
   },
   {
     "question": "What is the 'strike price' of an option?",
@@ -213,7 +213,7 @@
     ],
     "correctIndex": 2,
     "explanation": "The strike (or exercise) price is the fixed price at which the holder of the option can buy (call) or sell (put) the underlying asset if they choose to exercise the contract.",
-    "chapter": "CH5"
+    "chapter": "CH12"
   },
   {
     "question": "Which of the following best describes a futures contract?",
@@ -225,7 +225,7 @@
     ],
     "correctIndex": 1,
     "explanation": "Unlike options, futures contracts obligate both parties to complete the transaction at the agreed price and date. They are standardised and traded on exchanges.",
-    "chapter": "CH5"
+    "chapter": "CH12"
   },
   {
     "question": "What does 'portfolio diversification' aim to achieve?",
@@ -237,7 +237,7 @@
     ],
     "correctIndex": 2,
     "explanation": "Diversification reduces unsystematic (company-specific) risk by holding a mix of assets whose returns are not perfectly correlated. Systematic (market) risk cannot be diversified away.",
-    "chapter": "CH6"
+    "chapter": "CH13"
   },
   {
     "question": "According to the Capital Asset Pricing Model (CAPM), which type of risk is rewarded by the market?",
@@ -249,7 +249,7 @@
     ],
     "correctIndex": 2,
     "explanation": "CAPM states that investors are only compensated for systematic risk (beta), because unsystematic risk can be eliminated through diversification and therefore carries no risk premium.",
-    "chapter": "CH6"
+    "chapter": "CH13"
   },
   {
     "question": "A stock with a beta of 1.5 is expected to:",
@@ -260,8 +260,8 @@
       "Provide a return 1.5% above the risk-free rate"
     ],
     "correctIndex": 2,
-    "explanation": "Beta measures systematic risk relative to the market. A beta of 1.5 means the stock is expected to move 1.5× the market's return — more volatile than the market.",
-    "chapter": "CH6"
+    "explanation": "Beta measures systematic risk relative to the market. A beta of 1.5 means the stock is expected to move 1.5\u00d7 the market's return \u2014 more volatile than the market.",
+    "chapter": "CH13"
   },
   {
     "question": "What is the 'risk-free rate' typically represented by in financial models?",
@@ -273,7 +273,7 @@
     ],
     "correctIndex": 1,
     "explanation": "The risk-free rate is the theoretical return on an investment with zero risk, commonly approximated by the yield on short-term government Treasury bills (e.g. US T-bills).",
-    "chapter": "CH6"
+    "chapter": "CH13"
   },
   {
     "question": "What does 'liquidity' refer to in financial markets?",
@@ -285,7 +285,7 @@
     ],
     "correctIndex": 1,
     "explanation": "Liquidity describes how quickly and easily an asset can be converted to cash at or near its fair market value. Highly liquid markets (like major stock exchanges) allow large trades with minimal price impact.",
-    "chapter": "CH7"
+    "chapter": "CH17"
   },
   {
     "question": "What is the bid-ask spread?",
@@ -297,7 +297,7 @@
     ],
     "correctIndex": 2,
     "explanation": "The bid-ask spread is the gap between the bid (maximum buyers will pay) and the ask (minimum sellers will accept). A narrower spread indicates higher liquidity.",
-    "chapter": "CH7"
+    "chapter": "CH17"
   },
   {
     "question": "Which of the following is an example of a money market instrument?",
@@ -321,7 +321,7 @@
     ],
     "correctIndex": 1,
     "explanation": "Leverage involves using debt to increase the potential return on an investment. It amplifies both gains and losses, increasing risk.",
-    "chapter": "CH7"
+    "chapter": "CH17"
   },
   {
     "question": "What is the Efficient Market Hypothesis (EMH)?",
@@ -333,7 +333,7 @@
     ],
     "correctIndex": 1,
     "explanation": "EMH states that asset prices fully and instantly reflect all available information, making it impossible to consistently achieve above-average returns through analysis or timing.",
-    "chapter": "CH6"
+    "chapter": "CH13"
   },
   {
     "question": "Which of the following is classified as a fixed-income security?",
@@ -357,6 +357,6 @@
     ],
     "correctIndex": 1,
     "explanation": "Short selling involves borrowing shares from a broker, selling them at the current price, and hoping the price falls so you can buy them back cheaper and pocket the difference.",
-    "chapter": "CH7"
+    "chapter": "CH17"
   }
 ]
