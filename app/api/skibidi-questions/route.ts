@@ -11,17 +11,15 @@ interface BankQuestion {
   chapter?: string;
 }
 
-// Questions per chapter tag for the 25-question Skibidi Toilet Bowl
-// Chapters that exist: 1, 2, 3, 12, 13, 15, 17
-// CH15 has no questions yet — it'll contribute 0 until questions are added
+// Questions per chapter tag for the 15-question Skibidi Toilet Bowl
 const DISTRIBUTION: Record<string, number> = {
-  CH1:  3,
-  CH2:  4,
-  CH3:  4,
-  CH12: 5,
-  CH13: 5,
-  CH15: 4,
-  CH17: 4,
+  CH1:  2,
+  CH2:  2,
+  CH3:  2,
+  CH12: 2,
+  CH13: 3,
+  CH15: 2,
+  CH17: 2,
 };
 
 function shuffle<T>(arr: T[]): T[] {
