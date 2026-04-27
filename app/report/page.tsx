@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { MatchReport, AnswerRecord } from '@/lib/types';
 
@@ -18,8 +18,11 @@ function AnswerCard({ record, index }: { record: AnswerRecord; index: number }) 
   const isMultiLine = correctAnswerLines.length > 1;
 
   return (
-    <div className="p-4 op-card"
-         style={{ borderColor: record.correct ? 'rgba(34,197,94,0.2)' : 'rgba(232,0,26,0.2)' }}>
+    <div className="p-4" style={{
+      background: 'rgba(255,255,255,0.04)',
+      border: `1px solid ${record.correct ? 'rgba(34,197,94,0.25)' : 'rgba(206,43,55,0.25)'}`,
+      borderRadius: 14,
+    }}>
       {/* Header */}
       <div className="flex items-center gap-2 mb-3">
         <span className="font-mono text-xs" style={{ color: '#6b7090' }}>
@@ -146,44 +149,52 @@ function ReportContent() {
   const wrongs = report.answers.filter(a => !a.correct);
   const rights = report.answers.filter(a =>  a.correct);
 
+  const card: React.CSSProperties = {
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,220,100,0.12)',
+    borderRadius: 16,
+  };
+
   return (
-    <main className="min-h-screen siege-bg pb-16">
+    <main className="min-h-screen pb-16" style={{ background: '#0a0500', color: '#e8eaf2' }}>
+      {/* Top bar */}
       <header className="sticky top-0 z-10 flex items-center gap-4 px-5 h-12 border-b"
-              style={{ background: 'rgba(5,5,10,0.95)', borderColor: 'rgba(232,0,26,0.2)' }}>
+              style={{ background: 'rgba(10,5,0,0.95)', borderColor: 'rgba(212,160,23,0.2)', backdropFilter: 'blur(8px)' }}>
         <button onClick={() => router.back()}
-                className="text-xs font-mono tracking-widest uppercase transition-colors hover:text-white"
-                style={{ color: '#6b7090' }}>
+                className="text-xs font-mono tracking-widest uppercase"
+                style={{ color: 'rgba(255,220,150,0.5)', background: 'none', border: 'none', cursor: 'pointer' }}>
           ← BACK
         </button>
         <div className="flex-1 text-center">
           <span className="text-xs font-mono uppercase tracking-[0.3em]"
-                style={{ color: 'rgba(232,0,26,0.75)' }}>// Match Report</span>
+                style={{ color: 'rgba(206,43,55,0.85)', fontFamily: "'Fredoka One', sans-serif" }}>// Match Report</span>
         </div>
         <button onClick={() => router.push('/history')}
-                className="text-xs font-mono tracking-widest uppercase transition-colors hover:text-white"
-                style={{ color: '#6b7090' }}>
+                className="text-xs font-mono tracking-widest uppercase"
+                style={{ color: 'rgba(255,220,150,0.5)', background: 'none', border: 'none', cursor: 'pointer' }}>
           HISTORY
         </button>
       </header>
 
       <div className="mx-auto max-w-4xl px-4 pt-5 space-y-4">
-        {/* Summary */}
-        <div className="op-card p-5">
+        {/* Summary card */}
+        <div style={{ ...card, padding: '20px' }}>
           <p className="text-[10px] font-mono uppercase tracking-[0.3em] mb-0.5"
-             style={{ color: 'rgba(232,0,26,0.7)' }}>Operation</p>
+             style={{ color: 'rgba(206,43,55,0.8)' }}>Operation</p>
           <p className="font-bold text-lg uppercase tracking-wide leading-tight mb-0.5"
-             style={{ color: '#e8eaf2' }}>{report.subject}</p>
-          <p className="text-xs font-mono mb-4" style={{ color: '#6b7090' }}>{date}</p>
+             style={{ color: 'white', fontFamily: "'Fredoka One', sans-serif" }}>{report.subject}</p>
+          <p className="text-xs font-mono mb-4" style={{ color: 'rgba(255,220,150,0.35)' }}>{date}</p>
 
           <div className="grid grid-cols-3 gap-2">
             {[
               { label: 'Score',   value: `${report.score}/${report.total}`, color: '#f7941d' },
               { label: 'Correct', value: String(rights.length), color: '#22c55e' },
-              { label: 'Wrong',   value: String(wrongs.length), color: '#e8001a' },
+              { label: 'Wrong',   value: String(wrongs.length), color: '#CE2B37' },
             ].map(({ label, value, color }) => (
-              <div key={label} className="text-center py-3 op-card">
-                <p className="text-[9px] font-mono uppercase tracking-wider mb-1" style={{ color: '#6b7090' }}>{label}</p>
-                <p className="font-black text-xl" style={{ color, fontFamily: "'Barlow Condensed', sans-serif" }}>{value}</p>
+              <div key={label} className="text-center py-3" style={{ ...card }}>
+                <p className="text-[9px] font-mono uppercase tracking-wider mb-1"
+                   style={{ color: 'rgba(255,220,150,0.4)' }}>{label}</p>
+                <p className="font-black text-xl" style={{ color, fontFamily: "'Fredoka One', sans-serif" }}>{value}</p>
               </div>
             ))}
           </div>
@@ -192,7 +203,7 @@ function ReportContent() {
         {wrongs.length > 0 && (
           <section>
             <p className="text-xs font-mono uppercase tracking-widest mb-2"
-               style={{ color: '#e8001a' }}>// Missed Objectives ({wrongs.length})</p>
+               style={{ color: '#CE2B37', fontFamily: "'Fredoka One', sans-serif" }}>// Missed Objectives ({wrongs.length})</p>
             <div className="space-y-2">
               {wrongs.map((r) => (
                 <AnswerCard key={r.questionText} record={r} index={report.answers.indexOf(r)} />
@@ -204,7 +215,7 @@ function ReportContent() {
         {rights.length > 0 && (
           <section>
             <p className="text-xs font-mono uppercase tracking-widest mb-2"
-               style={{ color: '#22c55e' }}>// Confirmed Kills ({rights.length})</p>
+               style={{ color: '#22c55e', fontFamily: "'Fredoka One', sans-serif" }}>// Confirmed Kills ({rights.length})</p>
             <div className="space-y-2">
               {rights.map((r) => (
                 <AnswerCard key={r.questionText} record={r} index={report.answers.indexOf(r)} />
@@ -216,11 +227,25 @@ function ReportContent() {
         <div className="space-y-2 pt-2">
           <button
             onClick={() => { localStorage.removeItem('rts-results'); router.push('/'); }}
-            className="w-full siege-btn-primary"
-          >
+            style={{
+              width: '100%', padding: '14px',
+              borderRadius: 16, border: '2px solid rgba(0,140,69,0.5)',
+              background: 'linear-gradient(135deg, #008C45, #00a852)',
+              color: 'white', fontFamily: "'Fredoka One', sans-serif",
+              fontSize: 16, letterSpacing: '0.12em', textTransform: 'uppercase',
+              cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,140,69,0.4)',
+            }}>
             New Mission
           </button>
-          <button onClick={() => router.push('/')} className="w-full siege-btn-ghost">
+          <button onClick={() => router.push('/')}
+            style={{
+              width: '100%', padding: '14px',
+              borderRadius: 16, border: '1px solid rgba(255,220,100,0.2)',
+              background: 'rgba(255,255,255,0.04)',
+              color: 'rgba(255,220,150,0.6)', fontFamily: "'Fredoka One', sans-serif",
+              fontSize: 16, letterSpacing: '0.12em', textTransform: 'uppercase',
+              cursor: 'pointer',
+            }}>
             ← Main Menu
           </button>
         </div>
