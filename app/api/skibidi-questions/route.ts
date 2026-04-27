@@ -13,8 +13,8 @@ interface BankQuestion {
 
 // Questions per chapter tag for the 25-question Skibidi Toilet Bowl
 const DISTRIBUTION: Record<string, number> = {
-  CH1:  4,
-  CH2:  3,
+  CH1:  3,
+  CH2:  4,
   CH3:  3,
   CH4:  3,
   CH12: 4,

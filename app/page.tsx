@@ -969,7 +969,7 @@ export default function CampaignMap() {
                 📋 25-Question Gauntlet — All Chapters
               </p>
               <p style={{ fontSize: 11, color: 'rgba(167,139,250,0.7)', fontFamily: "'Nunito', sans-serif", lineHeight: 1.5 }}>
-                CH1 (×4) · CH2 (×3) · CH3 (×3) · CH4 (×3) · CH12 (×4) · CH13 (×4) · CH17 (×4)
+                CH1 (×3) · CH2 (×4) · CH3 (×3) · CH4 (×3) · CH12 (×4) · CH13 (×4) · CH17 (×4)
               </p>
               <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: "'Nunito', sans-serif", marginTop: 4 }}>
                 Questions drawn randomly from every chapter. No second chances.
