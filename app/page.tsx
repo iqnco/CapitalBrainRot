@@ -21,7 +21,7 @@ const PIN_POS: Record<string, { top: number; left: number }> = {
   ch2: { top: 51, left: 50 }, // Campania  — Napoli, south of Roma
   ch9: { top: 70, left: 56 }, // Calabria  — toe of boot
   ch3: { top: 80, left: 40 }, // Sicilia   — Palermo, NW of island
-  ch8: { top: 57, left: 19 }, // Sardegna  — center of island
+  ch8: { top: 61, left: 21 }, // Sardegna  — center of island
 };
 
 // Road order: Piemonte → Lombardia → Veneto → Toscana → Lazio → Campania → Sicilia
@@ -554,8 +554,10 @@ export default function CampaignMap() {
               style={{
                 position: 'absolute',
                 left: x, top: y,
-                transform: `translate(-50%, -55%) ${skibidiOpen ? 'scale(1.15)' : 'scale(1)'}`,
-                transition: 'transform 0.15s',
+                transform: 'translate(-50%, -50%)',
+                transformOrigin: 'center center',
+                scale: skibidiOpen ? '1.15' : '1',
+                transition: 'scale 0.15s',
                 zIndex: skibidiOpen ? 25 : 15,
                 background: 'none', border: 'none', padding: 0,
                 cursor: 'pointer',
