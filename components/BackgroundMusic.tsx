@@ -1,13 +1,17 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function BackgroundMusic() {
+  const pathname = usePathname();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [muted, setMuted] = useState(() => {
     if (typeof window === 'undefined') return false;
     return localStorage.getItem('cbr-muted') === 'true';
   });
+
+  const onMap = pathname === '/';
 
   useEffect(() => {
     const audio = new Audio('/audio/theme.mp3');
@@ -16,11 +20,10 @@ export default function BackgroundMusic() {
     audio.muted = muted;
     audioRef.current = audio;
 
-    // Try autoplay immediately; if browser blocks it, start on first interaction
     const start = () => audio.play().catch(() => {});
-    start();
+    if (onMap) start();
 
-    const onInteract = () => { start(); };
+    const onInteract = () => { if (onMap) start(); };
     window.addEventListener('click',   onInteract, { once: true });
     window.addEventListener('keydown', onInteract, { once: true });
 
@@ -31,6 +34,17 @@ export default function BackgroundMusic() {
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Pause/resume when navigating on/off the map
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (onMap) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  }, [onMap]);
 
   // Listen for mute changes from the account page (same-tab custom event)
   useEffect(() => {
