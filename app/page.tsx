@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import {
   CHAPTERS, getCompletedChapters, getUnlockedCharacters,
-  isChapterAvailable, isRankedUnlocked, isSkibidiUnlocked, getChapterStars, type Chapter,
+  isChapterAvailable, isSkibidiUnlocked, getChapterStars, type Chapter,
 } from '@/lib/chapters';
 import { OPERATORS } from '@/lib/supabase';
 import { loadXP, loadStats, getLevel, getCombinedUnlockedIds } from '@/lib/progression';
@@ -54,14 +54,12 @@ export default function CampaignMap() {
 
   const [completed,  setCompleted]  = useState<Set<string>>(new Set());
   const [unlocked,   setUnlocked]   = useState<Set<string>>(new Set(['tralalero']));
-  const [rankedOk,      setRankedOk]      = useState(false);
   const [skibidiOk,     setSkibidiOk]     = useState(false);
   const [skibidiOpen,   setSkibidiOpen]   = useState(false);
   const [selected,   setSelected]   = useState<Chapter | null>(null);
   const [playerChar, setPlayerChar] = useState('tralalero');
   const [levelInfo,  setLevelInfo]  = useState<ReturnType<typeof getLevel> | null>(null);
   const [loading,       setLoading]       = useState(false);
-  const [dailyDone,     setDailyDone]     = useState<{ score: number; total: number } | null>(null);
   const [mapSize,      setMapSize]      = useState({ w: 1, h: 1 });
   const [walkPath,     setWalkPath]     = useState<Array<{ fromId: string; toId: string }>>([]);
   const [walkProgress, setWalkProgress] = useState(0); // 0→1 across entire path
@@ -81,7 +79,6 @@ export default function CampaignMap() {
     const comp = getCompletedChapters();
     setCompleted(comp);
     setUnlocked(new Set(getCombinedUnlockedIds(loadStats(), getUnlockedCharacters())));
-    setRankedOk(isRankedUnlocked());
     setSkibidiOk(isSkibidiUnlocked());
     const starMap: Record<string, number> = {};
     CHAPTERS.forEach(ch => { starMap[ch.id] = getChapterStars(ch.id); });
@@ -96,9 +93,6 @@ export default function CampaignMap() {
     applyLocalState();
     setLevelInfo(getLevel(loadXP()));
     setPlayerChar(localStorage.getItem('rts-player-operator') ?? 'tralalero');
-    const today = new Date().toISOString().slice(0, 10);
-    const saved = localStorage.getItem(`rts-daily-${today}`);
-    if (saved) setDailyDone(JSON.parse(saved));
 
     // Walk animation triggered from results page
     const from = localStorage.getItem('rts-move-from');
@@ -256,40 +250,6 @@ export default function CampaignMap() {
     localStorage.removeItem('rts-daily-mode');
     setLoading(false);
     router.push(`/quiz?subject=${encodeURIComponent(data.subject)}`);
-  };
-
-  const handleRanked = async () => {
-    setLoading(true);
-    const res  = await fetch('/api/chapter-questions', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ranked: true }),
-    });
-    const data = await res.json();
-    if (!res.ok || !data.questions) { setLoading(false); return; }
-    const ops = [...OPERATORS].sort(() => Math.random() - 0.5);
-    localStorage.setItem('rts-questions',      JSON.stringify(data.questions));
-    localStorage.setItem('rts-subject',         data.subject);
-    localStorage.setItem('rts-operator-ids',    JSON.stringify(data.questions.map((_: unknown, i: number) => ops[i % ops.length].id)));
-    localStorage.setItem('rts-player-operator', playerChar);
-    localStorage.setItem('rts-max-hp',          '5');
-    localStorage.removeItem('rts-chapter-id');
-    localStorage.removeItem('rts-daily-mode');
-    setLoading(false);
-    router.push(`/quiz?subject=${encodeURIComponent(data.subject)}`);
-  };
-
-  const handleDaily = async () => {
-    const res  = await fetch('/api/daily-questions');
-    const data = await res.json();
-    if (!res.ok || !data.questions) return;
-    const ops = [...OPERATORS].sort(() => Math.random() - 0.5);
-    localStorage.setItem('rts-questions',      JSON.stringify(data.questions));
-    localStorage.setItem('rts-subject',         '🔥 Daily Brain Rot');
-    localStorage.setItem('rts-daily-mode',      'true');
-    localStorage.setItem('rts-operator-ids',    JSON.stringify(data.questions.map((_: unknown, i: number) => ops[i % ops.length].id)));
-    localStorage.setItem('rts-player-operator', profile?.favorite_operator ?? playerChar);
-    localStorage.removeItem('rts-chapter-id');
-    router.push('/quiz?subject=%F0%9F%94%A5%20Daily%20Brain%20Rot');
   };
 
   const handleSkibidi = async () => {
@@ -766,33 +726,6 @@ export default function CampaignMap() {
       >
         {zoomed ? '🗺 Full Map' : '🎯 Focus'}
       </button>
-
-      {/* ── Daily + Ranked quick buttons ── */}
-      {!selected && (
-        <div className="fixed bottom-6 right-4 z-30 flex flex-col gap-2 items-end">
-          {rankedOk && (
-            <button onClick={handleRanked} disabled={loading}
-                    className="flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider"
-                    style={{ background: 'rgba(212,160,23,0.9)', color: 'white', border: '2px solid rgba(255,220,100,0.4)', boxShadow: '0 4px 20px rgba(212,160,23,0.5)', fontFamily: "'Fredoka One', sans-serif", cursor: 'pointer' }}>
-              👑 RANKED
-            </button>
-          )}
-          <button
-            onClick={dailyDone ? undefined : handleDaily}
-            disabled={!!dailyDone}
-            className="flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider"
-            style={{
-              background: dailyDone ? 'rgba(0,140,69,0.8)' : 'rgba(206,43,55,0.9)',
-              color: 'white',
-              border: `2px solid ${dailyDone ? 'rgba(0,200,120,0.4)' : 'rgba(255,100,80,0.4)'}`,
-              boxShadow: dailyDone ? 'none' : '0 4px 20px rgba(206,43,55,0.5)',
-              fontFamily: "'Fredoka One', sans-serif",
-              cursor: dailyDone ? 'default' : 'pointer',
-            }}>
-            {dailyDone ? `✓ Daily ${Math.round((dailyDone.score / dailyDone.total) * 100)}%` : '🔥 DAILY'}
-          </button>
-        </div>
-      )}
 
       {/* ── Chapter briefing drawer ── */}
       <div style={{
