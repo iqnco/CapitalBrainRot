@@ -727,6 +727,32 @@ export default function CampaignMap() {
         {zoomed ? '🗺 Full Map' : '🎯 Focus'}
       </button>
 
+      {/* ── Roman Ruins vertical tab ── */}
+      <button
+        onClick={() => router.push('/roman-ruins')}
+        style={{
+          position: 'fixed', right: 0, top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 30,
+          writingMode: 'vertical-rl',
+          padding: '20px 10px',
+          background: 'rgba(10,5,0,0.88)',
+          border: '1px solid rgba(212,160,23,0.45)',
+          borderRight: 'none',
+          borderRadius: '12px 0 0 12px',
+          color: '#d4a017',
+          fontFamily: "'Fredoka One', sans-serif",
+          fontSize: 11,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          cursor: 'pointer',
+          backdropFilter: 'blur(8px)',
+          boxShadow: '-4px 0 20px rgba(212,160,23,0.18)',
+        }}
+      >
+        🏛 Visit the Roman Ruins
+      </button>
+
       {/* ── Chapter briefing drawer ── */}
       <div style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40,
