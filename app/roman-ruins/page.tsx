@@ -10,7 +10,8 @@ const MISSIONS = [
   { id: 'ps2',               label: 'Problem Set 2',     icon: '📝', color: '#CE2B37' },
   { id: 'ps3',               label: 'Problem Set 3',     icon: '📝', color: '#CE2B37' },
   { id: 'mock-exam',         label: 'Mock Exam',         icon: '📋', color: '#d4a017' },
-  { id: 'last-years-final',  label: "Last Year's Final", icon: '🏛', color: '#008C45' },
+  { id: 'last-years-final',      label: "Last Year's Final",      icon: '🏛', color: '#008C45' },
+  { id: 'final-last-semester',   label: 'Final Last Semester',    icon: '🎓', color: '#008C45' },
 ];
 
 export default function RomanRuinsPage() {
