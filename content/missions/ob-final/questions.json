@@ -283,8 +283,8 @@
       "$600 loss",
       "$200 profit"
     ],
-    "correctIndex": 3,
-    "explanation": "Premium received = $4 \u00d7 100 = $400. The call is exercised: loss from assignment = ($121 \u2212 $120) \u00d7 100 = $100. Net profit = $400 \u2212 $100 \u2212 $100 (transaction cost implied) = $200.",
+    "correctIndex": 0,
+    "explanation": "Premium received = $4 \u00d7 100 = $400. The call is exercised: loss from assignment = ($121 \u2212 $120) \u00d7 100 = $100. Net profit = $400 \u2212 $100 = $300.",
     "chapter": "CH15"
   },
   {
