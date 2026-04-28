@@ -360,7 +360,7 @@
     "chapter": "CH15"
   },
   {
-    "question": "The profit on a put bull spread (buy 55 put at $8, sell 45 put at $4.50, stock at $53) is:",
+    "question": "The profit on a put bull spread (sell 55 put at $8, buy 45 put at $4.50, stock at $60 at expiration) is:",
     "options": [
       "$500",
       "$700",
@@ -368,7 +368,7 @@
       "$350"
     ],
     "correctIndex": 3,
-    "explanation": "Net premium received = $3.50 \u00d7 100 = $350. Both puts expire worthless at $53, so profit = $350.",
+    "explanation": "A bull put spread: sell the higher-strike put (55) and buy the lower-strike put (45). Net credit = $8 \u2212 $4.50 = $3.50/share. At expiration with stock at $60, both puts are out of the money and expire worthless. Profit = $3.50 \u00d7 100 = $350.",
     "chapter": "CH15"
   },
   {
