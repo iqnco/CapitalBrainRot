@@ -355,8 +355,8 @@
       "Buy 55 put and sell 45 put",
       "Sell 45 put and sell 55 put"
     ],
-    "correctIndex": 2,
-    "explanation": "A bull spread with puts = buy the higher-strike put (55) and sell the lower-strike put (45). You receive a net premium and profit if the stock rises.",
+    "correctIndex": 0,
+    "explanation": "A bull put spread = sell the higher-strike put (55) and buy the lower-strike put (45). You receive a net credit upfront and profit if the stock stays above the higher strike.",
     "chapter": "CH15"
   },
   {
