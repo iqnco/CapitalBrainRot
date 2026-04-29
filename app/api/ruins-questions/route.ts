@@ -72,7 +72,7 @@ function parseMarkdown(md: string): MultipleChoiceQuestion[] {
 }
 
 export async function POST(req: NextRequest) {
-  const { missionId } = (await req.json()) as { missionId: string };
+  const { missionId, full } = (await req.json()) as { missionId: string; full?: boolean };
 
   if (!VALID.has(missionId)) {
     return NextResponse.json({ error: 'Invalid mission' }, { status: 400 });
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'No questions parsed from file' }, { status: 400 });
   }
 
-  const questions = shuffle(all).slice(0, 10);
+  const questions = full ? shuffle(all) : shuffle(all).slice(0, 10);
   const subject = `🏛 Roman Ruins — ${LABELS[missionId]}`;
 
   return NextResponse.json({ questions, subject });

@@ -36,12 +36,13 @@ export default function RomanRuinsPage() {
   const { user, profile }    = useAuth();
   const mapRef               = useRef<HTMLDivElement>(null);
 
-  const [opponents,  setOpponents]  = useState<Record<SiteId, string>>({} as Record<SiteId, string>);
-  const [playerChar, setPlayerChar] = useState('tralalero');
-  const [selected,   setSelected]   = useState<Site | null>(null);
-  const [loading,    setLoading]    = useState(false);
-  const [levelInfo,  setLevelInfo]  = useState<ReturnType<typeof getLevel> | null>(null);
-  const [mapSize,    setMapSize]    = useState({ w: 1, h: 1 });
+  const [opponents,   setOpponents]   = useState<Record<SiteId, string>>({} as Record<SiteId, string>);
+  const [playerChar,  setPlayerChar]  = useState('tralalero');
+  const [selected,    setSelected]    = useState<Site | null>(null);
+  const [missionMode, setMissionMode] = useState<'snippet' | 'full'>('snippet');
+  const [loading,     setLoading]     = useState(false);
+  const [levelInfo,   setLevelInfo]   = useState<ReturnType<typeof getLevel> | null>(null);
+  const [mapSize,     setMapSize]     = useState({ w: 1, h: 1 });
 
   useEffect(() => {
     const chars = shuffle(ALL_CHARS);
@@ -82,7 +83,7 @@ export default function RomanRuinsPage() {
     try {
       const res  = await fetch('/api/ruins-questions', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ missionId: selected.id }),
+        body: JSON.stringify({ missionId: selected.id, full: missionMode === 'full' }),
       });
       const data = await res.json() as { questions?: unknown[]; subject?: string; error?: string };
       if (!res.ok || !data.questions) { setLoading(false); return; }
@@ -300,6 +301,32 @@ export default function RomanRuinsPage() {
                 onClick={() => setSelected(null)}
                 style={{ color: 'rgba(255,255,255,0.25)', fontSize: 22, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0, alignSelf: 'flex-start' }}
               >✕</button>
+            </div>
+
+            {/* Mission type toggle */}
+            <div style={{ marginBottom: 20 }}>
+              <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,220,150,0.5)', textTransform: 'uppercase', marginBottom: 8 }}>
+                Mission type
+              </p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {(['snippet', 'full'] as const).map(mode => (
+                  <button key={mode} onClick={() => setMissionMode(mode)}
+                    style={{
+                      flex: 1, padding: '9px 0', borderRadius: 12,
+                      border: `2px solid ${missionMode === mode ? selected.color : 'rgba(255,220,100,0.15)'}`,
+                      background: missionMode === mode ? `${selected.color}25` : 'rgba(255,255,255,0.04)',
+                      color: missionMode === mode ? 'white' : 'rgba(255,220,150,0.4)',
+                      fontFamily: "'Fredoka One', sans-serif", fontSize: 12,
+                      letterSpacing: '0.08em', textTransform: 'uppercase',
+                      cursor: 'pointer', transition: 'all 0.15s',
+                    }}>
+                    {mode === 'snippet' ? '✂ Snippet  ·  10 Qs' : '📚 Full Mission'}
+                  </button>
+                ))}
+              </div>
+              <p style={{ fontSize: 9, color: 'rgba(255,220,150,0.3)', fontFamily: "'Nunito', sans-serif", marginTop: 5 }}>
+                {missionMode === 'snippet' ? '10 random questions from this bank' : 'Every question in this bank, shuffled'}
+              </p>
             </div>
 
             {/* Play as */}
