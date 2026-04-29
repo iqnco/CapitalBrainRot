@@ -105,10 +105,10 @@ export default function RomanRuinsPage() {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col overflow-hidden">
+    <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: '#feedce' }}>
 
       {/* ── Map background ── */}
-      <div ref={mapRef} className="absolute inset-0" style={{ background: '#1a0f00', overflow: 'hidden' }}>
+      <div ref={mapRef} className="absolute inset-0" style={{ background: '#feedce', overflow: 'hidden' }}>
         <img
           src="/regions/roman_ruins_map.png"
           alt="Roman Ruins"
@@ -203,7 +203,7 @@ export default function RomanRuinsPage() {
 
       {/* ── Header ── */}
       <header className="relative z-30 flex items-center justify-between px-4 h-12 flex-none"
-              style={{ background: 'rgba(10,5,0,0.72)', borderBottom: '1px solid rgba(212,160,23,0.3)', backdropFilter: 'blur(8px)' }}>
+              style={{ background: 'rgba(10,5,0,0.7)', borderBottom: '1px solid rgba(255,210,80,0.2)', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center gap-2">
           <button onClick={() => router.push('/')}
                   style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
