@@ -297,7 +297,7 @@ export default function RomanRuinsPage() {
         onClick={() => router.push('/')}
         style={{
           position: 'fixed', left: 0, top: '50%',
-          transform: 'translateY(-50%)',
+          transform: 'translateY(-50%) rotate(180deg)',
           zIndex: 30, writingMode: 'vertical-rl',
           padding: '20px 10px',
           background: 'rgba(10,5,0,0.88)',
