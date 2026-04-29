@@ -202,16 +202,36 @@ export default function RomanRuinsPage() {
         })}
       </div>
 
+      {/* ── Left side — back to Italia tab ── */}
+      <button
+        onClick={() => router.push('/')}
+        style={{
+          position: 'fixed', left: 0, top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 30,
+          writingMode: 'vertical-rl',
+          padding: '20px 10px',
+          background: 'rgba(10,5,0,0.88)',
+          border: '1px solid rgba(212,160,23,0.45)',
+          borderLeft: 'none',
+          borderRadius: '0 12px 12px 0',
+          color: '#d4a017',
+          fontFamily: "'Fredoka One', sans-serif",
+          fontSize: 11,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          cursor: 'pointer',
+          backdropFilter: 'blur(8px)',
+          boxShadow: '4px 0 20px rgba(212,160,23,0.18)',
+        }}
+      >
+        🍕 Back to Italia
+      </button>
+
       {/* ── Header ── */}
       <header className="relative z-30 flex items-center justify-between px-4 h-12 flex-none"
               style={{ background: 'rgba(10,5,0,0.7)', borderBottom: '1px solid rgba(255,210,80,0.2)', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center gap-2">
-          <button onClick={() => router.push('/')}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ color: 'rgba(255,220,150,0.5)', fontFamily: "'Fredoka One', sans-serif", fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-              ← Italia
-            </span>
-          </button>
           <span style={{ background: 'rgba(212,160,23,0.18)', color: '#d4a017', fontFamily: "'Fredoka One', sans-serif",
                          fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase',
                          padding: '2px 8px', borderRadius: 999, border: '1px solid rgba(212,160,23,0.3)' }}>
