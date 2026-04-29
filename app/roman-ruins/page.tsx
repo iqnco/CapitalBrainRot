@@ -180,14 +180,14 @@ export default function RomanRuinsPage() {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: '#feedce' }}>
+    <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: '#feedcf' }}>
 
       {/* ── Map — outer anchor (never transforms) ── */}
       <div
         ref={mapRef}
         className="absolute inset-0"
         style={{
-          background: '#feedce',
+          background: '#feedcf',
           overflow: 'hidden',
           cursor: isDragging ? 'grabbing' : 'grab',
         }}
@@ -207,10 +207,10 @@ export default function RomanRuinsPage() {
             }}
           />
 
-          {/* Warm vignette */}
+          {/* Soft centre highlight — no dark corners */}
           <div style={{
             position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: 'radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(10,5,0,0.55) 100%)',
+            background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(255,240,200,0.18) 0%, transparent 70%)',
           }} />
 
           {/* ── Battle markers ── */}
