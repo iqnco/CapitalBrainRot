@@ -960,13 +960,13 @@ export default function CampaignMap() {
               borderRadius: 12, padding: '10px 14px', marginBottom: 14,
             }}>
               <p style={{ fontFamily: "'Fredoka One', sans-serif", fontSize: 9, letterSpacing: '0.2em', color: '#a78bfa', textTransform: 'uppercase', marginBottom: 4 }}>
-                📋 15-Question Gauntlet — All Chapters
+                📋 15-Question Gauntlet — Everything
               </p>
               <p style={{ fontSize: 11, color: 'rgba(167,139,250,0.7)', fontFamily: "'Nunito', sans-serif", lineHeight: 1.5 }}>
-                CH1 (×2) · CH2 (×2) · CH3 (×2) · CH12 (×2) · CH13 (×3) · CH15 (×2) · CH17 (×2)
+                Italia Campaign · Roman Ruins · PS1 · PS2 · PS3 · Mock Exam
               </p>
               <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: "'Nunito', sans-serif", marginTop: 4 }}>
-                Questions drawn randomly from every chapter. No second chances.
+                15 random questions from the full combined pool. No second chances.
               </p>
             </div>
 
