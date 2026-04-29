@@ -159,8 +159,8 @@ export default function RomanRuinsPage() {
               <div style={{
                 width: isSel ? 62 : 50, height: isSel ? 62 : 50,
                 borderRadius: '50%',
-                background: `radial-gradient(circle at 38% 32%, ${site.color}dd, ${site.color}88)`,
-                border: `3px solid ${isSel ? '#FFF9F0' : site.color}99`,
+                background: `radial-gradient(circle at 38% 32%, ${site.color}, ${site.color})`,
+                border: `3px solid ${isSel ? '#FFF9F0' : site.color}`,
                 boxShadow: isSel
                   ? `0 0 0 5px ${site.color}33, 0 0 28px ${site.color}`
                   : `0 3px 16px ${site.color}77`,
