@@ -147,6 +147,8 @@ function QuizContent() {
     const chapterId = localStorage.getItem('rts-chapter-id');
     if (chapterId === 'skibidi') {
       setRegionBg('/regions/skibidi_bathroom.png');
+    } else if (chapterId === 'roman-ruins') {
+      setRegionBg('/regions/roman_ruins_battle.png');
     } else if (chapterId) {
       setRegionBg(getChapterById(chapterId)?.bgImage ?? null);
     }
