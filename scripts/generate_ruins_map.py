@@ -13,22 +13,25 @@ PROMPT = """Take this tourist map of the Colosseum and Roman Forum and redraw it
 that matches the style of a simplified Italian regions map: bold dark navy outlines, flat cartoon shapes,
 no gradients, no shading.
 
-Keep the exact same top-down layout and footprint of all structures — Colosseum oval on the right,
-the long rectangular forum complex on the left, surrounding open areas — but render them as clean flat
-illustrated shapes.
+IMPORTANT: The entire ruins complex must be fully visible and centred within the image, with generous
+empty margin (at least 15% whitespace) on all four sides — top, bottom, left, and right. Nothing should
+be cut off or reach the edge of the canvas.
+
+Keep the same top-down layout — Colosseum oval on the right, the long rectangular forum complex on the
+left, surrounding open areas — but scale the whole scene down so it sits comfortably inside the frame.
 
 Remove every single text label, annotation, number, watermark, and icon from the image entirely.
 
-Color palette to match the existing map theme:
-- Ground/background: warm cream (#FFF9F0)
+Color palette:
+- Background / margins: warm cream (#FFF9F0)
 - Major stone structures (Colosseum, temples, basilicas): terracotta orange (#CE2B37 range)
 - Forum floor / open plazas: olive green (#6B7C45 range)
 - Surrounding grass/outer zones: muted teal (#2E6B6B range)
-- Walls and building outlines: thick dark navy (#1A1A2E), bold cartoon style
+- Outlines: thick dark navy (#1A1A2E), bold cartoon style
 - Paths and roads: warm sandy beige
 
 Style: flat illustration, bold outlines, top-down aerial view, simplified clean shapes,
-no text, no labels, no numbers, no watermarks. Match the vibe of a Duolingo-style illustrated map."""
+no text, no labels, no numbers, no watermarks. Duolingo-style illustrated map."""
 
 client = openai.OpenAI(api_key=API_KEY)
 
