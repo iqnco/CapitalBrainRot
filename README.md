@@ -24,7 +24,6 @@ A map with a road on it is a better reason to open the app than a PDF.
 - **Roman Ruins.** A separate mode built from the course's problem sets, mock exam and
   past finals.
 - **Skibidi Toilet Bowl.** An unlockable endless mode that draws from every question bank.
-- **Wadie.** An in-app AI study buddy you can ask about anything you got wrong.
 - **Accounts and progress.** Sign-up, per-chapter progress synced to the cloud, match
   history, stats and a leaderboard.
 - **Characters.** Unlockable pixel-art characters, generated with one fixed prompt so
@@ -37,7 +36,7 @@ A map with a road on it is a better reason to open the app than a PDF.
 | | |
 |---|---|
 | Framework | Next.js 15 (App Router), TypeScript, Tailwind |
-| AI | Claude (`claude-sonnet-4-6`) for question generation, explanations and Wadie; OpenAI `gpt-image-1` for character art |
+| AI | Claude (`claude-sonnet-4-6`) for question generation, and explanations; OpenAI `gpt-image-1` for character art |
 | Data | Supabase for auth, profiles, progress and the leaderboard |
 | Content | Question banks built from course material (PDF and DOCX parsing with `pdf-parse` and `mammoth`) |
 | Hosting | Vercel |
